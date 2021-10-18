@@ -1,6 +1,8 @@
 package cli;
 
+import org.neo4j.dbms.api.DatabaseManagementService;
 import org.neo4j.dbms.api.DatabaseManagementServiceBuilder;
+import org.neo4j.graphdb.GraphDatabaseService;
 
 import java.nio.file.Path;
 
@@ -13,14 +15,20 @@ public class Main {
         // https://neo4j.com/docs/java-reference/current/java-embedded/include-neo4j/#tutorials-java-embedded-setup-startstop
         var dataLocation = Path.of("data");
 
-        var management = new DatabaseManagementServiceBuilder(dataLocation).build();
+        DatabaseManagementService management = new DatabaseManagementServiceBuilder(dataLocation).build();
+
         // Community edition doesn't support multiple database names.
         // https://github.com/neo4j/neo4j/issues/12506
-        var db = management.database(DEFAULT_DATABASE_NAME);
+        GraphDatabaseService db = management.database(DEFAULT_DATABASE_NAME);
 
-        var session = new QuerySession(db);
-        session.start();
+        try {
+            var session = new QuerySession(db);
+            session.start();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
 
         management.shutdown();
+        System.exit(0);
     }
 }
