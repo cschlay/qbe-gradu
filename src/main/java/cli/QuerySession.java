@@ -33,11 +33,13 @@ public class QuerySession {
                 run = false;
             } else if (input.equals("reset")) {
                 resetDatabase();
-            } else if (input.equals("summary")) {
+                printDatabaseDetails();
+            } else if (input.equals("print")) {
                 printDatabaseDetails();
             } else if (input.contains("seed")) {
                 System.out.println("Seeding the database...");
                 DemoSeeder.seedEducationData(this.db);
+                printDatabaseDetails();
             } else {
                 try {
                     processQuery(input);
@@ -59,14 +61,24 @@ public class QuerySession {
 
     private void printDatabaseDetails() {
         try (var tx = db.beginTx()){
-            System.out.println("Labels:");
-            tx.getAllLabelsInUse().forEach(label -> System.out.println('\t' + label.name()));
+            System.out.println("Node {");
+            tx.getAllNodes().forEach(node -> {
+                System.out.printf("\t %s: ", node.getId());
+                node.getLabels().forEach(label -> System.out.println(label.name()));
+            });
+            System.out.println("}");
 
-            System.out.println("Nodes:");
-            tx.getAllNodes().forEach(node -> System.out.println('\t' + node.getId()));
-
-            System.out.println("Edges:");
-            tx.getAllRelationships().forEach(relationship -> System.out.println('\t' + relationship.getId()));
+            System.out.println("Edges {");
+            tx.getAllRelationships().forEach(relationship -> {
+                System.out.printf(
+                        "\t %s: %s --> %s (%s)%n",
+                        relationship.getId(),
+                        relationship.getStartNodeId(),
+                        relationship.getEndNodeId(),
+                        relationship.getType()
+                );
+            });
+            System.out.println("}");
         }
     }
 
