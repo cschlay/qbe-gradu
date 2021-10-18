@@ -45,7 +45,7 @@ public class GraphMLParser {
         return graph;
     }
 
-    private void addQbeNode(QueryGraph graph, Node node) {
+    private void addQbeNode(QueryGraph graph, Node node)  {
         var qbeNode = new QbeNode();
         // TODO: Fill attributes
         graph.addNode(qbeNode);

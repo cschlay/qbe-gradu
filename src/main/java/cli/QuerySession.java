@@ -1,6 +1,8 @@
 package cli;
 
+import core.db.neo4j.Neo4jTraversal;
 import core.graphs.QueryGraph;
+import core.graphs.ResultGraph;
 import core.parsers.GraphMLParser;
 import demo.DemoSeeder;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -16,6 +18,7 @@ import java.util.Scanner;
 public class QuerySession {
     private final GraphDatabaseService db;
     private final GraphMLParser parser = new GraphMLParser();
+    private final Neo4jTraversal neo4jTraversal = new Neo4jTraversal();
 
     /**
      * Starts the query session.
@@ -84,7 +87,9 @@ public class QuerySession {
 
     private void processQuery(String query) throws IOException, SAXException {
         // Can extend to support different query languages as long as they construct same QueryGraph.
-        QueryGraph graph = parser.parse(query);
+        QueryGraph queryGraph = parser.parse(query);
+        ResultGraph resultGraph = neo4jTraversal.traverse(queryGraph);
+        System.out.println(resultGraph.toGraphML());
     }
 
     public QuerySession(GraphDatabaseService db) throws ParserConfigurationException {
