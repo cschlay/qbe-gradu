@@ -2,7 +2,10 @@ package cli;
 
 import core.graphs.QueryGraph;
 import core.parsers.GraphMLParser;
+import demo.DemoSeeder;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,7 +14,7 @@ import java.util.Scanner;
 
 /** Session for taking user input from CLI interface. */
 public class QuerySession {
-    private GraphDatabaseService db;
+    private final GraphDatabaseService db;
     private final GraphMLParser parser = new GraphMLParser();
 
     /**
@@ -24,10 +27,17 @@ public class QuerySession {
         boolean run = true;
 
         do {
-            System.out.print("qbe>");
+            System.out.print("\nqbe> ");
             String input = scanner.nextLine();
             if (input.equals("q")) {
                 run = false;
+            } else if (input.equals("reset")) {
+                resetDatabase();
+            } else if (input.equals("summary")) {
+                printDatabaseDetails();
+            } else if (input.contains("seed")) {
+                System.out.println("Seeding the database...");
+                DemoSeeder.seedEducationData(this.db);
             } else {
                 try {
                     processQuery(input);
@@ -38,7 +48,29 @@ public class QuerySession {
         } while (run);
     }
 
-    private void processQuery(String query) throws ParserConfigurationException, IOException, SAXException {
+    private void resetDatabase() {
+        System.out.println("Resetting database...");
+        try (var tx = db.beginTx()) {
+            tx.getAllNodes().forEach(Node::delete);
+            tx.getAllRelationships().forEach(Relationship::delete);
+            tx.commit();
+        }
+    }
+
+    private void printDatabaseDetails() {
+        try (var tx = db.beginTx()){
+            System.out.println("Labels:");
+            tx.getAllLabelsInUse().forEach(label -> System.out.println('\t' + label.name()));
+
+            System.out.println("Nodes:");
+            tx.getAllNodes().forEach(node -> System.out.println('\t' + node.getId()));
+
+            System.out.println("Edges:");
+            tx.getAllRelationships().forEach(relationship -> System.out.println('\t' + relationship.getId()));
+        }
+    }
+
+    private void processQuery(String query) throws IOException, SAXException {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph graph = parser.parse(query);
     }

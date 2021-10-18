@@ -15,12 +15,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 /**
  * Parsing operations for GraphML -like queries.
  */
 public class GraphMLParser {
     private final DocumentBuilder xmlDocumentBuilder;
+    private final Logger logger = Logger.getLogger(GraphMLParser.class.getName());
 
     /**
      * Parse the query into QueryGraph.

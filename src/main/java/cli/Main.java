@@ -13,6 +13,10 @@ public class Main {
     public static void main(String[] args) {
         // The startup commands can be found at:
         // https://neo4j.com/docs/java-reference/current/java-embedded/include-neo4j/#tutorials-java-embedded-setup-startstop
+
+        // The location must be the root of database files
+        // ROOT [ data, logs ]
+        // TODO: Need to change the path
         var dataLocation = Path.of("data");
 
         DatabaseManagementService management = new DatabaseManagementServiceBuilder(dataLocation).build();
