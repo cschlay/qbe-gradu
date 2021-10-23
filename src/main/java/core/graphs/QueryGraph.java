@@ -1,18 +1,15 @@
 package core.graphs;
 
+import core.interfaces.Graphable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
 
-public class QueryGraph {
-    public HashMap<String, QbeNode> nodes = new HashMap<>();
-
-    /** Isolated nodes are not connected to any other node. */
-    public ArrayList<QbeNode> isolatedNodes = new ArrayList<>();
-
+public class QueryGraph implements Graphable {
+    @NotNull
+    public HashMap<String, QbeNode> nodes;
     private final Logger logger = Logger.getLogger(QueryGraph.class.getName());
 
     /**
@@ -39,12 +36,15 @@ public class QueryGraph {
      * @param node the node to add, must contain unique name or no name
      */
     public void addNode(@NotNull QbeNode node) {
-        if (node.name == null) {
-            isolatedNodes.add(node);
-        } else if (nodes.containsKey(node.name)) {
+        if (nodes.containsKey(node.name)) {
             logger.warning(String.format("Node named '%s' is already defined, ignoring node %s", node.name, node));
         } else {
+            // Only one anonymous node (null as name) can be added
             nodes.put(node.name, node);
         }
+    }
+
+    public QueryGraph() {
+        nodes = new HashMap<>();
     }
 }

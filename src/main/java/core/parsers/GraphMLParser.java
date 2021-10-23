@@ -3,26 +3,21 @@ package core.parsers;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
+import core.xml.XmlUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 /**
  * Parsing operations for GraphML -like queries.
  */
 public class GraphMLParser {
-    private final DocumentBuilder xmlDocumentBuilder;
-    private final Logger logger = Logger.getLogger(GraphMLParser.class.getName());
+    private final XmlUtilities xmlUtilities;
 
     /**
      * Parse the query into QueryGraph.
@@ -31,10 +26,7 @@ public class GraphMLParser {
      * @return a query traversable graph
      */
     public QueryGraph parse(String query) throws IOException, SAXException {
-        byte[] queryBytes = query.getBytes(StandardCharsets.UTF_8);
-        var inputStream = new ByteArrayInputStream(queryBytes);
-
-        Document xmlDocument = xmlDocumentBuilder.parse(inputStream);
+        Document xmlDocument = xmlUtilities.readXmlString(query);
         NodeList nodes = xmlDocument.getElementsByTagName(GraphMLKeywords.Node);
         NodeList edges = xmlDocument.getElementsByTagName(GraphMLKeywords.Edge);
 
@@ -47,7 +39,8 @@ public class GraphMLParser {
 
     private void addQbeNode(QueryGraph graph, Node node)  {
         var qbeNode = new QbeNode();
-        // TODO: Fill attributes
+        qbeNode.name = readAttribute(GraphMLAttributes.NodeName, node);
+
         graph.addNode(qbeNode);
     }
 
@@ -65,7 +58,11 @@ public class GraphMLParser {
         }
     }
 
+    private String readAttribute(String name, Node node) {
+        return node.getAttributes().getNamedItem(name).getNodeValue();
+    }
+
     public GraphMLParser() throws ParserConfigurationException {
-        this.xmlDocumentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        this.xmlUtilities = new XmlUtilities();
     }
 }
