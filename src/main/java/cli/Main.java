@@ -14,16 +14,8 @@ public class Main {
         // The startup commands can be found at:
         // https://neo4j.com/docs/java-reference/current/java-embedded/include-neo4j/#tutorials-java-embedded-setup-startstop
 
-        // The location must be the root of database files
-        // ROOT [ data, logs ]
-        // TODO: Need to change the path
-        var dataLocation = Path.of("data");
-
-        DatabaseManagementService management = new DatabaseManagementServiceBuilder(dataLocation).build();
-
-        // Community edition doesn't support multiple database names.
-        // https://github.com/neo4j/neo4j/issues/12506
-        GraphDatabaseService db = management.database(DEFAULT_DATABASE_NAME);
+        DatabaseManagementService dbManagement = setupDatabase("data/main");
+        GraphDatabaseService db = getDefaultDatabase(dbManagement);
 
         try {
             var session = new QuerySession(db);
@@ -32,7 +24,18 @@ public class Main {
             System.out.println(exception.getMessage());
         }
 
-        management.shutdown();
+        dbManagement.shutdown();
         System.exit(0);
+    }
+
+    // Community edition doesn't support multiple database names.
+    // https://github.com/neo4j/neo4j/issues/12506
+    public static GraphDatabaseService getDefaultDatabase(DatabaseManagementService management) {
+        return management.database(DEFAULT_DATABASE_NAME);
+    }
+
+    public static DatabaseManagementService setupDatabase(String databaseName) {
+        var dataLocation = Path.of(databaseName);
+        return new DatabaseManagementServiceBuilder(dataLocation).build();
     }
 }

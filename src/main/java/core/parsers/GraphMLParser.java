@@ -4,7 +4,9 @@ import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
 import core.xml.XmlUtilities;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -58,8 +60,13 @@ public class GraphMLParser {
         }
     }
 
+    @Nullable
     private String readAttribute(String name, Node node) {
-        return node.getAttributes().getNamedItem(name).getNodeValue();
+        Node attribute = node.getAttributes().getNamedItem(name);
+        if (attribute != null) {
+            return attribute.getNodeValue();
+        }
+        return null;
     }
 
     public GraphMLParser() throws ParserConfigurationException {

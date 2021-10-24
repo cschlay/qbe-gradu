@@ -19,7 +19,6 @@ import java.util.Scanner;
 public class QuerySession {
     private final GraphDatabaseService db;
     private final GraphMLParser parser = new GraphMLParser();
-    private final Neo4jTraversal neo4jTraversal;
 
     /**
      * Starts the query session.
@@ -43,7 +42,7 @@ public class QuerySession {
         } while (run);
     }
 
-    private void executeCommand(String input) {
+    public void executeCommand(String input) {
         // Do not use switch, it could contain multiple arguments.
         if (input.equals(CLICommands.PRINT_DATABASE)) {
             printDatabaseDetails();
@@ -57,7 +56,9 @@ public class QuerySession {
         } else {
             // Defaults to executing query
             try {
-                processQuery(input);
+                ResultGraph resultGraph = processQuery(input);
+                System.out.println();
+                System.out.println(resultGraph.toGraphML());
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());
             }
@@ -104,16 +105,13 @@ public class QuerySession {
         }
     }
 
-    private void processQuery(String query) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    public ResultGraph processQuery(String query) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);
-        ResultGraph resultGraph = neo4jTraversal.traverse(queryGraph);
-        System.out.println();
-        System.out.println(resultGraph.toGraphML());
+        return new Neo4jTraversal(db, queryGraph).buildResultGraph();
     }
 
     public QuerySession(GraphDatabaseService db) throws ParserConfigurationException {
         this.db = db;
-        this.neo4jTraversal = new Neo4jTraversal(db);
     }
 }
