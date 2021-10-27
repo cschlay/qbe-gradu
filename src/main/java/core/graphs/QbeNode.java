@@ -10,14 +10,11 @@ import java.util.HashMap;
  * Used to represent nodes for queries. The results use different node.
  */
 public class QbeNode {
-    @Nullable
-    public String id;
+    @Nullable public String id;
 
-    @Nullable
-    public String name;
+    @Nullable public String name;
 
-    @NotNull
-    public HashMap<String, Object> properties;
+    @NotNull public HashMap<String, @Nullable Object> properties;
 
     // Adjacency list like representation but wrapped inside a container.
     public ArrayList<QbeEdge> edges = new ArrayList<>();

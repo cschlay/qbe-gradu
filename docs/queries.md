@@ -6,30 +6,48 @@
 </graph>
 ```
 
-## Anonymous Nodes
+## Node Queries
 
-Anonymous nodes are not restricted by "name" -attribute.
-
-### No Attributes
-
-Should show all nodes in the database.
-
-```xml
-<graph><node /></graph>
-```
-
-### Limited by attributes
-
-Nodes that have attribute value should be included.
-
+Show all nodes without properties:
 ```xml
 <graph>
-    <node>
-        <data key="title">Introduction .*</data>
+    <node />
+</graph>
+```
+
+Show all nodes with name without properties:
+```xml
+<graph>
+    <node name="Course" />
+</graph>
+```
+
+Show all properties:
+```xml
+<graph>
+    <node name="">
+        <data />
     </node>
 </graph>
 ```
 
+Limited by attributes
+```xml
+<graph>
+    <node>
+        <data key="title" />
+    </node>
+</graph>
+```
+
+Using Regex
+```xml
+<graph>
+    <node>
+        <data key="title" type="regex">Introduction to .*</data>
+    </node>
+</graph>
+```
 
 ## Visibility Attributes
 

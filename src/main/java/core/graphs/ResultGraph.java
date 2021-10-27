@@ -29,6 +29,18 @@ public class ResultGraph implements Graphable {
             if (node.name != null) {
                 xmlNode.setAttribute(GraphMLAttributes.NodeName, node.name);
             }
+
+            // TODO: Extract to own function
+            if (!node.properties.isEmpty()) {
+                node.properties.forEach((String key, Object value) -> {
+                    Element xmlDataNode = xmlDocument.createElement("data");
+                    xmlDataNode.setAttribute("key", key);
+                    xmlDataNode.setTextContent(value.toString());
+
+                    xmlNode.appendChild(xmlDataNode);
+                });
+            }
+
             graph.appendChild(xmlNode);
         });
 

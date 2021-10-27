@@ -4,7 +4,7 @@ import core.db.neo4j.Neo4jTraversal;
 import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
 import core.parsers.GraphMLParser;
-import demo.DemoSeeder;
+import demo.CourseGraphDemo;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
@@ -51,7 +51,7 @@ public class QuerySession {
             printDatabaseDetails();
         } else if (input.equals(CLICommands.SEED_DATABASE)) {
             System.out.println("Seeding the database...");
-            DemoSeeder.seedEducationData(this.db);
+            CourseGraphDemo.seedEducationData(this.db);
             printDatabaseDetails();
         } else {
             // Defaults to executing query

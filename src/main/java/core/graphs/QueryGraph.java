@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 
 public class QueryGraph implements Graphable {
+    /** The key is name of the node. There may exist one anonymous node with "null" key. */
     @NotNull
     public HashMap<String, QbeNode> nodes;
     private final Logger logger = Logger.getLogger(QueryGraph.class.getName());

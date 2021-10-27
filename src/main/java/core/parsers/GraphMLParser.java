@@ -4,6 +4,7 @@ import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
 import core.xml.XmlUtilities;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -39,9 +40,35 @@ public class GraphMLParser {
         return graph;
     }
 
-    private void addQbeNode(QueryGraph graph, Node node)  {
+    private void addQbeNode(QueryGraph graph, Node node) {
         var qbeNode = new QbeNode();
         qbeNode.name = readAttribute(GraphMLAttributes.NodeName, node);
+
+        NodeList dataNodes = node.getChildNodes();
+        iterateNodeList(dataNodes, (Node dataNode) -> {
+            // Notice that #text nodes are included as child nodes
+            String tagName = dataNode.getNodeName();
+            if (GraphMLKeywords.Data.equals(tagName)) {
+                @Nullable String key = readAttribute(GraphMLAttributes.Key, dataNode);
+                @Nullable String type = readAttribute(GraphMLAttributes.Type, dataNode);
+
+                if (dataNode.hasChildNodes()) {
+                    // TODO: Read constraints
+                }
+
+                if (type != null) {
+                    // TODO: Handle regex and numbers
+                }
+
+                // Having textContent to be null simplified checks in traversal.
+                @Nullable String textContent = dataNode.getTextContent();
+                if (textContent != null && textContent.isEmpty()) {
+                    textContent = null;
+                }
+                // TODO: Use QbeData instead
+                qbeNode.properties.put(key, textContent);
+            }
+        });
 
         graph.addNode(qbeNode);
     }
@@ -61,10 +88,13 @@ public class GraphMLParser {
     }
 
     @Nullable
-    private String readAttribute(String name, Node node) {
-        Node attribute = node.getAttributes().getNamedItem(name);
-        if (attribute != null) {
-            return attribute.getNodeValue();
+    private String readAttribute(@NotNull String attributeName, @NotNull Node node) {
+        @Nullable NamedNodeMap attributes = node.getAttributes();
+        if (attributes != null) {
+            @Nullable Node attribute = attributes.getNamedItem(attributeName);
+            if (attribute != null) {
+                return attribute.getNodeValue();
+            }
         }
         return null;
     }

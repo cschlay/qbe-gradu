@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -43,43 +44,44 @@ public class Neo4jTraversal implements QueryTraversable {
 
 
     public void processQueryNode(@NotNull Transaction transaction, @NotNull QbeNode queryNode) {
+        // TODO: Merge these operations
         if (queryNode.name != null) {
             Label label = Label.label(queryNode.name);
             ResourceIterator<Node> nodes = transaction.findNodes(label);
             nodes.forEachRemaining(node -> {
-                // Check attributes
                 QbeNode resultNode = toResultNode(node, queryNode);
                 if (resultNode != null) {
-                    // TODO: Should edges be checked here?
+                    // TODO: Check the edges
                     resultGraph.nodes.put(resultNode.id, resultNode);
                 }
             });
         } else {
             // Anonymous nodes
             ResourceIterable<Node> nodes = transaction.getAllNodes();
+            nodes.forEach(node -> {
+                QbeNode resultNode = toResultNode(node, queryNode);
+                if (resultNode != null) {
+                    // TODO: Check the edges
+                    resultGraph.nodes.put(resultNode.id, resultNode);
+                }
+            });
         }
-
-        // The data attributes may exist in both cases.
-
     }
 
-    // Return null if it doesn't have all attributes
     @Nullable
     private QbeNode toResultNode(Node node, QbeNode queryNode) {
         var resultNode = new QbeNode();
         resultNode.setId(node.getId());
         resultNode.name = queryNode.name;
 
-        if (queryNode.properties.isEmpty()) {
-            return resultNode;
-        } else {
+        if (!queryNode.properties.isEmpty()) {
             for (String propertyName : queryNode.properties.keySet()) {
                 Object queryProperty = queryNode.properties.get(propertyName);
                 Object resultProperty = node.getProperty(propertyName);
 
                 if (queryProperty instanceof Pattern) {
                     // TODO: Add support for regex.
-                } else if (queryProperty.equals(resultProperty)) {
+                } else if (Objects.isNull(queryProperty) || queryProperty.equals(resultProperty)) {
                     resultNode.properties.put(propertyName, resultProperty);
                 } else {
                     // Reject the node if property is different or don't exist.
@@ -87,8 +89,7 @@ public class Neo4jTraversal implements QueryTraversable {
                 }
             }
         }
-
-        return null;
+        return resultNode;
     }
 
 
