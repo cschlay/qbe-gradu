@@ -1,8 +1,7 @@
 package core.parsers;
 
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
+import core.exceptions.SyntaxError;
+import core.graphs.*;
 import core.xml.XmlUtilities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.validation.constraints.Null;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -40,7 +40,7 @@ public class GraphMLParser {
         return graph;
     }
 
-    private void addQbeNode(QueryGraph graph, Node node) {
+    private void addQbeNode(QueryGraph graph, Node node) throws SyntaxError {
         var qbeNode = new QbeNode();
         qbeNode.name = readAttribute(GraphMLAttributes.NodeName, node);
 
@@ -52,9 +52,7 @@ public class GraphMLParser {
                 @Nullable String key = readAttribute(GraphMLAttributes.Key, dataNode);
                 @Nullable String type = readAttribute(GraphMLAttributes.Type, dataNode);
 
-                if (dataNode.hasChildNodes()) {
-                    // TODO: Read constraints
-                }
+                @Nullable QbeData queryData = parseConstraintNodes(type, dataNode);
 
                 if (type != null) {
                     // TODO: Handle regex and numbers
@@ -71,6 +69,31 @@ public class GraphMLParser {
         });
 
         graph.addNode(qbeNode);
+    }
+
+    @Nullable private QbeData parseConstraintNodes(@Nullable String fieldType, Node dataNode) throws SyntaxError {
+        NodeList constraintNodes = dataNode.getChildNodes();
+
+        var queryData = new QbeData();
+        for (int i = 0; i < constraintNodes.getLength(); i++) {
+            Node node = constraintNodes.item(i);
+            if ("constraint".equals(node.getNodeName())) {
+                @Nullable String constraintType = readAttribute("type", dataNode);
+                @Nullable String textContent = node.getTextContent();
+
+                if (constraintType == null || textContent == null) {
+                    throw new SyntaxError("Constraint type and textContent cannot be null!");
+                }
+
+                // The text content need to cast into same type as the field
+                if ("integer".equals(fieldType)) {
+                    var constraint = new QbeConstraint(constraintType, Integer.parseInt(textContent));
+                    queryData.constraints.add(constraint);
+                }
+            }
+        }
+
+        return queryData.constraints.isEmpty() ? null : queryData;
     }
 
     private void addQbeEdge(QueryGraph graph, Node node) {

@@ -9,4 +9,10 @@ public class GraphMLAttributes {
 
     /** Attribute type i.e. <data type="" /> */
     public static String Type = "type";
+
+    /** Comparison operators */
+    public static String GreaterThan = "gt";
+    public static String GreaterOrEqual = "gte";
+    public static String LessThan = "lt";
+    public static String LessOrEqual = "lte";
 }

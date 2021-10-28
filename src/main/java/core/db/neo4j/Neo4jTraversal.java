@@ -77,6 +77,7 @@ public class Neo4jTraversal implements QueryTraversable {
         if (!queryNode.properties.isEmpty()) {
             for (String propertyName : queryNode.properties.keySet()) {
                 Object queryProperty = queryNode.properties.get(propertyName);
+                // TODO: no such property NotFoundException
                 Object resultProperty = node.getProperty(propertyName);
 
                 if (queryProperty instanceof Pattern) {

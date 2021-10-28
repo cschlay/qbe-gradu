@@ -29,10 +29,12 @@ public class CourseGraphDemo {
 
             var courseAlgorithms = tx.createNode(Labels.Course);
             courseAlgorithms.setProperty("title", "Algorithms");
-            courseAlgorithms.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
+            courseAlgorithms.setProperty("difficulty", 4);
 
+            courseAlgorithms.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
             var courseGraphTheory = tx.createNode(Labels.Course);
             courseGraphTheory.setProperty("title", "Graph Theory");
+            courseGraphTheory.setProperty("difficulty", 3);
             courseGraphTheory.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
 
             //var lecturerA = tx.createNode(Labels.lecturer);
