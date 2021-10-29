@@ -1,6 +1,7 @@
 package cli;
 
 import core.db.neo4j.Neo4jTraversal;
+import core.exceptions.SyntaxError;
 import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
 import core.parsers.GraphMLParser;
@@ -105,7 +106,7 @@ public class QuerySession {
         }
     }
 
-    public ResultGraph processQuery(String query) throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    public ResultGraph processQuery(String query) throws IOException, SAXException, ParserConfigurationException, TransformerException, SyntaxError {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);
         return new Neo4jTraversal(db, queryGraph).buildResultGraph();

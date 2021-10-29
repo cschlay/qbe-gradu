@@ -2,7 +2,7 @@ package core.graphs;
 
 import core.interfaces.Graphable;
 import core.parsers.GraphMLAttributes;
-import core.parsers.GraphMLKeywords;
+import core.parsers.GraphML;
 import core.xml.XmlUtilities;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
@@ -20,11 +20,11 @@ public class ResultGraph implements Graphable {
     public String toGraphML() {
         Document xmlDocument = xmlUtilities.newDocument();
 
-        Element graph = xmlDocument.createElement(GraphMLKeywords.Graph);
+        Element graph = xmlDocument.createElement(GraphML.Graph);
         xmlDocument.appendChild(graph);
 
         nodes.forEach((String name, QbeNode node) -> {
-            Element xmlNode = xmlDocument.createElement(GraphMLKeywords.Node);
+            Element xmlNode = xmlDocument.createElement(GraphML.Node);
             xmlNode.setAttribute(GraphMLAttributes.Id, node.getId());
             if (node.name != null) {
                 xmlNode.setAttribute(GraphMLAttributes.NodeName, node.name);
