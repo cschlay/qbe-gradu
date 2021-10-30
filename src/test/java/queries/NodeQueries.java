@@ -51,10 +51,8 @@ public class NodeQueries extends QueryTest {
         // Query all nodes that have property "title"
         var graph = executeQuery("<graph>",
                 "<node>",
-                "<data key=\"title\" />",
-                "</node>",
-                "</graph>"
-                );
+                "   <data key=\"title\" />",
+                "</node></graph>");
         print(graph);
 
         graph.nodes.forEach((id, node) -> Assert.assertNotNull(node.properties.get("title")));
@@ -78,5 +76,10 @@ public class NodeQueries extends QueryTest {
             Assert.assertNotNull(property);
             Assert.assertEquals(4, property.value);
         });
+    }
+
+    @Test
+    public void regexQuery() throws Exception {
+
     }
 }

@@ -1,6 +1,5 @@
 package core.graphs;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -11,21 +10,19 @@ import java.util.HashMap;
  */
 public class QbeNode {
     @Nullable public String id;
-
     @Nullable public String name;
+    public HashMap<String, QbeData> properties;
+    public ArrayList<QbeEdge> edges;
 
-    @NotNull public HashMap<String, @Nullable QbeData> properties;
-
-    // Adjacency list like representation but wrapped inside a container.
-    public ArrayList<QbeEdge> edges = new ArrayList<>();
-
-    public QbeNode() {
-        properties = new HashMap<>();
+    public QbeNode(@Nullable String name, HashMap<String, QbeData> properties) {
+        this.name = name;
+        this.properties = properties;
     }
 
     public QbeNode(long id, @Nullable String name) {
         this.id = String.valueOf(id);
         this.name = name;
+        edges = new ArrayList<>();
         properties = new HashMap<>();
     }
 }
