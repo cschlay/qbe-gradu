@@ -17,4 +17,5 @@ public class QbeConstraint {
         }
         this.value = value;
     }
+
 }

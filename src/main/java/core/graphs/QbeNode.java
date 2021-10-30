@@ -14,21 +14,18 @@ public class QbeNode {
 
     @Nullable public String name;
 
-    @NotNull public HashMap<String, @Nullable Object> properties;
+    @NotNull public HashMap<String, @Nullable QbeData> properties;
 
     // Adjacency list like representation but wrapped inside a container.
     public ArrayList<QbeEdge> edges = new ArrayList<>();
 
-    // TODO: Remove
-    public String getId() {
-        return String.valueOf(id);
-    }
-
-    public void setId(long newId) {
-        id = String.valueOf(newId);
-    }
-
     public QbeNode() {
+        properties = new HashMap<>();
+    }
+
+    public QbeNode(long id, @Nullable String name) {
+        this.id = String.valueOf(id);
+        this.name = name;
         properties = new HashMap<>();
     }
 }

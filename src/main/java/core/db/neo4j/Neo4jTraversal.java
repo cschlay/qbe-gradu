@@ -1,12 +1,11 @@
 package core.db.neo4j;
 
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
+import core.graphs.*;
 import core.interfaces.QueryTraversable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
+import org.neo4j.kernel.api.exceptions.PropertyKeyNotFoundException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.Objects;
@@ -69,28 +68,46 @@ public class Neo4jTraversal implements QueryTraversable {
     }
 
     @Nullable
-    private QbeNode toResultNode(Node node, QbeNode queryNode) {
-        var resultNode = new QbeNode();
-        resultNode.setId(node.getId());
-        resultNode.name = queryNode.name;
+    private QbeNode toResultNode(Node neo4jNode, QbeNode query) {
+        var result = new QbeNode(neo4jNode.getId(), query.name);
 
-        if (!queryNode.properties.isEmpty()) {
-            for (String propertyName : queryNode.properties.keySet()) {
-                Object queryProperty = queryNode.properties.get(propertyName);
-                // TODO: no such property NotFoundException
-                Object resultProperty = node.getProperty(propertyName);
+        if (query.properties.isEmpty()) {
+            return result;
+        }
 
-                if (queryProperty instanceof Pattern) {
-                    // TODO: Add support for regex.
-                } else if (Objects.isNull(queryProperty) || queryProperty.equals(resultProperty)) {
-                    resultNode.properties.put(propertyName, resultProperty);
+        for (String propertyName : query.properties.keySet()) {
+            @NotNull QbeData queryProperty = Objects.requireNonNull(query.properties.get(propertyName));
+            try {
+                // TODO: Extract this part to own function
+                Object resultProperty = neo4jNode.getProperty(propertyName);
+
+                // TODO: Add support for Regex
+                if (!queryProperty.constraints.isEmpty()) {
+                    boolean isInteger = queryProperty.isInteger();
+                    for (var constraint : queryProperty.constraints) {
+                        // TODO: Constraint checks as separate function
+                        if (constraint.type == ConstraintType.GREATER_THAN && isInteger) {
+                            var v = (Integer) queryProperty.value;
+                            if (v > (Integer) constraint.value) {
+                                result.properties.put(propertyName, new QbeData(resultProperty));
+                            }
+                        }
+                    }
+                } else if (queryProperty.value != null) {
+                    if (queryProperty.isString() && queryProperty.value.equals(resultProperty)) {
+                        result.properties.put(propertyName, new QbeData(resultProperty));
+                    }
+                } else if (queryProperty.value == null && queryProperty.constraints.isEmpty()) {
+                    result.properties.put(propertyName, new QbeData(resultProperty));
                 } else {
-                    // Reject the node if property is different or don't exist.
                     return null;
                 }
+            } catch (NotFoundException e) {
+
             }
         }
-        return resultNode;
+
+        return result;
     }
 
 

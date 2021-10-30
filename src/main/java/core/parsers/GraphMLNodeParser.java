@@ -28,6 +28,7 @@ public class GraphMLNodeParser {
         NodeList childNodes = xmlNode.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
+
             if (GraphML.isDataNode(node)) {
                 String key = GraphML.getAttribute("key", node);
                 if (key == null) {

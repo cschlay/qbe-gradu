@@ -25,17 +25,17 @@ public class ResultGraph implements Graphable {
 
         nodes.forEach((String name, QbeNode node) -> {
             Element xmlNode = xmlDocument.createElement(GraphML.Node);
-            xmlNode.setAttribute(GraphMLAttributes.Id, node.getId());
+            xmlNode.setAttribute(GraphMLAttributes.Id, node.id);
             if (node.name != null) {
                 xmlNode.setAttribute(GraphMLAttributes.NodeName, node.name);
             }
 
             // TODO: Extract to own function
             if (!node.properties.isEmpty()) {
-                node.properties.forEach((String key, Object value) -> {
+                node.properties.forEach((String key, QbeData data) -> {
                     Element xmlDataNode = xmlDocument.createElement("data");
                     xmlDataNode.setAttribute("key", key);
-                    xmlDataNode.setTextContent(value.toString());
+                    xmlDataNode.setTextContent(data.value.toString());
 
                     xmlNode.appendChild(xmlDataNode);
                 });

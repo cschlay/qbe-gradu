@@ -62,7 +62,7 @@ public class NodeQueries extends QueryTest {
 
     @Test
     public void numberConstraintAttribute() throws Exception {
-        // Query courses that have difficulty rating greater than or equal to 3
+        // Query courses that have difficulty rating greater than 3
         var graph = executeQuery("<graph>",
                 "<node>",
                 "   <data key=\"difficulty\" type=\"number\">",

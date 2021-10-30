@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class QbeData {
     /** The value can be null if constraints are defined. */
     @Nullable public Object value;
-    @NotNull public ArrayList<QbeConstraint> constraints;
+    @Nullable public ArrayList<QbeConstraint> constraints;
 
 
     public boolean isInteger() {
@@ -24,5 +24,10 @@ public class QbeData {
 
     public QbeData () {
         constraints = new ArrayList<>();
+    }
+
+    public QbeData(@NotNull Object value) {
+        this.value = value;
+        constraints = null;
     }
 }

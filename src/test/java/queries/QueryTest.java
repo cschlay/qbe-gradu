@@ -34,7 +34,7 @@ public class QueryTest {
     }
 
     // Utility functions for easier testing
-    public ResultGraph executeQuery(String ...parts) throws IOException, ParserConfigurationException, TransformerException, SAXException {
+    public ResultGraph executeQuery(String ...parts) throws Exception {
         return session.processQuery(String.join("\n", parts));
     }
 
