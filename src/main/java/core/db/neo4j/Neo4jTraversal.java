@@ -33,7 +33,7 @@ public class Neo4jTraversal implements QueryTraversable {
     public ResultGraph buildResultGraph() {
         try (var transaction = db.beginTx()) {
             // TODO: Move node traversal to own place
-            queryGraph.nodes.forEach((name, node) -> processQueryNode(transaction, node));
+            queryGraph.forEach((name, node) -> processQueryNode(transaction, node));
         }
 
         return resultGraph;

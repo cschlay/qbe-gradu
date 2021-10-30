@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Parsing operations for GraphML -like queries.
@@ -28,9 +27,8 @@ public class GraphMLParser {
         NodeList nodes = xmlDocument.getElementsByTagName(GraphML.Node);
         NodeList edges = xmlDocument.getElementsByTagName(GraphML.Edge);
 
-        var graph = new QueryGraph();
-        HashMap<String, QbeNode> qbeNodes = GraphMLNodeParser.parseNodeList(nodes);
-        graph.nodes = GraphMLEdgeParser.parseNodeList(edges, qbeNodes);
+        QueryGraph graph = GraphMLNodeParser.parseNodeList(nodes);
+        GraphMLEdgeParser.parseNodeList(edges, graph);
 
         return graph;
     }
