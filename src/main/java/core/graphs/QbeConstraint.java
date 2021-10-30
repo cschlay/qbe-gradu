@@ -1,21 +1,31 @@
 package core.graphs;
 
-import core.exceptions.SyntaxError;
-import core.parsers.GraphMLAttributes;
 import org.jetbrains.annotations.NotNull;
+
 
 public class QbeConstraint {
     @NotNull public ConstraintType type;
     @NotNull public Object value;
 
-    public QbeConstraint(@NotNull String type, @NotNull Object value) throws SyntaxError {
-        if (GraphMLAttributes.GreaterOrEqual.equals(type)) {
-            this.type = ConstraintType.GREATER_THAN;
-        } else {
-            var message = String.format("Constraint type %s is not supported", type);
-            throw new SyntaxError(message);
+    /**
+     * Checks the value against the constraint type.
+     * The data type should always be correct as it is checked when constructing the query graph.
+     *
+     * @param valueToCheck to check against the constraint
+     * @return true if it meets the condition, datatype errors will yield false
+     */
+    public boolean check(Object valueToCheck) {
+        switch (type) {
+            case GREATER_THAN:
+                // TODO: Implement decimal checks
+                return (Integer) valueToCheck > (Integer) value;
+            default:
+                return false;
         }
-        this.value = value;
     }
 
+    public QbeConstraint(@NotNull ConstraintType type, @NotNull Object value) {
+        this.type = type;
+        this.value = value;
+    }
 }

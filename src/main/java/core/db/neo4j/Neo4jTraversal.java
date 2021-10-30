@@ -5,11 +5,9 @@ import core.interfaces.QueryTraversable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
-import org.neo4j.kernel.api.exceptions.PropertyKeyNotFoundException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 /**
  * Contains traversal operations.
@@ -30,7 +28,7 @@ public class Neo4jTraversal implements QueryTraversable {
      *
      * Implementation is DFS -algorithm in Introduction to Algorithms 3rd ed. p.604.
      *
-     * @return
+     * @return result graph for traversal
      */
     public ResultGraph buildResultGraph() {
         try (var transaction = db.beginTx()) {
@@ -67,8 +65,7 @@ public class Neo4jTraversal implements QueryTraversable {
         }
     }
 
-    @Nullable
-    private QbeNode toResultNode(Node neo4jNode, QbeNode query) {
+    @Nullable private QbeNode toResultNode(Node neo4jNode, QbeNode query) {
         var result = new QbeNode(neo4jNode.getId(), query.name);
 
         if (query.properties.isEmpty()) {
@@ -76,34 +73,17 @@ public class Neo4jTraversal implements QueryTraversable {
         }
 
         for (String propertyName : query.properties.keySet()) {
-            @NotNull QbeData queryProperty = Objects.requireNonNull(query.properties.get(propertyName));
+            @NotNull QbeData qbeData = Objects.requireNonNull(query.properties.get(propertyName));
             try {
-                // TODO: Extract this part to own function
-                Object resultProperty = neo4jNode.getProperty(propertyName);
+                Object value = neo4jNode.getProperty(propertyName);
 
-                // TODO: Add support for Regex
-                if (!queryProperty.constraints.isEmpty()) {
-                    boolean isInteger = queryProperty.isInteger();
-                    for (var constraint : queryProperty.constraints) {
-                        // TODO: Constraint checks as separate function
-                        if (constraint.type == ConstraintType.GREATER_THAN && isInteger) {
-                            var v = (Integer) queryProperty.value;
-                            if (v > (Integer) constraint.value) {
-                                result.properties.put(propertyName, new QbeData(resultProperty));
-                            }
-                        }
-                    }
-                } else if (queryProperty.value != null) {
-                    if (queryProperty.isString() && queryProperty.value.equals(resultProperty)) {
-                        result.properties.put(propertyName, new QbeData(resultProperty));
-                    }
-                } else if (queryProperty.value == null && queryProperty.constraints.isEmpty()) {
-                    result.properties.put(propertyName, new QbeData(resultProperty));
-                } else {
-                    return null;
-                }
+                // Only include properties that passes constraint checks
+                if (qbeData.checkConstraints(value)) {
+                    result.properties.put(propertyName, new QbeData(value));
+                } else { return null; }
             } catch (NotFoundException e) {
-
+                // Non-nullable properties must always be defined.
+                if (!qbeData.isNullable) { return null; }
             }
         }
 

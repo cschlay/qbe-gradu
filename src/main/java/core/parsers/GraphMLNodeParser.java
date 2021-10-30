@@ -1,6 +1,7 @@
 package core.parsers;
 
 import core.exceptions.SyntaxError;
+import core.graphs.ConstraintType;
 import core.graphs.QbeConstraint;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
@@ -44,13 +45,16 @@ public class GraphMLNodeParser {
 
     private static QbeData parseDataNode(Node node) throws SyntaxError {
         var qbeData = new QbeData();
+        assert qbeData.constraints != null;
+
         @Nullable String type = GraphML.getAttribute("type", node);
         String dataType = type != null ? type : "text";
 
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
-            if (GraphML.isConstraintNode(node)) {
-                QbeConstraint qbeConstraint = parseConstraintNode(dataType, node);
+            Node constraintNode = childNodes.item(i);
+            if (GraphML.isConstraintNode(constraintNode)) {
+                QbeConstraint qbeConstraint = parseConstraintNode(dataType, constraintNode);
                 qbeData.constraints.add(qbeConstraint);
             }
         }
@@ -64,15 +68,16 @@ public class GraphMLNodeParser {
     }
 
     private static QbeConstraint parseConstraintNode(String dataType, Node node) throws SyntaxError {
-        @Nullable String constraintType = GraphML.getAttribute("type", node);
+        @Nullable String constraintTypeName = GraphML.getAttribute("type", node);
         @Nullable String textContent = node.getTextContent();
 
-        if (constraintType == null || textContent == null) {
+        if (constraintTypeName == null || textContent == null) {
             throw new SyntaxError("<constraint> nodes should have 'type' attribute and 'textContext'");
         }
 
+        ConstraintType constraintType = GraphML.getConstraintType(constraintTypeName);
         if ("integer".equals(dataType)) {
-            return new QbeConstraint(constraintType, Integer.parseInt(textContent));
+            return new QbeConstraint(constraintType, Integer.parseInt(textContent.trim()));
         }
 
         throw new SyntaxError(String.format("Datatype '%s' for <data> nodes is not supported", dataType));

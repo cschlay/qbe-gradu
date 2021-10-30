@@ -65,12 +65,18 @@ public class NodeQueries extends QueryTest {
         // Query courses that have difficulty rating greater than 3
         var graph = executeQuery("<graph>",
                 "<node>",
-                "   <data key=\"difficulty\" type=\"number\">",
+                "   <data key=\"difficulty\" type=\"integer\">",
                 "       <constraint type=\"gt\">",
                 "           3",
                 "       </constraint>",
                 "   </data>",
                 "</node></graph>");
         print(graph);
+
+        graph.nodes.forEach((id, node) -> {
+            var property = node.properties.get("difficulty");
+            Assert.assertNotNull(property);
+            Assert.assertEquals(4, property.value);
+        });
     }
 }

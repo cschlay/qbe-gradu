@@ -1,9 +1,13 @@
 package core.parsers;
 
+import core.exceptions.SyntaxError;
+import core.graphs.ConstraintType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import static core.graphs.ConstraintType.GREATER_THAN;
 
 public class GraphML {
     public static String Edge = "edge";
@@ -16,6 +20,15 @@ public class GraphML {
         return "data".equals(node.getNodeName());
     }
     public static boolean isConstraintNode(Node node) { return "constraint".equals(node.getNodeName()); }
+
+    public static ConstraintType getConstraintType(@NotNull String type) throws SyntaxError {
+        if ("gt".equals(type)) {
+            return GREATER_THAN;
+        } else {
+            var message = String.format("Constraint type %s is not supported", type);
+            throw new SyntaxError(message);
+        }
+    }
 
     @Nullable
     public static String getAttribute(@NotNull String name, @NotNull Node node) {
