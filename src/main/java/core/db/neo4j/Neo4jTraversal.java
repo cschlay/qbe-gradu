@@ -3,7 +3,6 @@ package core.db.neo4j;
 import core.graphs.*;
 import core.interfaces.QueryTraversable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,36 +40,19 @@ public class Neo4jTraversal implements QueryTraversable {
 
 
     public void processQueryNode(@NotNull Transaction transaction, @NotNull QbeNode queryNode) {
-        // TODO: Merge these operations
         if (queryNode.name != null) {
             Label label = Label.label(queryNode.name);
             ResourceIterator<Node> nodes = transaction.findNodes(label);
-            nodes.forEachRemaining(node -> {
-                QbeNode resultNode = toResultNode(node, queryNode);
-                if (resultNode != null) {
-                    // TODO: Check the edges
-                    resultGraph.nodes.put(resultNode.id, resultNode);
-                }
-            });
+            nodes.forEachRemaining((Node neo4jNode) -> addResultNode(neo4jNode, queryNode));
         } else {
-            // Anonymous nodes
+            // Anonymous nodes, means that all are processed
             ResourceIterable<Node> nodes = transaction.getAllNodes();
-            nodes.forEach(node -> {
-                QbeNode resultNode = toResultNode(node, queryNode);
-                if (resultNode != null) {
-                    // TODO: Check the edges
-                    resultGraph.nodes.put(resultNode.id, resultNode);
-                }
-            });
+            nodes.forEach((Node neo4jNode) -> addResultNode(neo4jNode, queryNode));
         }
     }
 
-    @Nullable private QbeNode toResultNode(Node neo4jNode, QbeNode query) {
+    private void addResultNode(Node neo4jNode, QbeNode query) {
         var result = new QbeNode(neo4jNode.getId(), query.name);
-
-        if (query.properties.isEmpty()) {
-            return result;
-        }
 
         for (String propertyName : query.properties.keySet()) {
             @NotNull QbeData qbeData = Objects.requireNonNull(query.properties.get(propertyName));
@@ -80,14 +62,19 @@ public class Neo4jTraversal implements QueryTraversable {
                 // Only include properties that passes constraint checks
                 if (qbeData.checkConstraints(value)) {
                     result.properties.put(propertyName, new QbeData(value));
-                } else { return null; }
+                } else {
+                    return;
+                }
             } catch (NotFoundException e) {
                 // Non-nullable properties must always be defined.
-                if (!qbeData.isNullable) { return null; }
+                if (!qbeData.isNullable) {
+                    return;
+                }
             }
         }
 
-        return result;
+        // TODO: Process edges
+        resultGraph.nodes.put(result.id, result);
     }
 
 

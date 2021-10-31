@@ -23,7 +23,7 @@ public class QbeData {
      */
     public boolean checkConstraints(Object valueToCheck) {
         if (constraints == null ||constraints.isEmpty()) {
-            return value == null || valueToCheck.equals(value);
+            return value == null || checkEquality(valueToCheck);
         }
 
         for (var constraint : constraints) {
@@ -35,10 +35,15 @@ public class QbeData {
         return true;
     }
 
-    public boolean isString() {
-        return value instanceof  String;
+    private boolean checkEquality(Object valueToCheck) {
+        assert value != null;
+        // Checks if values are equal after casting them into respective data types.
+        if (valueToCheck instanceof String) {
+            return ((String) valueToCheck).matches((String) value);
+        }
+        // Default to built-in equality, works with primitives at least.
+        return valueToCheck.equals(value);
     }
-
 
     public QbeData () {
         constraints = new ArrayList<>();

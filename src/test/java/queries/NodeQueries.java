@@ -80,6 +80,20 @@ public class NodeQueries extends QueryTest {
 
     @Test
     public void regexQuery() throws Exception {
+        // Get all "Introduction to ..." courses
+        var graph = executeQuery("<graph>",
+                "<node name=\"Course\">",
+                "   <data key=\"title\">",
+                "       \\bIntroduction to .*",
+                "   </data>",
+                "</node></graph>");
+        print(graph);
 
+        graph.nodes.forEach((id, node) -> {
+            Assert.assertEquals("Course", node.name);
+            var title = node.properties.get("title").value;
+            assert title != null;
+            Assert.assertTrue(((String) title).startsWith("Introduction to"));
+        });
     }
 }

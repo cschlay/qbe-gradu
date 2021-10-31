@@ -45,7 +45,9 @@ public class GraphMLDataParser {
 
         if (qbeData.constraints.isEmpty()) {
             @Nullable String textContent = node.getTextContent();
-            qbeData.value = textContent != null && textContent.isEmpty() ? null : textContent;
+            if (textContent != null && !textContent.isBlank()) {
+                qbeData.value = textContent.trim();
+            }
         }
 
         return qbeData;
