@@ -15,6 +15,7 @@ public class NodeQueries extends QueryTest {
                 "</graph>"));
         print(graph);
 
+        Assert.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> Assert.assertEquals(node.name, CourseGraphDemo.Labels.Course.toString()));
     }
 
@@ -30,6 +31,7 @@ public class NodeQueries extends QueryTest {
                 "</graph>");
         print(graph);
 
+        Assert.assertTrue(graph.size() > 0);
         boolean containsLabel1 = false;
         boolean containsLabel2 = false;
         for (var node : graph.values()) {
@@ -55,11 +57,30 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
+        Assert.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> Assert.assertNotNull(node.properties.get("title")));
     }
 
     @Test
-    public void numberConstraintAttribute() throws Exception {
+    public void numberProperty() throws Exception {
+        var graph = executeQuery("<graph>",
+                "<node name=\"Course\">",
+                "   <data key=\"difficulty\" type=\"integer\">",
+                "       3",
+                "   </data>",
+                "</node></graph>");
+        print(graph);
+
+        Assert.assertTrue(graph.size() > 0);
+        graph.forEach((id, node) -> {
+            var property = node.properties.get("difficulty");
+            Assert.assertNotNull(property);
+            Assert.assertEquals(3, property.value);
+        });
+    }
+
+    @Test
+    public void numberPropertyWithConstraints() throws Exception {
         // Query courses that have difficulty rating greater than 3
         var graph = executeQuery("<graph>",
                 "<node>",
@@ -71,6 +92,7 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
+        Assert.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> {
             var property = node.properties.get("difficulty");
             Assert.assertNotNull(property);
@@ -89,6 +111,7 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
+        Assert.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> {
             Assert.assertEquals("Course", node.name);
             var title = node.properties.get("title").value;

@@ -19,7 +19,7 @@ public class GraphMLDataParser {
             if (GraphML.isDataNode(node)) {
                 String key = GraphML.getAttribute(GraphML.KeyAttribute, node);
                 if (key == null) {
-                    throw new SyntaxError("<data> nodes must have attribute 'key'");
+                    throw new SyntaxError("Data node attribute 'key' is not defined!");
                 }
                 qbeDataList.put(key, parseDataNode(node));
             }
@@ -44,10 +44,7 @@ public class GraphMLDataParser {
         }
 
         if (qbeData.constraints.isEmpty()) {
-            @Nullable String textContent = node.getTextContent();
-            if (textContent != null && !textContent.isBlank()) {
-                qbeData.value = textContent.trim();
-            }
+            qbeData.value = castTextContent(dataType, node.getTextContent());
         }
 
         return qbeData;
@@ -58,14 +55,26 @@ public class GraphMLDataParser {
         @Nullable String textContent = node.getTextContent();
 
         if (constraintTypeName == null || textContent == null) {
-            throw new SyntaxError("<constraint> nodes should have 'type' attribute and 'textContext'");
+            throw new SyntaxError("Constraint 'type' attribute or 'textContext' value is missing!");
         }
 
         ConstraintType constraintType = GraphML.getConstraintType(constraintTypeName);
-        if ("integer".equals(dataType)) {
-            return new QbeConstraint(constraintType, Integer.parseInt(textContent.trim()));
+        Object value = castTextContent(dataType, textContent);
+        if (value == null) {
+            throw new SyntaxError("Constraint 'type' and 'value' need to be defined!");
+        }
+        return new QbeConstraint(constraintType, value);
+    }
+
+    @Nullable private static Object castTextContent(String dataType, @Nullable String rawValue) {
+        if (rawValue == null || rawValue.isBlank()) {
+            return null;
         }
 
-        throw new SyntaxError(String.format("Datatype '%s' for <data> nodes is not supported", dataType));
+        String value = rawValue.trim();
+        if ("integer".equals(dataType)) {
+            return Integer.parseInt(value);
+        }
+        return value;
     }
 }
