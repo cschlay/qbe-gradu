@@ -15,7 +15,7 @@ public class NodeQueries extends QueryTest {
                 "</graph>"));
         print(graph);
 
-        graph.nodes.forEach((id, node) -> Assert.assertEquals(node.name, CourseGraphDemo.Labels.Course.toString()));
+        graph.forEach((id, node) -> Assert.assertEquals(node.name, CourseGraphDemo.Labels.Course.toString()));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class NodeQueries extends QueryTest {
 
         boolean containsLabel1 = false;
         boolean containsLabel2 = false;
-        for (var node : graph.nodes.values()) {
+        for (var node : graph.values()) {
             if (node.name != null) {
                 if (node.name.equals(label1.toString())) {
                     containsLabel1 = true;
@@ -55,7 +55,7 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        graph.nodes.forEach((id, node) -> Assert.assertNotNull(node.properties.get("title")));
+        graph.forEach((id, node) -> Assert.assertNotNull(node.properties.get("title")));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        graph.nodes.forEach((id, node) -> {
+        graph.forEach((id, node) -> {
             var property = node.properties.get("difficulty");
             Assert.assertNotNull(property);
             Assert.assertEquals(4, property.value);
@@ -89,7 +89,7 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        graph.nodes.forEach((id, node) -> {
+        graph.forEach((id, node) -> {
             Assert.assertEquals("Course", node.name);
             var title = node.properties.get("title").value;
             assert title != null;

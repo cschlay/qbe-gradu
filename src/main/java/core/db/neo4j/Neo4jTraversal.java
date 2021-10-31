@@ -74,7 +74,7 @@ public class Neo4jTraversal implements QueryTraversable {
         }
 
         // TODO: Process edges
-        resultGraph.nodes.put(result.id, result);
+        resultGraph.put(result.id, result);
     }
 
 
