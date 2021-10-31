@@ -1,6 +1,5 @@
 package core.graphs;
 
-import core.parsers.GraphMLAttributes;
 import core.parsers.GraphML;
 import core.xml.XmlUtilities;
 import org.w3c.dom.Document;
@@ -21,15 +20,15 @@ public class ResultGraph extends HashMap<String, QbeNode> {
 
         this.forEach((String name, QbeNode node) -> {
             Element xmlNode = xmlDocument.createElement(GraphML.Node);
-            xmlNode.setAttribute(GraphMLAttributes.Id, node.id);
+            xmlNode.setAttribute(GraphML.IdAttribute, node.id);
             if (node.name != null) {
-                xmlNode.setAttribute(GraphMLAttributes.NodeName, node.name);
+                xmlNode.setAttribute(GraphML.NameAttribute, node.name);
             }
 
             if (!node.properties.isEmpty()) {
                 node.properties.forEach((String key, QbeData data) -> {
-                    Element xmlDataNode = xmlDocument.createElement("data");
-                    xmlDataNode.setAttribute("key", key);
+                    Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
+                    xmlDataNode.setAttribute(GraphML.KeyAttribute, key);
                     if (data.value != null) {
                         xmlDataNode.setTextContent(data.value.toString());
                     }

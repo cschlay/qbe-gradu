@@ -16,6 +16,10 @@ public class GraphML {
     public static String Data = "data";
     public static String Constraint = "constraint";
 
+    public static String IdAttribute= "id";
+    public static String KeyAttribute = "key";
+    public static String NameAttribute = "name";
+
     public static boolean isDataNode(org.w3c.dom.Node node) {
         return "data".equals(node.getNodeName());
     }
