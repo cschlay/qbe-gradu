@@ -1,7 +1,6 @@
 package core.db.neo4j;
 
 import core.graphs.*;
-import core.interfaces.QueryTraversable;
 import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.*;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 /**
  * Contains traversal operations.
  */
-public class Neo4jTraversal implements QueryTraversable {
+public class Neo4jTraversal {
     @NotNull
     private final GraphDatabaseService db;
 

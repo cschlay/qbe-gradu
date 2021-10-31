@@ -1,6 +1,5 @@
 package core.graphs;
 
-import core.interfaces.Graphable;
 import core.parsers.GraphMLAttributes;
 import core.parsers.GraphML;
 import core.xml.XmlUtilities;
