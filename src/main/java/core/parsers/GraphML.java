@@ -19,11 +19,17 @@ public class GraphML {
     public static String IdAttribute= "id";
     public static String KeyAttribute = "key";
     public static String NameAttribute = "name";
+    public static String SourceAttribute = "source";
+    public static String TargetAttribute = "target";
+    public static String TypeAttribute = "type";
+
+    public static boolean isConstraintNode(Node node) {
+        return Constraint.equals(node.getNodeName());
+    }
 
     public static boolean isDataNode(org.w3c.dom.Node node) {
-        return "data".equals(node.getNodeName());
+        return Data.equals(node.getNodeName());
     }
-    public static boolean isConstraintNode(Node node) { return "constraint".equals(node.getNodeName()); }
 
     public static ConstraintType getConstraintType(@NotNull String type) throws SyntaxError {
         if ("gt".equals(type)) {

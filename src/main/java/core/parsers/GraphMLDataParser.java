@@ -17,7 +17,7 @@ public class GraphMLDataParser {
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
             if (GraphML.isDataNode(node)) {
-                String key = GraphML.getAttribute("key", node);
+                String key = GraphML.getAttribute(GraphML.KeyAttribute, node);
                 if (key == null) {
                     throw new SyntaxError("<data> nodes must have attribute 'key'");
                 }
@@ -32,7 +32,7 @@ public class GraphMLDataParser {
         var qbeData = new QbeData();
         assert qbeData.constraints != null;
 
-        @Nullable String type = GraphML.getAttribute("type", node);
+        @Nullable String type = GraphML.getAttribute(GraphML.TypeAttribute, node);
         String dataType = type != null ? type : "text";
 
         NodeList childNodes = node.getChildNodes();
@@ -54,7 +54,7 @@ public class GraphMLDataParser {
     }
 
     public static QbeConstraint parseConstraintNode(String dataType, Node node) throws SyntaxError {
-        @Nullable String constraintTypeName = GraphML.getAttribute("type", node);
+        @Nullable String constraintTypeName = GraphML.getAttribute(GraphML.TypeAttribute, node);
         @Nullable String textContent = node.getTextContent();
 
         if (constraintTypeName == null || textContent == null) {

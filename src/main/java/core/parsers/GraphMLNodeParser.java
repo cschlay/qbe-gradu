@@ -18,7 +18,7 @@ public class GraphMLNodeParser {
     }
 
     private static QbeNode parseQueryNode(Node node) throws SyntaxError {
-        String name = GraphML.getAttribute("name", node);
+        String name = GraphML.getAttribute(GraphML.KeyAttribute, node);
         NodeList childNodes = node.getChildNodes();
         return new QbeNode(name, GraphMLDataParser.parseNodeList(childNodes));
     }

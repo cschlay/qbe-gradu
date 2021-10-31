@@ -30,9 +30,9 @@ public class GraphMLEdgeParser {
     }
 
     public static QbeEdge parseEdgeNode(Node node) throws SyntaxError {
-        @Nullable String name = GraphML.getAttribute("name", node);
-        @Nullable String tailNodeName = GraphML.getAttribute("source", node);
-        @Nullable String headNodeName = GraphML.getAttribute("target", node);
+        @Nullable String name = GraphML.getAttribute(GraphML.NameAttribute, node);
+        @Nullable String tailNodeName = GraphML.getAttribute(GraphML.SourceAttribute, node);
+        @Nullable String headNodeName = GraphML.getAttribute(GraphML.TargetAttribute, node);
 
         HashMap<String, QbeData> properties = GraphMLDataParser.parseNodeList(node.getChildNodes());
         return new QbeEdge(name, tailNodeName, headNodeName, properties);
