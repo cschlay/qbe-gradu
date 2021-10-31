@@ -88,25 +88,30 @@ public class QuerySession {
             System.out.println("Node {");
             tx.getAllNodes().forEach(node -> {
                 System.out.printf("\t %s: ", node.getId());
-                node.getLabels().forEach(label -> System.out.println(label.name()));
+                node.getLabels().forEach(label -> System.out.print(label.name()));
+                System.out.print("( ");
+                node.getAllProperties().forEach((key, property) -> System.out.printf("%s: %s, ", key, property));
+                System.out.println(")");
             });
             System.out.println("}");
 
             System.out.println("Edges {");
             tx.getAllRelationships().forEach(relationship -> {
                 System.out.printf(
-                        "\t %s: %s --> %s (%s)%n",
+                        "\t %s: %s --> %s %s( ",
                         relationship.getId(),
                         relationship.getStartNodeId(),
                         relationship.getEndNodeId(),
                         relationship.getType()
                 );
+                relationship.getAllProperties().forEach((key, property) -> System.out.printf("%s: %s, ", key, property));
+                System.out.println(")");
             });
             System.out.println("}");
         }
     }
 
-    public ResultGraph processQuery(String query) throws IOException, SAXException, ParserConfigurationException, TransformerException, SyntaxError {
+    public ResultGraph processQuery(String query) throws Exception {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);
         return new Neo4jTraversal(db, queryGraph).buildResultGraph();
