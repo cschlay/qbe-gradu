@@ -41,6 +41,8 @@ public class Neo4jTraversal {
 
 
     public void visitQueryEdge(Transaction transaction, QbeEdge queryEdge) {
+        ArrayList<String> invalidNodeIds = new ArrayList<>();
+
         if (queryEdge.tailNode == null && queryEdge.headNode == null) {
 
         } else if (queryEdge.tailNode == null) {
@@ -48,7 +50,6 @@ public class Neo4jTraversal {
 
         } else if (queryEdge.headNode == null) {
             // tail is not null
-            ArrayList<String> invalidNodeIds = new ArrayList<>();
             for (var resultNode : resultGraph.values()) {
                 try {
                     if (queryEdge.tailNode.name.equals(resultNode.name)) {
@@ -77,44 +78,21 @@ public class Neo4jTraversal {
                     invalidNodeIds.add(resultNode.id);
                 }
             }
-            invalidNodeIds.forEach(resultGraph::remove);
         } else {
             // both tail and head are not null
-            ArrayList<String> invalidNodeIds = new ArrayList<>();
             for (var resultNode : resultGraph.values())
             {
-                try {
-                    if (queryEdge.tailNode.name.equals(resultNode.name)) {
-                        var neo4jNode = transaction.getNodeById(Long.parseLong(resultNode.id));
-
-                        Iterable<Relationship> relationships;
-                        if (queryEdge.name != null) {
-                            relationships = neo4jNode.getRelationships(Direction.OUTGOING, RelationshipType.withName(queryEdge.name));
-                        } else {
-                            relationships = neo4jNode.getRelationships(Direction.OUTGOING);
-                        }
-
-                        int size = 0;
-                        for (var relationship : relationships) {
-                            QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge);
-                            resultNode.edges.add(resultEdge);
-                            size++;
-                        }
-
-                        if (size == 0) {
-                            throw new InvalidNodeException();
-                        }
-                        // TODO: Handle transitive edge
+                if (queryEdge.headNode.name.equals(resultNode.name) || queryEdge.tailNode.name.equals(resultNode.name)) {
+                    try {
+                        ArrayList<QbeEdge> edges = Neo4jEdgeValidator.validateRelationships(transaction, queryEdge, resultNode, resultGraph);
+                        resultNode.edges.addAll(edges);
+                    } catch (InvalidNodeException ignore) {
+                        invalidNodeIds.add(resultNode.id);
                     }
-                    // TODO: Need to check that end node really exists
-                    // TODO: Edge name is null?
-                    // TODO: Replace exception with e.g. ValidationError
-                } catch (InvalidNodeException ignore) {
-                    invalidNodeIds.add(resultNode.id);
                 }
             }
-            invalidNodeIds.forEach(resultGraph::remove);
         }
+        invalidNodeIds.forEach(resultGraph::remove);
     }
 
     public void visitQueryNode(@NotNull Transaction transaction, @NotNull QbeNode queryNode) {
@@ -136,10 +114,10 @@ public class Neo4jTraversal {
         long headNodeId = neo4jEdge.getEndNodeId();
 
         var resultEdge = new QbeEdge(id);
+        resultEdge.properties = Neo4jPropertyTraversal.getProperties(neo4jEdge, queryEdge.properties);
         resultEdge.name = queryEdge.name;
         resultEdge.tailNode = resultGraph.get(String.valueOf(tailNodeId));
         resultEdge.headNode = resultGraph.get(String.valueOf(headNodeId));
-        resultEdge.properties = getProperties(neo4jEdge, queryEdge.properties);
 
         return resultEdge;
     }
@@ -152,34 +130,9 @@ public class Neo4jTraversal {
 
         try {
             var result = new QbeNode(neo4jNode.getId(), query.name);
-            result.properties = getProperties(neo4jNode, query.properties);
+            result.properties = Neo4jPropertyTraversal.getProperties(neo4jNode, query.properties);
             resultGraph.put(result.id, result);
         } catch (InvalidNodeException ignored) {}
-    }
-
-    private HashMap<String, QbeData> getProperties(@NotNull Entity neo4jNode, @NotNull HashMap<String, QbeData> queryProperties) throws InvalidNodeException {
-        var properties = new HashMap<String, QbeData>();
-
-        for (String propertyName : queryProperties.keySet()) {
-            QbeData qbeData = queryProperties.get(propertyName);
-            try {
-                Object value = neo4jNode.getProperty(propertyName);
-
-                // Only include properties that passes constraint checks
-                if (qbeData.checkConstraints(value)) {
-                    properties.put(propertyName, new QbeData(value));
-                } else {
-                    throw new InvalidNodeException();
-                }
-            } catch (NotFoundException e) {
-                // Non-nullable properties must always be defined.
-                if (!qbeData.isNullable) {
-                    throw new InvalidNodeException();
-                }
-            }
-        }
-
-        return properties;
     }
 
     public Neo4jTraversal(@NotNull GraphDatabaseService db, @NotNull QueryGraph queryGraph) throws ParserConfigurationException {

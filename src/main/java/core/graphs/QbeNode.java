@@ -12,6 +12,7 @@ import java.util.HashMap;
  */
 public class QbeNode {
     @Nullable public String id;
+    // Do not use null, use empty string "" instead
     @Nullable public String name;
     @NotNull public HashMap<String, QbeData> properties;
     @NotNull public ArrayList<QbeEdge> edges;

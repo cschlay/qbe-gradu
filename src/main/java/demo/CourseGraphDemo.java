@@ -42,6 +42,10 @@ public class CourseGraphDemo {
             courseGraphTheory.setProperty("difficulty", 3);
             courseGraphTheory.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
 
+            var lecturerCarol = tx.createNode(Labels.Lecturer);
+            lecturerCarol.setProperty("name", "Carol");
+            lecturerCarol.createRelationshipTo(courseLogic, Relations.teaches);
+
             var assistantAlice = tx.createNode(Labels.Assistant);
             assistantAlice.setProperty("name", "Alice");
             var aliceTeachesLogic = assistantAlice.createRelationshipTo(courseLogic, Relations.teaches);

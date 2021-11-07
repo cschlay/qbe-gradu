@@ -6,7 +6,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
@@ -22,14 +25,21 @@ public class ResultGraph extends HashMap<String, QbeNode> {
         Element graph = xmlDocument.createElement(GraphML.Graph);
         xmlDocument.appendChild(graph);
 
+        var edges = new HashMap<String, QbeEdge>();
         this.forEach((String name, QbeNode node) -> {
             Element xmlNodeElement = toGraphMLNode(xmlDocument, node);
             graph.appendChild(xmlNodeElement);
 
             node.edges.forEach((QbeEdge edge) -> {
-                Element xmlEdgeElement = toGraphMLEdge(xmlDocument, edge);
-                graph.appendChild(xmlEdgeElement);
+                if (!edges.containsKey(edge.id)) {
+                    edges.put(edge.id, edge);
+
+                }
             });
+        });
+        edges.forEach((id, edge) -> {
+            Element xmlEdgeElement = toGraphMLEdge(xmlDocument, edge);
+            graph.appendChild(xmlEdgeElement);
         });
 
         return xmlUtilities.dumpXmlDocument(xmlDocument);

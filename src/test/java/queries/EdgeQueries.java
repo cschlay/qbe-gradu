@@ -3,6 +3,8 @@ package queries;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Objects;
+
 public class EdgeQueries extends QueryTest {
     @Test
     public void edgeBetweenTwoNodes() throws Exception {
@@ -46,6 +48,35 @@ public class EdgeQueries extends QueryTest {
             Assert.assertFalse(node.edges.isEmpty());
             node.edges.forEach(edge -> {
                 Assert.assertTrue((Boolean) edge.properties.get("monday").value);
+            });
+        });
+    }
+
+    @Test
+    public void multipleEdges() throws Exception {
+        // Courses that have assistants and lecturers
+        var graph = executeQuery(
+                "<graph>",
+                "   <node name=\"Course\">",
+                "       <data key=\"title\" />",
+                "   </node>",
+                "   <node name=\"Assistant\">",
+                "       <data key=\"name\" />",
+                "   </node>",
+                "   <node name=\"Lecturer\">",
+                "       <data key=\"name\" />",
+                "   </node>",
+                "   <edge name=\"teaches\" source=\"Assistant\" target=\"Course\" />",
+                "   <edge name=\"teaches\" source=\"Lecturer\" target=\"Course\" />",
+                "</graph>");
+        print(graph);
+
+        graph.forEach((id, node) -> {
+            Assert.assertFalse(node.edges.isEmpty());
+            node.edges.forEach(edge ->{
+                Assert.assertEquals("teaches", edge.name);
+                assert edge.tailNode != null;
+                Assert.assertTrue("Assistant".equals(edge.tailNode.name) || "Lecturer".equals(edge.tailNode.name));
             });
         });
     }
