@@ -25,5 +25,30 @@ public class EdgeQueries extends QueryTest {
         });
     }
 
+    @Test
+    public void edgeWithProperties() throws Exception {
+        // Assistants who teach on mondays
+        var graph = executeQuery(
+                "<graph>",
+                "   <node name=\"Assistant\">",
+                "       <data key=\"name\" />",
+                "   </node>",
+                "   <edge name=\"teaches\" source=\"Assistant\">",
+                "       <data key=\"monday\" type=\"boolean\">",
+                "           true",
+                "       </data>",
+                "   </edge>",
+                "</graph>"
+        );
+        print(graph);
+
+        graph.forEach((id, node) -> {
+            Assert.assertFalse(node.edges.isEmpty());
+            node.edges.forEach(edge -> {
+                Assert.assertTrue((Boolean) edge.properties.get("monday").value);
+            });
+        });
+    }
+
     // Transitive edge
 }

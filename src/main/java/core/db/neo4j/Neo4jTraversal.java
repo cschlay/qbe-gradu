@@ -48,7 +48,36 @@ public class Neo4jTraversal {
 
         } else if (queryEdge.headNode == null) {
             // tail is not null
+            ArrayList<String> invalidNodeIds = new ArrayList<>();
+            for (var resultNode : resultGraph.values()) {
+                try {
+                    if (queryEdge.tailNode.name.equals(resultNode.name)) {
+                        var neo4jNode = transaction.getNodeById(Long.parseLong(resultNode.id));
 
+                        Iterable<Relationship> relationships;
+                        if (queryEdge.name != null) {
+                            relationships = neo4jNode.getRelationships(Direction.OUTGOING, RelationshipType.withName(queryEdge.name));
+                        } else {
+                            relationships = neo4jNode.getRelationships(Direction.OUTGOING);
+                        }
+
+                        int size = 0;
+                        for (var relationship : relationships) {
+                            QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge);
+                            resultNode.edges.add(resultEdge);
+                            size++;
+                        }
+
+                        if (size == 0) {
+                            throw new InvalidNodeException();
+                        }
+                    }
+                } catch (InvalidNodeException ignore) {
+                    // Must remove
+                    invalidNodeIds.add(resultNode.id);
+                }
+            }
+            invalidNodeIds.forEach(resultGraph::remove);
         } else {
             // both tail and head are not null
             ArrayList<String> invalidNodeIds = new ArrayList<>();
@@ -77,11 +106,10 @@ public class Neo4jTraversal {
                         }
                         // TODO: Handle transitive edge
                     }
+                    // TODO: Need to check that end node really exists
                     // TODO: Edge name is null?
                     // TODO: Replace exception with e.g. ValidationError
                 } catch (InvalidNodeException ignore) {
-                    // Must remove
-                    // TODO: Removal causes concurrency error
                     invalidNodeIds.add(resultNode.id);
                 }
             }

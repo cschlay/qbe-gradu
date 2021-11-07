@@ -74,6 +74,8 @@ public class GraphMLDataParser {
         String value = rawValue.trim();
         if ("integer".equals(dataType)) {
             return Integer.parseInt(value);
+        } else if ("boolean".equals(dataType)) {
+            return Boolean.parseBoolean(value);
         }
         return value;
     }

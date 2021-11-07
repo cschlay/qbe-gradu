@@ -47,6 +47,18 @@ public class ResultGraph extends HashMap<String, QbeNode> {
                 xmlEdgeNode.setAttribute(GraphML.SourceAttribute, edge.tailNode != null ? edge.tailNode.id : null);
                 xmlEdgeNode.setAttribute(GraphML.TargetAttribute, edge.headNode != null ? edge.headNode.id : null);
 
+                if (!edge.properties.isEmpty()) {
+                    edge.properties.forEach((String key, QbeData data) -> {
+                        Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
+                        xmlDataNode.setAttribute(GraphML.KeyAttribute, key);
+                        if (data.value != null) {
+                            xmlDataNode.setTextContent(data.value.toString());
+                        }
+                        // TODO: It doesn't dump the type
+                        xmlEdgeNode.appendChild(xmlDataNode);
+                    });
+                }
+
                 graph.appendChild(xmlEdgeNode);
             });
         });

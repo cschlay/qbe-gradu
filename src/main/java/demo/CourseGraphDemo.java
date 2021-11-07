@@ -10,6 +10,7 @@ import org.neo4j.graphdb.RelationshipType;
 public class CourseGraphDemo {
     public static class Labels {
         public static Label Course = Label.label("Course");
+        public static Label Assistant = Label.label("Assistant");
         public static Label Lecturer = Label.label("Lecturer");
         public static Label Topic = Label.label("Topic");
     }
@@ -41,6 +42,17 @@ public class CourseGraphDemo {
             courseGraphTheory.setProperty("difficulty", 3);
             courseGraphTheory.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
 
+            var assistantAlice = tx.createNode(Labels.Assistant);
+            assistantAlice.setProperty("name", "Alice");
+            var aliceTeachesLogic = assistantAlice.createRelationshipTo(courseLogic, Relations.teaches);
+            aliceTeachesLogic.setProperty("monday", true);
+            aliceTeachesLogic.setProperty("tuesday", false);
+
+            var assistantBob = tx.createNode(Labels.Assistant);
+            assistantBob.setProperty("name", "Bob");
+            var bobTeachesLogic = assistantBob.createRelationshipTo(courseLogic, Relations.teaches);
+            bobTeachesLogic.setProperty("monday", false);
+            bobTeachesLogic.setProperty("tuesday", true);
             tx.commit();
         }
     }
