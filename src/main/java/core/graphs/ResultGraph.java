@@ -7,66 +7,67 @@ import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 
 public class ResultGraph extends HashMap<String, QbeNode> {
     private final XmlUtilities xmlUtilities;
 
+    public ResultGraph() throws ParserConfigurationException {
+        xmlUtilities = new XmlUtilities();
+    }
+
     public String toGraphML() {
         Document xmlDocument = xmlUtilities.newDocument();
-
         Element graph = xmlDocument.createElement(GraphML.Graph);
         xmlDocument.appendChild(graph);
 
         this.forEach((String name, QbeNode node) -> {
-            Element xmlNode = xmlDocument.createElement(GraphML.Node);
-            xmlNode.setAttribute(GraphML.IdAttribute, node.id);
-            if (node.name != null) {
-                xmlNode.setAttribute(GraphML.NameAttribute, node.name);
-            }
+            Element xmlNodeElement = toGraphMLNode(xmlDocument, node);
+            graph.appendChild(xmlNodeElement);
 
-            if (!node.properties.isEmpty()) {
-                node.properties.forEach((String key, QbeData data) -> {
-                    Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
-                    xmlDataNode.setAttribute(GraphML.KeyAttribute, key);
-                    if (data.value != null) {
-                        xmlDataNode.setTextContent(data.value.toString());
-                    }
-
-                    xmlNode.appendChild(xmlDataNode);
-                });
-            }
-
-            graph.appendChild(xmlNode);
-
-            // The edges
-            node.edges.forEach(edge -> {
-                Element xmlEdgeNode = xmlDocument.createElement(GraphML.Edge);
-                xmlEdgeNode.setAttribute(GraphML.IdAttribute, edge.id);
-                xmlEdgeNode.setAttribute(GraphML.NameAttribute, edge.name);
-                xmlEdgeNode.setAttribute(GraphML.SourceAttribute, edge.tailNode != null ? edge.tailNode.id : null);
-                xmlEdgeNode.setAttribute(GraphML.TargetAttribute, edge.headNode != null ? edge.headNode.id : null);
-
-                if (!edge.properties.isEmpty()) {
-                    edge.properties.forEach((String key, QbeData data) -> {
-                        Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
-                        xmlDataNode.setAttribute(GraphML.KeyAttribute, key);
-                        if (data.value != null) {
-                            xmlDataNode.setTextContent(data.value.toString());
-                        }
-                        // TODO: It doesn't dump the type
-                        xmlEdgeNode.appendChild(xmlDataNode);
-                    });
-                }
-
-                graph.appendChild(xmlEdgeNode);
+            node.edges.forEach((QbeEdge edge) -> {
+                Element xmlEdgeElement = toGraphMLEdge(xmlDocument, edge);
+                graph.appendChild(xmlEdgeElement);
             });
         });
 
         return xmlUtilities.dumpXmlDocument(xmlDocument);
     }
 
-    public ResultGraph() throws ParserConfigurationException {
-        xmlUtilities = new XmlUtilities();
+    public Element toGraphMLEdge(Document xmlDocument, QbeEdge edge) {
+        Element xmlEdge = xmlDocument.createElement(GraphML.Edge);
+        xmlEdge.setAttribute(GraphML.IdAttribute, edge.id);
+        xmlEdge.setAttribute(GraphML.NameAttribute, edge.name);
+        xmlEdge.setAttribute(GraphML.SourceAttribute, edge.tailNode != null ? edge.tailNode.id : null);
+        xmlEdge.setAttribute(GraphML.TargetAttribute, edge.headNode != null ? edge.headNode.id : null);
+        toGraphMLData(xmlDocument, edge.properties, xmlEdge::appendChild);
+
+        return xmlEdge;
+    }
+
+    public Element toGraphMLNode(Document xmlDocument, QbeNode node) {
+        Element xmlNode = xmlDocument.createElement(GraphML.Node);
+        xmlNode.setAttribute(GraphML.IdAttribute, node.id);
+        xmlNode.setAttribute(GraphML.NameAttribute, node.name);
+        toGraphMLData(xmlDocument, node.properties, xmlNode::appendChild);
+
+        return xmlNode;
+    }
+
+    public void toGraphMLData(Document xmlDocument, HashMap<String, QbeData> properties, Consumer<Element> onCreated) {
+        properties.forEach((String propertyName, QbeData data) -> {
+            Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
+            xmlDataNode.setAttribute(GraphML.KeyAttribute, propertyName);
+            if (data.value != null) {
+                xmlDataNode.setTextContent(data.value.toString());
+            }
+            String dataType = data.getType();
+            if (!GraphML.TypeText.equals(dataType)) {
+                xmlDataNode.setAttribute(GraphML.TypeAttribute, dataType);
+            }
+
+            onCreated.accept(xmlDataNode);
+        });
     }
 }

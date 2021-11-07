@@ -16,6 +16,11 @@ public class GraphML {
     public static String Data = "data";
     public static String Constraint = "constraint";
 
+    public static String TypeBoolean = "boolean";
+    public static String TypeInteger = "integer";
+    public static String TypeText = "text";
+    public static String TypeGreaterThan = "gt";
+
     public static String IdAttribute= "id";
     public static String KeyAttribute = "key";
     public static String NameAttribute = "name";
@@ -32,7 +37,7 @@ public class GraphML {
     }
 
     public static ConstraintType getConstraintType(@NotNull String type) throws SyntaxError {
-        if ("gt".equals(type)) {
+        if (TypeGreaterThan.equals(type)) {
             return GREATER_THAN;
         } else {
             var message = String.format("Constraint type %s is not supported", type);

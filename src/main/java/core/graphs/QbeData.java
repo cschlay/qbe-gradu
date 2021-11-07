@@ -1,5 +1,6 @@
 package core.graphs;
 
+import core.parsers.GraphML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +35,17 @@ public class QbeData {
         }
 
         return true;
+    }
+
+    public String getType()
+    {
+        if (value instanceof Boolean) {
+            return GraphML.TypeBoolean;
+        } else if (value instanceof Integer) {
+            return GraphML.TypeInteger;
+        }
+
+        return GraphML.TypeText;
     }
 
     private boolean checkEquality(Object valueToCheck) {
