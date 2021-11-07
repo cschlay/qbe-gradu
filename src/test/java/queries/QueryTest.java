@@ -7,22 +7,18 @@ import core.graphs.ResultGraph;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.neo4j.dbms.api.DatabaseManagementService;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 
 /**
- * The base test class to setup the database.
- *
+ * The base test class to set up the test database.
  */
+@SuppressWarnings("StaticVariableUsedBeforeInitialization")
 public class QueryTest {
     public static QuerySession session;
-    private static final DatabaseManagementService dbManagement = Main.setupDatabase("data/test");
+    private static DatabaseManagementService dbManagement;
 
     @BeforeClass
     public static void beforeAll() throws Exception {
+        dbManagement = Main.setupDatabase("data/test");
         session = new QuerySession(Main.getDefaultDatabase(dbManagement));
         session.executeCommand(CLICommands.RESET_DATABASE);
         session.executeCommand(CLICommands.SEED_DATABASE);
