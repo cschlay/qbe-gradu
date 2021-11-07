@@ -14,28 +14,29 @@ import java.util.HashMap;
 public class GraphMLEdgeParser {
     public static void parseNodeList(NodeList nodes, QueryGraph graph) throws SyntaxError {
         for (int i = 0; i < nodes.getLength(); i++) {
-            QbeEdge qbeEdge = parseEdgeNode(nodes.item(i));
+            QbeEdge qbeEdge = parseEdgeNode(nodes.item(i), graph);
 
             // The edge is added to both source and target nodes since traversal for both direction is needed.
-            if (qbeEdge.tailNodeName != null) {
-                QbeNode qbeNode = graph.get(qbeEdge.tailNodeName);
-                qbeNode.edges.add(qbeEdge);
+            if (qbeEdge.tailNode != null) {
+                qbeEdge.tailNode.edges.add(qbeEdge);
             }
 
-            if (qbeEdge.headNodeName != null) {
-                QbeNode qbeNode = graph.get(qbeEdge.headNodeName);
-                qbeNode.edges.add(qbeEdge);
+            if (qbeEdge.headNode != null) {
+                qbeEdge.headNode.edges.add(qbeEdge);
             }
             // TODO: Handle null names
         }
     }
 
-    public static QbeEdge parseEdgeNode(Node node) throws SyntaxError {
+    public static QbeEdge parseEdgeNode(Node node, QueryGraph graph) throws SyntaxError {
         @Nullable String name = GraphML.getAttribute(GraphML.NameAttribute, node);
         @Nullable String tailNodeName = GraphML.getAttribute(GraphML.SourceAttribute, node);
         @Nullable String headNodeName = GraphML.getAttribute(GraphML.TargetAttribute, node);
 
         HashMap<String, QbeData> properties = GraphMLDataParser.parseNodeList(node.getChildNodes());
-        return new QbeEdge(name, tailNodeName, headNodeName, properties);
+        var edge = new QbeEdge(name, properties);
+        edge.tailNode = graph.get(tailNodeName);
+        edge.headNode = graph.get(headNodeName);
+        return edge;
     }
 }

@@ -2,15 +2,13 @@ package core.db.neo4j;
 
 import core.exceptions.InvalidNodeException;
 import core.graphs.*;
-import core.interfaces.PropertyQueryable;
 import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.*;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Contains traversal operations.
@@ -43,20 +41,21 @@ public class Neo4jTraversal {
 
 
     public void visitQueryEdge(Transaction transaction, QbeEdge queryEdge) {
-        if (queryEdge.tailNodeName == null && queryEdge.headNodeName == null) {
+        if (queryEdge.tailNode == null && queryEdge.headNode == null) {
 
-        } else if (queryEdge.tailNodeName == null) {
+        } else if (queryEdge.tailNode == null) {
             // head is not null
 
-        } else if (queryEdge.headNodeName == null) {
+        } else if (queryEdge.headNode == null) {
             // tail is not null
 
         } else {
             // both tail and head are not null
+            ArrayList<String> invalidNodeIds = new ArrayList<>();
             for (var resultNode : resultGraph.values())
             {
                 try {
-                    if (queryEdge.tailNodeName.equals(resultNode.name)) {
+                    if (queryEdge.tailNode.name.equals(resultNode.name)) {
                         var neo4jNode = transaction.getNodeById(Long.parseLong(resultNode.id));
 
                         Iterable<Relationship> relationships;
@@ -66,9 +65,15 @@ public class Neo4jTraversal {
                             relationships = neo4jNode.getRelationships(Direction.OUTGOING);
                         }
 
+                        int size = 0;
                         for (var relationship : relationships) {
                             QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge);
                             resultNode.edges.add(resultEdge);
+                            size++;
+                        }
+
+                        if (size == 0) {
+                            throw new InvalidNodeException();
                         }
                         // TODO: Handle transitive edge
                     }
@@ -76,9 +81,11 @@ public class Neo4jTraversal {
                     // TODO: Replace exception with e.g. ValidationError
                 } catch (InvalidNodeException ignore) {
                     // Must remove
-                    resultGraph.remove(resultNode.id);
+                    // TODO: Removal causes concurrency error
+                    invalidNodeIds.add(resultNode.id);
                 }
             }
+            invalidNodeIds.forEach(resultGraph::remove);
         }
     }
 
@@ -100,8 +107,10 @@ public class Neo4jTraversal {
         long tailNodeId = neo4jEdge.getStartNodeId();
         long headNodeId = neo4jEdge.getEndNodeId();
 
-        var resultEdge = new QbeEdge(id, tailNodeId, headNodeId);
+        var resultEdge = new QbeEdge(id);
         resultEdge.name = queryEdge.name;
+        resultEdge.tailNode = resultGraph.get(String.valueOf(tailNodeId));
+        resultEdge.headNode = resultGraph.get(String.valueOf(headNodeId));
         resultEdge.properties = getProperties(neo4jEdge, queryEdge.properties);
 
         return resultEdge;

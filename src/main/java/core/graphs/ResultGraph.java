@@ -44,8 +44,8 @@ public class ResultGraph extends HashMap<String, QbeNode> {
                 Element xmlEdgeNode = xmlDocument.createElement(GraphML.Edge);
                 xmlEdgeNode.setAttribute(GraphML.IdAttribute, edge.id);
                 xmlEdgeNode.setAttribute(GraphML.NameAttribute, edge.name);
-                xmlEdgeNode.setAttribute(GraphML.SourceAttribute, edge.tailNodeName);
-                xmlEdgeNode.setAttribute(GraphML.TargetAttribute, edge.headNodeName);
+                xmlEdgeNode.setAttribute(GraphML.SourceAttribute, edge.tailNode != null ? edge.tailNode.id : null);
+                xmlEdgeNode.setAttribute(GraphML.TargetAttribute, edge.headNode != null ? edge.headNode.id : null);
 
                 graph.appendChild(xmlEdgeNode);
             });
