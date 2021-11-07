@@ -9,10 +9,7 @@ public class NodeQueries extends QueryTest {
     @Test
     public void singleNodeName() throws Exception {
         // Query all nodes that have name Course
-        var graph = session.processQuery(String.join("\n",
-                "<graph>",
-                String.format("<node name=\"%s\" />", CourseGraphDemo.Labels.Course),
-                "</graph>"));
+        var graph = executeQuery("<graph><node name=\"Course\" /></graph>");
         print(graph);
 
         Assert.assertTrue(graph.size() > 0);
@@ -25,9 +22,10 @@ public class NodeQueries extends QueryTest {
         Label label2 = CourseGraphDemo.Labels.Topic;
 
         // Query all nodes that name Course or Topic
-        var graph = executeQuery("<graph>",
-                String.format("<node name=\"%s\" />", CourseGraphDemo.Labels.Course),
-                String.format("<node name=\"%s\" />", CourseGraphDemo.Labels.Topic),
+        var graph = executeQuery(
+                "<graph>",
+                "   <node name=\"Course\" />",
+                "   <node name=\"Topic\" />",
                 "</graph>");
         print(graph);
 
@@ -51,10 +49,7 @@ public class NodeQueries extends QueryTest {
     @Test
     public void attributeOnly() throws Exception {
         // Query all nodes that have property "title"
-        var graph = executeQuery("<graph>",
-                "<node>",
-                "   <data key=\"title\" />",
-                "</node></graph>");
+        var graph = executeQuery("<graph><node><data key=\"title\" /></node></graph>");
         print(graph);
 
         Assert.assertTrue(graph.size() > 0);

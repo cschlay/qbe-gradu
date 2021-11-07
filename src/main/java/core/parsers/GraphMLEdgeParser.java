@@ -26,6 +26,7 @@ public class GraphMLEdgeParser {
                 QbeNode qbeNode = graph.get(qbeEdge.headNodeName);
                 qbeNode.edges.add(qbeEdge);
             }
+            // TODO: Handle null names
         }
     }
 

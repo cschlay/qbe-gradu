@@ -13,6 +13,7 @@ public class QbeData {
     @Nullable public Object value;
     @Nullable public ArrayList<QbeConstraint> constraints;
 
+    public boolean isHidden;
     /** If the field is nullable. */
     public boolean isNullable;
 

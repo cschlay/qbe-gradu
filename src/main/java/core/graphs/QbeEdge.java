@@ -1,5 +1,6 @@
 package core.graphs;
 
+import core.interfaces.PropertyQueryable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +9,8 @@ import java.util.HashMap;
 /**
  * Represents an edge of a graph.
  */
-public class QbeEdge {
+public class QbeEdge implements PropertyQueryable {
+    @Nullable public String id;
     @Nullable public String name;
     public HashMap<String, QbeData> properties;
 
@@ -18,6 +20,13 @@ public class QbeEdge {
     /** The node where edge ends: (x) --> (head) */
     @Nullable public String headNodeName;
 
+    public QbeEdge(long id, long tailNodeId, long headNodeId)
+    {
+        this.id = String.valueOf(id);
+        this.properties = new HashMap<>();
+        this.tailNodeName = String.valueOf(tailNodeId);
+        this.headNodeName = String.valueOf(headNodeId);
+    }
 
     public QbeEdge(
             @Nullable String name,

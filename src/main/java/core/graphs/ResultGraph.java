@@ -38,6 +38,17 @@ public class ResultGraph extends HashMap<String, QbeNode> {
             }
 
             graph.appendChild(xmlNode);
+
+            // The edges
+            node.edges.forEach(edge -> {
+                Element xmlEdgeNode = xmlDocument.createElement(GraphML.Edge);
+                xmlEdgeNode.setAttribute(GraphML.IdAttribute, edge.id);
+                xmlEdgeNode.setAttribute(GraphML.NameAttribute, edge.name);
+                xmlEdgeNode.setAttribute(GraphML.SourceAttribute, edge.tailNodeName);
+                xmlEdgeNode.setAttribute(GraphML.TargetAttribute, edge.headNodeName);
+
+                graph.appendChild(xmlEdgeNode);
+            });
         });
 
         return xmlUtilities.dumpXmlDocument(xmlDocument);
