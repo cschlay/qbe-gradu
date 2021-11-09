@@ -20,6 +20,8 @@ public class QbeEdge implements PropertyQueryable {
     /** The node where edge ends: (x) --> (head) */
     @Nullable public QbeNode headNode;
 
+    public boolean isHidden;
+
     public QbeEdge(long id)
     {
         this.id = String.valueOf(id);

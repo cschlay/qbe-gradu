@@ -20,14 +20,18 @@ public class Neo4jEdgeValidator {
         ArrayList<QbeEdge> edges = new ArrayList<>();
         Iterable<Relationship> relationships = getRelationships(transaction, queryEdge, resultNode);
 
+        boolean hasValidEdge = false;
         for (Relationship relationship : relationships) {
             QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge, graph);
-            if (hasPath(resultEdge, relationship)) {
-                edges.add(resultEdge);
+            if (hasPath(queryEdge, resultEdge, relationship)) {
+                if (!queryEdge.isHidden) {
+                    edges.add(resultEdge);
+                }
+                hasValidEdge = true;
             }
         }
 
-        if (edges.isEmpty()) {
+        if (!hasValidEdge) {
             throw new InvalidNodeException();
         }
 
@@ -35,11 +39,18 @@ public class Neo4jEdgeValidator {
     }
 
     // Recursive solution is possible
-    private static boolean hasPath(QbeEdge edge, Relationship relationship) {
-        String startNodeId = String.valueOf(relationship.getStartNodeId());
-        String endNodeId = String.valueOf(relationship.getEndNodeId());
+    private static boolean hasPath(QbeEdge queryEdge, QbeEdge resultEdge, Relationship relationship) {
+        boolean tailIsValid = false;
+        boolean headIsValid = false;
+        if (queryEdge.tailNode != null && resultEdge.tailNode != null) {
+            tailIsValid = queryEdge.tailNode.name.equals(resultEdge.tailNode.name);
+        }
+        if (queryEdge.headNode != null && resultEdge.headNode != null) {
+            headIsValid = queryEdge.headNode.name.equals(resultEdge.headNode.name);
+        }
 
-        return startNodeId.equals(edge.tailNode.id) && endNodeId.equals(edge.headNode.id);
+        return tailIsValid && headIsValid;
+        // TODO: If the tail or head is null
         // TODO: Transitive edges
     }
 

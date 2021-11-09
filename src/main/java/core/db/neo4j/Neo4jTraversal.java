@@ -19,6 +19,7 @@ public class Neo4jTraversal {
     @NotNull private final ResultGraph resultGraph;
     @NotNull private final HashSet<QbeEdge> queryEdgeQueue;
 
+    private final ArrayList<String> hiddenNodeIds;
     /**
      * Traverse the query graph and build the result graph while using depth-first-search (DFS).
      *
@@ -34,6 +35,8 @@ public class Neo4jTraversal {
             queryEdgeQueue.iterator().forEachRemaining(edge -> {
                 visitQueryEdge(transaction, edge);
             });
+
+            hiddenNodeIds.forEach(resultGraph::remove);
         }
 
         return resultGraph;
@@ -132,6 +135,9 @@ public class Neo4jTraversal {
             var result = new QbeNode(neo4jNode.getId(), query.name);
             result.properties = Neo4jPropertyTraversal.getProperties(neo4jNode, query.properties);
             resultGraph.put(result.id, result);
+            if (query.isHidden) {
+                hiddenNodeIds.add(result.id);
+            }
         } catch (InvalidNodeException ignored) {}
     }
 
@@ -140,5 +146,6 @@ public class Neo4jTraversal {
         this.queryGraph = queryGraph;
         this.resultGraph = new ResultGraph();
         queryEdgeQueue = new HashSet<QbeEdge>();
+        hiddenNodeIds = new ArrayList<>();
     }
 }

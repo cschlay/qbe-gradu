@@ -1,6 +1,5 @@
 package core.graphs;
 
-import core.interfaces.PropertyQueryable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,5 +35,15 @@ public class QbeNode {
         this.name = name;
         edges = new ArrayList<>();
         properties = new HashMap<>();
+    }
+
+    public String toString() {
+        if (name != null && id != null) {
+            return name + "(" + id + ")";
+        }
+        if (name == null) {
+            return "(" + id + ")";
+        }
+        return name;
     }
 }

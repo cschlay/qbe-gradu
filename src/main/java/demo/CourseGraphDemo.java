@@ -44,6 +44,7 @@ public class CourseGraphDemo {
 
             var lecturerCarol = tx.createNode(Labels.Lecturer);
             lecturerCarol.setProperty("name", "Carol");
+            lecturerCarol.setProperty("title", "Professor");
             lecturerCarol.createRelationshipTo(courseLogic, Relations.teaches);
 
             var assistantAlice = tx.createNode(Labels.Assistant);

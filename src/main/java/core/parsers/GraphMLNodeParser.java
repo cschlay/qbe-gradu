@@ -3,6 +3,7 @@ package core.parsers;
 import core.exceptions.SyntaxError;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -19,7 +20,11 @@ public class GraphMLNodeParser {
 
     private static QbeNode parseQueryNode(Node node) throws SyntaxError {
         String name = GraphML.getAttribute(GraphML.NameAttribute, node);
+
         NodeList childNodes = node.getChildNodes();
-        return new QbeNode(name, GraphMLDataParser.parseNodeList(childNodes));
+        var qbeNode = new QbeNode(name, GraphMLDataParser.parseNodeList(childNodes));
+        qbeNode.isHidden = GraphML.isHidden(node);
+
+        return qbeNode;
     }
 }

@@ -3,8 +3,6 @@ package queries;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Objects;
-
 public class EdgeQueries extends QueryTest {
     @Test
     public void edgeBetweenTwoNodes() throws Exception {
@@ -17,6 +15,7 @@ public class EdgeQueries extends QueryTest {
                 "</graph>");
         print(graph);
 
+        Assert.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             if ("Course".equals(node.name)) {
                 Assert.assertFalse(node.edges.isEmpty());
@@ -44,6 +43,7 @@ public class EdgeQueries extends QueryTest {
         );
         print(graph);
 
+        Assert.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             Assert.assertFalse(node.edges.isEmpty());
             node.edges.forEach(edge -> {
@@ -70,7 +70,7 @@ public class EdgeQueries extends QueryTest {
                 "   <edge name=\"teaches\" source=\"Lecturer\" target=\"Course\" />",
                 "</graph>");
         print(graph);
-
+        Assert.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             Assert.assertFalse(node.edges.isEmpty());
             node.edges.forEach(edge ->{
@@ -81,5 +81,6 @@ public class EdgeQueries extends QueryTest {
         });
     }
 
-    // Transitive edge
+    // TODO: Transitive edge
+    // TODO: Anonymous edges
 }

@@ -21,7 +21,8 @@ public class GraphML {
     public static String TypeText = "text";
     public static String TypeGreaterThan = "gt";
 
-    public static String IdAttribute= "id";
+    public static String HiddenAttribute = "hidden";
+    public static String IdAttribute = "id";
     public static String KeyAttribute = "key";
     public static String NameAttribute = "name";
     public static String SourceAttribute = "source";
@@ -32,8 +33,13 @@ public class GraphML {
         return Constraint.equals(node.getNodeName());
     }
 
-    public static boolean isDataNode(org.w3c.dom.Node node) {
+    public static boolean isDataNode(Node node) {
         return Data.equals(node.getNodeName());
+    }
+
+    public static boolean isHidden(Node node) {
+        String hiddenAttribute = getAttribute(GraphML.HiddenAttribute, node);
+        return "true".equals(hiddenAttribute);
     }
 
     public static ConstraintType getConstraintType(@NotNull String type) throws SyntaxError {
