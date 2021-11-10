@@ -30,11 +30,8 @@ public class QbeNode {
         properties = new HashMap<>();
     }
 
-    public QbeNode(@NotNull String id, @Nullable String name) {
-        this.id = id;
-        this.name = name;
-        edges = new ArrayList<>();
-        properties = new HashMap<>();
+    public boolean hasSameName(@Nullable QbeNode otherNode) {
+        return name != null && otherNode != null && name.equals(otherNode.name);
     }
 
     public String toString() {

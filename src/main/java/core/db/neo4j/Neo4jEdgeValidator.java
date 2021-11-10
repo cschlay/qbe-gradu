@@ -16,7 +16,6 @@ public class Neo4jEdgeValidator {
             QbeNode resultNode,
             ResultGraph graph
     ) throws InvalidNodeException {
-        assert queryEdge.tailNode != null && queryEdge.headNode != null;
         ArrayList<QbeEdge> edges = new ArrayList<>();
         Iterable<Relationship> relationships = getRelationships(transaction, queryEdge, resultNode);
 
@@ -40,18 +39,17 @@ public class Neo4jEdgeValidator {
 
     // Recursive solution is possible
     private static boolean hasPath(QbeEdge queryEdge, QbeEdge resultEdge, Relationship relationship) {
-        boolean tailIsValid = false;
-        boolean headIsValid = false;
-        if (queryEdge.tailNode != null && resultEdge.tailNode != null) {
-            tailIsValid = queryEdge.tailNode.name.equals(resultEdge.tailNode.name);
+        boolean tailIsValid = queryEdge.tailNode == null;
+        boolean headIsValid = queryEdge.headNode == null;
+        if (queryEdge.tailNode != null) {
+            tailIsValid = queryEdge.tailNode.hasSameName(resultEdge.tailNode);
         }
-        if (queryEdge.headNode != null && resultEdge.headNode != null) {
-            headIsValid = queryEdge.headNode.name.equals(resultEdge.headNode.name);
+        if (queryEdge.headNode != null) {
+            headIsValid = queryEdge.headNode.hasSameName(resultEdge.headNode);
         }
 
         return tailIsValid && headIsValid;
-        // TODO: If the tail or head is null
-        // TODO: Transitive edges
+        // TODO: Transitive edges use relationship to traverse
     }
 
     private static Iterable<Relationship> getRelationships(
@@ -65,10 +63,9 @@ public class Neo4jEdgeValidator {
                 ? RelationshipType.withName(queryEdge.name)
                 : null;
         Direction direction = Direction.BOTH;
-        // TODO: Move if-conditions to QbeEdge
-        if (queryEdge.tailNode != null && queryEdge.tailNode.name.equals(resultNode.name)) {
+        if (resultNode.hasSameName(queryEdge.tailNode)) {
             direction = Direction.OUTGOING;
-        } else if (queryEdge.headNode != null && queryEdge.headNode.name.equals(resultNode.name)) {
+        } else if (resultNode.hasSameName(queryEdge.headNode)) {
             direction = Direction.INCOMING;
         }
 

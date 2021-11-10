@@ -7,7 +7,6 @@ import org.neo4j.graphdb.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -46,53 +45,18 @@ public class Neo4jTraversal {
     public void visitQueryEdge(Transaction transaction, QbeEdge queryEdge) {
         ArrayList<String> invalidNodeIds = new ArrayList<>();
 
-        if (queryEdge.tailNode == null && queryEdge.headNode == null) {
-
-        } else if (queryEdge.tailNode == null) {
-            // head is not null
-
-        } else if (queryEdge.headNode == null) {
-            // tail is not null
-            for (var resultNode : resultGraph.values()) {
+        for (var resultNode : resultGraph.values())
+        {
+            // The conditions need to checked once, so that we do not reject valid nodes that do not belong to edge query.
+            if (resultNode.hasSameName(queryEdge.tailNode) || resultNode.hasSameName(queryEdge.headNode)) {
                 try {
-                    if (queryEdge.tailNode.name.equals(resultNode.name)) {
-                        var neo4jNode = transaction.getNodeById(Long.parseLong(resultNode.id));
-
-                        Iterable<Relationship> relationships;
-                        if (queryEdge.name != null) {
-                            relationships = neo4jNode.getRelationships(Direction.OUTGOING, RelationshipType.withName(queryEdge.name));
-                        } else {
-                            relationships = neo4jNode.getRelationships(Direction.OUTGOING);
-                        }
-
-                        int size = 0;
-                        for (var relationship : relationships) {
-                            QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge);
-                            resultNode.edges.add(resultEdge);
-                            size++;
-                        }
-
-                        if (size == 0) {
-                            throw new InvalidNodeException();
-                        }
-                    }
+                    ArrayList<QbeEdge> edges = Neo4jEdgeValidator.validateRelationships(transaction, queryEdge, resultNode, resultGraph);
+                    resultNode.edges.addAll(edges);
                 } catch (InvalidNodeException ignore) {
-                    // Must remove
                     invalidNodeIds.add(resultNode.id);
                 }
-            }
-        } else {
-            // both tail and head are not null
-            for (var resultNode : resultGraph.values())
-            {
-                if (queryEdge.headNode.name.equals(resultNode.name) || queryEdge.tailNode.name.equals(resultNode.name)) {
-                    try {
-                        ArrayList<QbeEdge> edges = Neo4jEdgeValidator.validateRelationships(transaction, queryEdge, resultNode, resultGraph);
-                        resultNode.edges.addAll(edges);
-                    } catch (InvalidNodeException ignore) {
-                        invalidNodeIds.add(resultNode.id);
-                    }
-                }
+            } else if (queryEdge.tailNode == null && queryEdge.headNode == null) {
+                System.out.println("BOTH ENDS ARE NULL !");
             }
         }
         invalidNodeIds.forEach(resultGraph::remove);
@@ -109,20 +73,6 @@ public class Neo4jTraversal {
             nodes.forEach((Node neo4jNode) -> visitNeo4jNode(neo4jNode, queryNode));
         }
         queryEdgeQueue.addAll(queryNode.edges);
-    }
-
-    private QbeEdge visitNeo4jEdge(Relationship neo4jEdge, QbeEdge queryEdge) throws InvalidNodeException {
-        long id = neo4jEdge.getId();
-        long tailNodeId = neo4jEdge.getStartNodeId();
-        long headNodeId = neo4jEdge.getEndNodeId();
-
-        var resultEdge = new QbeEdge(id);
-        resultEdge.properties = Neo4jPropertyTraversal.getProperties(neo4jEdge, queryEdge.properties);
-        resultEdge.name = queryEdge.name;
-        resultEdge.tailNode = resultGraph.get(String.valueOf(tailNodeId));
-        resultEdge.headNode = resultGraph.get(String.valueOf(headNodeId));
-
-        return resultEdge;
     }
 
     private void visitNeo4jNode(Node neo4jNode, QbeNode query) {
