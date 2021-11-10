@@ -28,6 +28,9 @@ public class CourseGraphDemo {
             var topicDijkstraAlgorithm = tx.createNode(Labels.Topic);
             topicDijkstraAlgorithm.setProperty("title", "Dijkstra's Algorithm");
 
+            var topicFirstOrderLogic = tx.createNode(Labels.Topic);
+            topicFirstOrderLogic.setProperty("title", "First-Order Logic");
+
             var courseAlgorithms = tx.createNode(Labels.Course);
             courseAlgorithms.setProperty("title", "Introduction to Algorithms");
             courseAlgorithms.setProperty("difficulty", 4);
@@ -36,6 +39,7 @@ public class CourseGraphDemo {
             var courseLogic = tx.createNode(Labels.Course);
             courseLogic.setProperty("title", "Introduction to Logic");
             courseLogic.setProperty("difficulty", 2);
+            courseLogic.createRelationshipTo(topicFirstOrderLogic, Relations.contains);
 
             var courseGraphTheory = tx.createNode(Labels.Course);
             courseGraphTheory.setProperty("title", "Graph Theory");

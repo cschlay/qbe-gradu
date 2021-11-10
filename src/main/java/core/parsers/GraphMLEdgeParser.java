@@ -39,6 +39,7 @@ public class GraphMLEdgeParser {
         edge.tailNode = graph.get(tailNodeName);
         edge.headNode = graph.get(headNodeName);
         edge.isHidden = GraphML.isHidden(node);
+        edge.isTransitive = GraphML.isTransitiveEdge(node);
         return edge;
     }
 }

@@ -94,6 +94,7 @@ public class NodeQueries extends QueryTest {
             Assert.assertEquals(4, property.value);
         });
     }
+    // TODO: MORE CONSTRAINTS NEED TO BE IMPLEMENTED
 
     @Test
     public void regexQuery() throws Exception {

@@ -21,6 +21,7 @@ public class QbeEdge implements PropertyQueryable {
     @Nullable public QbeNode headNode;
 
     public boolean isHidden;
+    public boolean isTransitive;
 
     public QbeEdge(long id)
     {

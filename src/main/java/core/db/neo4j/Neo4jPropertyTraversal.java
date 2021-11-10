@@ -27,9 +27,7 @@ public class Neo4jPropertyTraversal {
                 }
             } catch (NotFoundException e) {
                 // Non-nullable properties must always be defined.
-                if (!qbeData.isNullable) {
-                    throw new InvalidNodeException();
-                }
+                throw new InvalidNodeException();
             }
         }
 

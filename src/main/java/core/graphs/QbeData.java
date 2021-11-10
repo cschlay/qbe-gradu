@@ -15,8 +15,6 @@ public class QbeData {
     @Nullable public ArrayList<QbeConstraint> constraints;
 
     public boolean isHidden;
-    /** If the field is nullable. */
-    public boolean isNullable;
 
     /**
      * Checks a value against every constraint defined.

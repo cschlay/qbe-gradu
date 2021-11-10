@@ -27,6 +27,7 @@ public class GraphML {
     public static String NameAttribute = "name";
     public static String SourceAttribute = "source";
     public static String TargetAttribute = "target";
+    public static String TransitiveAttribute = "transitive";
     public static String TypeAttribute = "type";
 
     public static boolean isConstraintNode(Node node) {
@@ -40,6 +41,10 @@ public class GraphML {
     public static boolean isHidden(Node node) {
         String hiddenAttribute = getAttribute(GraphML.HiddenAttribute, node);
         return "true".equals(hiddenAttribute);
+    }
+    public static boolean isTransitiveEdge(Node node) {
+        String transitiveAttribute = getAttribute(GraphML.TransitiveAttribute, node);
+        return "true".equals(transitiveAttribute);
     }
 
     public static ConstraintType getConstraintType(@NotNull String type) throws SyntaxError {

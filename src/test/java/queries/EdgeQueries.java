@@ -81,6 +81,25 @@ public class EdgeQueries extends QueryTest {
         });
     }
 
-    // TODO: Transitive edge
-    // TODO: Anonymous edges
+    @Test
+    public void transitiveEdge() throws Exception {
+        // Assistants who know about First-Order Logic by teaching it
+        var graph = executeQuery("<graph>",
+                "   <node name=\"Topic\">",
+                "       <data key=\"title\">",
+                "           First-Order Logic",
+                "       </data>",
+                "   </node>",
+                "   <node name=\"Assistant\">",
+                "       <data key=\"name\" />",
+                "   </node>",
+                "   <edge name=\"teaches\" source=\"Assistant\" target=\"Topic\" transitive=\"true\" />",
+                "</graph>");
+        print(graph);
+    }
+
+    // TODO: Anonymous edges, where name is null
+    // TODO: Explicit tests where source or target is null
+    // TODO: Everything is null!
+
 }
