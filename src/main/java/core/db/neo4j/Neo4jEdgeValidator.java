@@ -32,7 +32,7 @@ public class Neo4jEdgeValidator {
             edgeCount++;
         }
 
-        if (!hasValidEdge && edgeCount > 0 && !queryEdge.isTransitive) {
+        if (!hasValidEdge && (!queryEdge.isTransitive && edgeCount == 0)) {
             throw new InvalidNodeException();
         }
 
@@ -43,7 +43,6 @@ public class Neo4jEdgeValidator {
     private static boolean hasPath(QbeEdge queryEdge, QbeEdge resultEdge, Relationship relationship) {
         boolean tailIsValid = queryEdge.tailNode == null;
         boolean headIsValid = queryEdge.headNode == null;
-        System.out.println(relationship.getId());
         if (queryEdge.tailNode != null) {
             tailIsValid = queryEdge.tailNode.hasSameName(resultEdge.tailNode);
         }
