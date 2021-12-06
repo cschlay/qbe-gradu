@@ -6,26 +6,49 @@ import org.junit.Test;
 
 public class LogicalQueryParserTest {
     @Test
-    public void BinaryAnd() {
+    public void GreaterThan() {
         var parser = new LogicalQueryParser();
-        var node = parser.parse("AND(1, >=5)");
 
-        Assert.assertEquals("AND", node.value);
-        Assert.assertEquals("1", node.children.get(0).value);
-        Assert.assertEquals(">=5", node.children.get(1).value);
+        var query = "> 1";
+        var r1 = parser.evaluate(query, 2);
+        var r2 = parser.evaluate(query, 0);
+
+        Assert.assertTrue(r1);
+        Assert.assertFalse(r2);
     }
 
     @Test
-    public void BinaryOr() {
+    public void GreaterThanLess() {
         var parser = new LogicalQueryParser();
-        var node = parser.parse("OR(<1, 5)");
+
+        var query = ">= 1";
+        var r1 = parser.evaluate(query, 2);
+        var r2 = parser.evaluate(query, 1);
+        var r3 = parser.evaluate(query, 0);
+
+        Assert.assertTrue(r1);
+        Assert.assertTrue(r2);
+        Assert.assertFalse(r3);
+    }
+
+    @Test
+    public void ClosedInterval() {
+        var parser = new LogicalQueryParser();
+        var result = parser.evaluate("AND(>= 1, <= 10)", 7);
+        Assert.assertTrue(result);
+    }
+
+    /*@Test
+    public void OpenInterval() {
+        var parser = new LogicalQueryParser();
+        var node = parser.evaluate("OR(< 1, > 5)", 3);
 
         Assert.assertEquals("OR", node.value);
         Assert.assertEquals("<1", node.children.get(0).value);
         Assert.assertEquals("5", node.children.get(1).value);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void NotSimple()
     {
         var parser = new LogicalQueryParser();
@@ -65,8 +88,8 @@ public class LogicalQueryParserTest {
 
         Assert.assertEquals(4, node.children.size());
 
-        /*var child1 = node.children.get(0);
-        Assert.assertEquals("NOT", child1.value);*/
+        var child1 = node.children.get(0);
+        Assert.assertEquals("NOT", child1.value);
 
     }
 
@@ -77,5 +100,5 @@ public class LogicalQueryParserTest {
         Assert.assertEquals("OR", node.value);
         Assert.assertEquals(4, node.children.size());
 
-    }
+    }*/
 }
