@@ -5,11 +5,19 @@ public class GenericComparison {
         if (a instanceof Integer && b instanceof Integer) {
             return (int) a > (int) b;
         }
-        return false;    }
+        return false;
+    }
 
     public static boolean isGreaterThanOrEqual(Object a, Object b) {
         if (a instanceof Integer && b instanceof Integer) {
             return (int) a >= (int) b;
+        }
+        return false;
+    }
+
+    public static boolean isLessThan(Object a, Object b) {
+        if (a instanceof Integer && b instanceof Integer) {
+            return (int) a < (int) b;
         }
         return false;
     }
@@ -20,5 +28,4 @@ public class GenericComparison {
         }
         return false;
     }
-
 }
