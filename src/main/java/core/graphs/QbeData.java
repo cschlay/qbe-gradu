@@ -16,6 +16,15 @@ public class QbeData {
 
     public boolean isHidden;
 
+    public QbeData () {
+        constraints = new ArrayList<>();
+    }
+
+    public QbeData(@NotNull Object value) {
+        this.value = value;
+        constraints = null;
+    }
+
     /**
      * Checks a value against every constraint defined.
      * @param valueToCheck to check against constraints
@@ -54,14 +63,5 @@ public class QbeData {
         }
         // Default to built-in equality, works with primitives at least.
         return valueToCheck.equals(value);
-    }
-
-    public QbeData () {
-        constraints = new ArrayList<>();
-    }
-
-    public QbeData(@NotNull Object value) {
-        this.value = value;
-        constraints = null;
     }
 }

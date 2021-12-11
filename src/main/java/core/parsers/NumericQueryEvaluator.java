@@ -16,17 +16,15 @@ public class NumericQueryEvaluator {
             var lowerCaseToken = token.toLowerCase();
 
             if (TabularTokens.Comparators.contains(lowerCaseToken)) {
-                var operand = stack.pop();
-                boolean result = evaluateComparator(token, value, operand);
+                boolean result = evaluateComparator(token, value, stack.pop());
                 stack.push(result);
             } else if (TabularTokens.LogicalOperators.contains(lowerCaseToken)) {
-                boolean result;
                 if (TabularTokens.Not.equals(lowerCaseToken)) {
-                    result = !(boolean) stack.pop();
+                    stack.push(!(boolean) stack.pop());
                 } else {
-                    result = evaluateLogicalExpression(token, (boolean) stack.pop(), (boolean) stack.pop());
+                    var result = evaluateLogicalExpression(token, (boolean) stack.pop(), (boolean) stack.pop());
+                    stack.push(result);
                 }
-                stack.push(result);
             } else {
                 try {
                     stack.push(castToSameType(value, token));

@@ -12,10 +12,17 @@ import java.util.HashMap;
 public class QbeNode {
     @Nullable public String id;
     // Do not use null, use empty string "" instead
-    @Nullable public String name;
+    public final String name;
     @NotNull public HashMap<String, QbeData> properties;
     @NotNull public ArrayList<QbeEdge> edges;
     public boolean isHidden;
+
+    public QbeNode(@Nullable String name) {
+        this.name = name == null ? "" : name;
+        properties = new HashMap<>();
+        edges = new ArrayList<>();
+
+    }
 
     public QbeNode(@Nullable String name, @NotNull HashMap<String, QbeData> properties) {
         this.name = name;
