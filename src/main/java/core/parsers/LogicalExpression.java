@@ -6,7 +6,16 @@ import utilities.GenericComparison;
 import java.util.Stack;
 import java.util.function.Consumer;
 
-public class NumericQueryEvaluator {
+/**
+ * Represents a logical expression parsed from tabular query.
+ */
+public class LogicalExpression {
+    public final String value;
+
+    public LogicalExpression(String expression) {
+        this.value = expression;
+    }
+
     public static <T> boolean evaluate(String query, T value) {
         var tokens = query.replace(",", "").replaceAll("[()]", " ").split(" ");
 

@@ -1,6 +1,5 @@
 package core.parsers;
 
-import core.exceptions.SyntaxError;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
@@ -13,7 +12,7 @@ public class TabularNodeParser {
         this.graph = graph;
     }
 
-    public QbeNode parse(String header, String exampleData) throws SyntaxError {
+    public QbeNode parse(String header, String exampleData) {
         String[] tokens = header.split("\\.");
         String name = tokens[0];
         String property = tokens[1];
@@ -29,12 +28,12 @@ public class TabularNodeParser {
 
     // These could be moved into QbeData parser.
 
-    private QbeData parseData(String value) throws SyntaxError {
+    private QbeData parseData(String value) {
         var instance = parseIntoJavaObject(value);
         return new QbeData(instance);
     }
 
-    private Object parseIntoJavaObject(String value) throws SyntaxError {
+    private Object parseIntoJavaObject(String value) {
         if ("false".equals(value) || "true".equals(value)) {
             return Boolean.parseBoolean(value);
         } else if (value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
@@ -43,17 +42,14 @@ public class TabularNodeParser {
         try {
             return parseIntoNumeric(value);
         } catch (NumberFormatException ignored) {
-            // The value is a logical constraint.
+            return new LogicalExpression(value);
         }
-
-        throw new SyntaxError("Example value is not supported: %s", value);
     }
 
     private Object parseIntoNumeric(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException exception) {
+        if (value.contains(".")) {
             return Double.parseDouble(value);
         }
+        return Integer.parseInt(value);
     }
 }

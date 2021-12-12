@@ -1,14 +1,14 @@
-package parsers;
+package parsers.tabular;
 
-import core.parsers.NumericQueryEvaluator;
+import core.parsers.LogicalExpression;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ComparisonOperatorTest {
     @Test
     public void Equals() {
-        var r1 = NumericQueryEvaluator.evaluate("1", 1);
-        var r2 = NumericQueryEvaluator.evaluate("= 1", 1);
+        var r1 = LogicalExpression.evaluate("1", 1);
+        var r2 = LogicalExpression.evaluate("= 1", 1);
         Assert.assertTrue(r1);
         Assert.assertTrue(r2);
     }
@@ -16,9 +16,9 @@ public class ComparisonOperatorTest {
     @Test
     public void GreaterThan() {
         var query = "> 1";
-        var r1 = NumericQueryEvaluator.evaluate(query, 0);
-        var r2 = NumericQueryEvaluator.evaluate(query, 1);
-        var r3 = NumericQueryEvaluator.evaluate(query, 2);
+        var r1 = LogicalExpression.evaluate(query, 0);
+        var r2 = LogicalExpression.evaluate(query, 1);
+        var r3 = LogicalExpression.evaluate(query, 2);
 
         Assert.assertFalse(r1);
         Assert.assertFalse(r2);
@@ -28,9 +28,9 @@ public class ComparisonOperatorTest {
     @Test
     public void GreaterThanOrEqual() {
         var query = ">= 1";
-        var r1 = NumericQueryEvaluator.evaluate(query, 2);
-        var r2 = NumericQueryEvaluator.evaluate(query, 1);
-        var r3 = NumericQueryEvaluator.evaluate(query, 0);
+        var r1 = LogicalExpression.evaluate(query, 2);
+        var r2 = LogicalExpression.evaluate(query, 1);
+        var r3 = LogicalExpression.evaluate(query, 0);
 
         Assert.assertTrue(r1);
         Assert.assertTrue(r2);
@@ -40,9 +40,9 @@ public class ComparisonOperatorTest {
     @Test
     public void LessThan() {
         var query = "< 1";
-        var r1 = NumericQueryEvaluator.evaluate(query, 0);
-        var r2 = NumericQueryEvaluator.evaluate(query, 1);
-        var r3 = NumericQueryEvaluator.evaluate(query, 2);
+        var r1 = LogicalExpression.evaluate(query, 0);
+        var r2 = LogicalExpression.evaluate(query, 1);
+        var r3 = LogicalExpression.evaluate(query, 2);
 
         Assert.assertTrue(r1);
         Assert.assertFalse(r2);
@@ -52,9 +52,9 @@ public class ComparisonOperatorTest {
     @Test
     public void LessThanOrEqual() {
         var query = "<= 1";
-        var r1 = NumericQueryEvaluator.evaluate(query, 0);
-        var r2 = NumericQueryEvaluator.evaluate(query, 1);
-        var r3 = NumericQueryEvaluator.evaluate(query, 2);
+        var r1 = LogicalExpression.evaluate(query, 0);
+        var r2 = LogicalExpression.evaluate(query, 1);
+        var r3 = LogicalExpression.evaluate(query, 2);
 
         Assert.assertTrue(r1);
         Assert.assertTrue(r2);
