@@ -35,13 +35,15 @@ public class TabularNodeParser {
     }
 
     private Object parseIntoJavaObject(String value) throws SyntaxError {
-        if (value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
+        if ("false".equals(value) || "true".equals(value)) {
+            return Boolean.parseBoolean(value);
+        } else if (value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
             return value.substring(1, value.length()-1);
         }
         try {
             return parseIntoNumeric(value);
         } catch (NumberFormatException ignored) {
-            // The
+            // The value is a logical constraint.
         }
 
         throw new SyntaxError("Example value is not supported: %s", value);

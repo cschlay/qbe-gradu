@@ -1,5 +1,7 @@
 package parsers;
 
+import core.exceptions.SyntaxError;
+import core.graphs.QbeData;
 import core.graphs.QueryGraph;
 import core.parsers.TabularParser;
 import org.junit.Assert;
@@ -7,22 +9,36 @@ import org.junit.Test;
 
 public class TabularNodeTest {
     @Test
-    public void shouldParseString() throws Exception {
+    public void shouldParseBooleanFalse() throws Exception {
         var query = "" +
-                "| Course.title                   |\n" +
-                "|--------------------------------|\n" +
-                "| \"Introduction to Algorithms\" |";
+                "| Course.graduateOnly |\n" +
+                "|---------------------|\n" +
+                "| false |";
+        var graph = parseQuery(query);
+        var property = getProperty(graph, "graduateOnly");
+        Assert.assertEquals(false, property.value);
+    }
 
-        var parser = new TabularParser();
-        QueryGraph graph = parser.parse(query);
-        Assert.assertEquals(1, graph.order());
-        Assert.assertEquals(0, graph.size());
+    @Test
+    public void shouldParseBooleanTrue() throws Exception {
+        var query = "" +
+                "| Course.graduateOnly |\n" +
+                "|---------------------|\n" +
+                "| true |";
+        var graph = parseQuery(query);
+        var property = getProperty(graph, "graduateOnly");
+        Assert.assertEquals(true, property.value);
+    }
 
-        var node = graph.get("Course");
-        Assert.assertEquals(1, node.properties.size());
-
-        var property = node.properties.get("title");
-        Assert.assertEquals(property.value, "Introduction to Algorithms");
+    @Test
+    public void shouldParseDouble() throws Exception {
+        var query = "" +
+                "| Course.averageGrade |\n" +
+                "|---------------------|\n" +
+                "| 3.59 |";
+        var graph = parseQuery(query);
+        var property = getProperty(graph, "averageGrade");
+        Assert.assertEquals(property.value, 3.59);
     }
 
     @Test
@@ -31,29 +47,29 @@ public class TabularNodeTest {
                 "| Course.difficulty |\n" +
                 "|-------------------|\n" +
                 "| 3 |";
-
-        var parser = new TabularParser();
-        QueryGraph graph = parser.parse(query);
-
-        var node = graph.get("Course");
-        var property = node.properties.get("difficulty");
+        var graph = parseQuery(query);
+        var property = getProperty(graph, "difficulty");
         Assert.assertEquals(property.value, 3);
     }
 
     @Test
-    public void shouldParseDouble() throws Exception {
+    public void shouldParseString() throws Exception {
         var query = "" +
-                "| Course.averageGrade |\n" +
-                "|---------------------|\n" +
-                "| 3.0 |";
-
-        var parser = new TabularParser();
-        QueryGraph graph = parser.parse(query);
-
-        var node = graph.get("Course");
-        var property = node.properties.get("averageGrade");
-        Assert.assertEquals(property.value, 3.0);
+                "| Course.title                   |\n" +
+                "|--------------------------------|\n" +
+                "| \"Introduction to Algorithms\" |";
+        var graph = parseQuery(query);
+        var property = getProperty(graph, "title");
+        Assert.assertEquals(property.value, "Introduction to Algorithms");
     }
 
-    // TODO: Boolean!
+    private static QueryGraph parseQuery(String query) throws SyntaxError {
+        var parser = new TabularParser();
+        return parser.parse(query);
+    }
+
+    private static QbeData getProperty(QueryGraph graph, String propertyName) {
+        var node = graph.get("Course");
+        return node.properties.get(propertyName);
+    }
 }
