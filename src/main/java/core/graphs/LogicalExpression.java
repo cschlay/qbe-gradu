@@ -1,6 +1,7 @@
-package core.parsers;
+package core.graphs;
 
 import core.exceptions.SyntaxError;
+import core.parsers.TabularTokens;
 import utilities.GenericComparison;
 
 import java.util.Stack;

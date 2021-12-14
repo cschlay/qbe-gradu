@@ -1,7 +1,7 @@
-package queries;
+package queries.graphml;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AnonymousNodeQueries extends QueryTest {
 

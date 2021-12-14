@@ -1,11 +1,11 @@
-package queries;
+package queries.graphml;
 
 import cli.CLICommands;
 import cli.Main;
 import cli.QuerySession;
 import core.graphs.ResultGraph;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.neo4j.dbms.api.DatabaseManagementService;
 
 /**
@@ -16,7 +16,7 @@ public class QueryTest {
     public static QuerySession session;
     private static DatabaseManagementService dbManagement;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeAll() throws Exception {
         dbManagement = Main.setupDatabase("data/test");
         session = new QuerySession(Main.getDefaultDatabase(dbManagement));
@@ -24,7 +24,7 @@ public class QueryTest {
         session.executeCommand(CLICommands.SEED_DATABASE);
     }
 
-    @AfterClass
+    @AfterAll
     public static void afterAll() {
         dbManagement.shutdown();
     }

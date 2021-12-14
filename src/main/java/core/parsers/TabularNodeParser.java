@@ -1,5 +1,6 @@
 package core.parsers;
 
+import core.graphs.LogicalExpression;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;

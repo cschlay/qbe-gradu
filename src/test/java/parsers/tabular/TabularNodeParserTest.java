@@ -3,10 +3,10 @@ package parsers.tabular;
 import core.exceptions.SyntaxError;
 import core.graphs.QbeData;
 import core.graphs.QueryGraph;
-import core.parsers.LogicalExpression;
+import core.graphs.LogicalExpression;
 import core.parsers.TabularParser;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TabularNodeParserTest {
     @Test
@@ -17,7 +17,7 @@ public class TabularNodeParserTest {
                 "| false |";
         var graph = parseQuery(query);
         var property = getProperty(graph, "graduateOnly");
-        Assert.assertEquals(false, property.value);
+        Assertions.assertEquals(false, property.value);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class TabularNodeParserTest {
                 "| true |";
         var graph = parseQuery(query);
         var property = getProperty(graph, "graduateOnly");
-        Assert.assertEquals(true, property.value);
+        Assertions.assertEquals(true, property.value);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class TabularNodeParserTest {
                 "| 3.59 |";
         var graph = parseQuery(query);
         var property = getProperty(graph, "averageGrade");
-        Assert.assertEquals(3.59, property.value);
+        Assertions.assertEquals(3.59, property.value);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TabularNodeParserTest {
                 "| 3 |";
         var graph = parseQuery(query);
         var property = getProperty(graph, "difficulty");
-        Assert.assertEquals(3, property.value);
+        Assertions.assertEquals(3, property.value);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class TabularNodeParserTest {
                 "| \"Introduction to Algorithms\" |";
         var graph = parseQuery(query);
         var property = getProperty(graph, "title");
-        Assert.assertEquals("Introduction to Algorithms", property.value);
+        Assertions.assertEquals("Introduction to Algorithms", property.value);
     }
 
     // Special cases
@@ -77,7 +77,7 @@ public class TabularNodeParserTest {
 
         var expression = (LogicalExpression) property.value;
         assert expression != null;
-        Assert.assertEquals("> 3", expression.value);
+        Assertions.assertEquals("> 3", expression.value);
     }
 
     @Test
@@ -87,17 +87,17 @@ public class TabularNodeParserTest {
                 "|------------------------+-------------------|\n" +
                 "| \"Introduction to .*\" | 1                 |";
         var graph = parseQuery(query);
-        Assert.assertEquals(1, graph.order());
-        Assert.assertEquals(0, graph.size());
+        Assertions.assertEquals(1, graph.order());
+        Assertions.assertEquals(0, graph.size());
 
         var node = graph.get("Course");
-        Assert.assertEquals(2, node.properties.size());
+        Assertions.assertEquals(2, node.properties.size());
 
         var title = getProperty(graph, "title").value;
-        Assert.assertEquals("Introduction to .*", title);
+        Assertions.assertEquals("Introduction to .*", title);
 
         var difficulty = getProperty(graph, "difficulty").value;
-        Assert.assertEquals(1, difficulty);
+        Assertions.assertEquals(1, difficulty);
     }
 
     // Helpers

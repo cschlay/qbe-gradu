@@ -1,15 +1,13 @@
 package core.graphs;
 
 import core.parsers.GraphML;
+import core.results.TabularResultWriter;
 import core.xml.XmlUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.function.Consumer;
 
 
@@ -20,6 +18,12 @@ public class ResultGraph extends HashMap<String, QbeNode> {
         xmlUtilities = new XmlUtilities();
     }
 
+    public String toTabularString(String[] headers) {
+        var writer = new TabularResultWriter(headers, this);
+        return writer.toString();
+    }
+
+    // TODO: Move away
     public String toGraphML() {
         Document xmlDocument = xmlUtilities.newDocument();
         Element graph = xmlDocument.createElement(GraphML.Graph);

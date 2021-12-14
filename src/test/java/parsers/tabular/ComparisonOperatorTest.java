@@ -1,63 +1,63 @@
 package parsers.tabular;
 
-import core.parsers.LogicalExpression;
-import org.junit.Assert;
-import org.junit.Test;
+import core.graphs.LogicalExpression;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class ComparisonOperatorTest {
+class ComparisonOperatorTest {
     @Test
-    public void Equals() {
+    void Equals() {
         var r1 = LogicalExpression.evaluate("1", 1);
         var r2 = LogicalExpression.evaluate("= 1", 1);
-        Assert.assertTrue(r1);
-        Assert.assertTrue(r2);
+        Assertions.assertTrue(r1);
+        Assertions.assertTrue(r2);
     }
 
     @Test
-    public void GreaterThan() {
+    void GreaterThan() {
         var query = "> 1";
         var r1 = LogicalExpression.evaluate(query, 0);
         var r2 = LogicalExpression.evaluate(query, 1);
         var r3 = LogicalExpression.evaluate(query, 2);
 
-        Assert.assertFalse(r1);
-        Assert.assertFalse(r2);
-        Assert.assertTrue(r3);
+        Assertions.assertFalse(r1);
+        Assertions.assertFalse(r2);
+        Assertions.assertTrue(r3);
     }
 
     @Test
-    public void GreaterThanOrEqual() {
+    void GreaterThanOrEqual() {
         var query = ">= 1";
         var r1 = LogicalExpression.evaluate(query, 2);
         var r2 = LogicalExpression.evaluate(query, 1);
         var r3 = LogicalExpression.evaluate(query, 0);
 
-        Assert.assertTrue(r1);
-        Assert.assertTrue(r2);
-        Assert.assertFalse(r3);
+        Assertions.assertTrue(r1);
+        Assertions.assertTrue(r2);
+        Assertions.assertFalse(r3);
     }
 
     @Test
-    public void LessThan() {
+    void LessThan() {
         var query = "< 1";
         var r1 = LogicalExpression.evaluate(query, 0);
         var r2 = LogicalExpression.evaluate(query, 1);
         var r3 = LogicalExpression.evaluate(query, 2);
 
-        Assert.assertTrue(r1);
-        Assert.assertFalse(r2);
-        Assert.assertFalse(r3);
+        Assertions.assertTrue(r1);
+        Assertions.assertFalse(r2);
+        Assertions.assertFalse(r3);
     }
 
     @Test
-    public void LessThanOrEqual() {
+    void LessThanOrEqual() {
         var query = "<= 1";
         var r1 = LogicalExpression.evaluate(query, 0);
         var r2 = LogicalExpression.evaluate(query, 1);
         var r3 = LogicalExpression.evaluate(query, 2);
 
-        Assert.assertTrue(r1);
-        Assert.assertTrue(r2);
-        Assert.assertFalse(r3);
+        Assertions.assertTrue(r1);
+        Assertions.assertTrue(r2);
+        Assertions.assertFalse(r3);
     }
 }

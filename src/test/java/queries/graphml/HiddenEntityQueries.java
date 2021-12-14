@@ -1,7 +1,7 @@
-package queries;
+package queries.graphml;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -13,9 +13,9 @@ public class HiddenEntityQueries extends QueryTest {
                 "<node name=\"Lecturer\" />",
                 "</graph>");
         print(graph);
-        Assert.assertFalse(graph.isEmpty());
+        Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
-            Assert.assertEquals("Lecturer", node.name);
+            Assertions.assertEquals("Lecturer", node.name);
         });
     }
 
@@ -32,10 +32,10 @@ public class HiddenEntityQueries extends QueryTest {
         graph.forEach((id, node) -> {
             if ("Lecturer".equals(node.name)) {
                 hasLecturerNode.set(true);
-                node.edges.forEach(edge -> Assert.assertNotEquals("teaches", edge.name));
+                node.edges.forEach(edge -> Assertions.assertNotEquals("teaches", edge.name));
             }
         });
-        Assert.assertTrue(hasLecturerNode.get());
+        Assertions.assertTrue(hasLecturerNode.get());
     }
 
     @Test
@@ -47,9 +47,9 @@ public class HiddenEntityQueries extends QueryTest {
                 "</node>",
                 "</graph>");
         print(graph);
-        Assert.assertFalse(graph.isEmpty());
+        Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
-            Assert.assertFalse(node.properties.containsKey("title"));
+            Assertions.assertFalse(node.properties.containsKey("title"));
         });
     }
 }

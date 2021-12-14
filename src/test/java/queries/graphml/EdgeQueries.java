@@ -1,7 +1,8 @@
-package queries;
+package queries.graphml;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class EdgeQueries extends QueryTest {
     @Test
@@ -15,12 +16,12 @@ public class EdgeQueries extends QueryTest {
                 "</graph>");
         print(graph);
 
-        Assert.assertFalse(graph.isEmpty());
+        Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             if ("Course".equals(node.name)) {
-                Assert.assertFalse(node.edges.isEmpty());
+                Assertions.assertFalse(node.edges.isEmpty());
                 node.edges.forEach(edge -> {
-                    Assert.assertEquals("Topic", edge.headNode.name);
+                    Assertions.assertEquals("Topic", edge.headNode.name);
                 });
             }
         });
@@ -43,11 +44,11 @@ public class EdgeQueries extends QueryTest {
         );
         print(graph);
 
-        Assert.assertFalse(graph.isEmpty());
+        Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
-            Assert.assertFalse(node.edges.isEmpty());
+            Assertions.assertFalse(node.edges.isEmpty());
             node.edges.forEach(edge -> {
-                Assert.assertTrue((Boolean) edge.properties.get("monday").value);
+                Assertions.assertTrue((Boolean) edge.properties.get("monday").value);
             });
         });
     }
@@ -70,13 +71,13 @@ public class EdgeQueries extends QueryTest {
                 "   <edge name=\"teaches\" source=\"Lecturer\" target=\"Course\" />",
                 "</graph>");
         print(graph);
-        Assert.assertFalse(graph.isEmpty());
+        Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
-            Assert.assertFalse(node.edges.isEmpty());
+            Assertions.assertFalse(node.edges.isEmpty());
             node.edges.forEach(edge ->{
-                Assert.assertEquals("teaches", edge.name);
+                Assertions.assertEquals("teaches", edge.name);
                 assert edge.tailNode != null;
-                Assert.assertTrue("Assistant".equals(edge.tailNode.name) || "Lecturer".equals(edge.tailNode.name));
+                Assertions.assertTrue("Assistant".equals(edge.tailNode.name) || "Lecturer".equals(edge.tailNode.name));
             });
         });
     }

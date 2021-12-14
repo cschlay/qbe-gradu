@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/parsers/TabularHeader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/results/TabularResultWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/results/TabularResultWriterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/parsers/LogicalExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/LogicalExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/parsers/TabularNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/parsers/TabularNodeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Debug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Debug.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/parsers/tabular/ComparisonOperatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/parsers/tabular/ComparisonOperatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/parsers/tabular/LogicalOperatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/parsers/tabular/LogicalOperatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/parsers/tabular/TabularNodeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/parsers/tabular/TabularNodeParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/queries/AnonymousNodeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/queries/graphml/AnonymousNodeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/queries/EdgeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/queries/graphml/EdgeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/queries/HiddenEntityQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/queries/graphml/HiddenEntityQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/queries/NodeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/queries/graphml/NodeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/queries/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/queries/graphml/QueryTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="22HrbQl9U5mPfQaz6kqshVPNIfQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ComparisonOperatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="parsers.tabular.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="parsers.tabular" />
+      <option name="MAIN_CLASS_NAME" value="parsers.tabular.ComparisonOperatorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ComparisonOperatorTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="" />
+      <created>1639505431340</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639505431340</updated>
+      <workItem from="1639505433745" duration="299000" />
+      <workItem from="1639505761598" duration="342000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

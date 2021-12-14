@@ -1,8 +1,8 @@
-package queries;
+package queries.graphml;
 
 import demo.CourseGraphDemo;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
 
 public class NodeQueries extends QueryTest {
@@ -12,8 +12,8 @@ public class NodeQueries extends QueryTest {
         var graph = executeQuery("<graph><node name=\"Course\" /></graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
-        graph.forEach((id, node) -> Assert.assertEquals(node.name, CourseGraphDemo.Labels.Course.toString()));
+        Assertions.assertTrue(graph.size() > 0);
+        graph.forEach((id, node) -> Assertions.assertEquals(node.name, CourseGraphDemo.Labels.Course.toString()));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class NodeQueries extends QueryTest {
                 "</graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
+        Assertions.assertTrue(graph.size() > 0);
         boolean containsLabel1 = false;
         boolean containsLabel2 = false;
         for (var node : graph.values()) {
@@ -42,8 +42,8 @@ public class NodeQueries extends QueryTest {
             }
         }
 
-        Assert.assertTrue(containsLabel1);
-        Assert.assertTrue(containsLabel2);
+        Assertions.assertTrue(containsLabel1);
+        Assertions.assertTrue(containsLabel2);
     }
 
     @Test
@@ -52,8 +52,8 @@ public class NodeQueries extends QueryTest {
         var graph = executeQuery("<graph><node><data key=\"title\" /></node></graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
-        graph.forEach((id, node) -> Assert.assertNotNull(node.properties.get("title")));
+        Assertions.assertTrue(graph.size() > 0);
+        graph.forEach((id, node) -> Assertions.assertNotNull(node.properties.get("title")));
     }
 
     @Test
@@ -66,11 +66,11 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
+        Assertions.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> {
             var property = node.properties.get("difficulty");
-            Assert.assertNotNull(property);
-            Assert.assertEquals(3, property.value);
+            Assertions.assertNotNull(property);
+            Assertions.assertEquals(3, property.value);
         });
     }
 
@@ -87,11 +87,11 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
+        Assertions.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> {
             var property = node.properties.get("difficulty");
-            Assert.assertNotNull(property);
-            Assert.assertEquals(4, property.value);
+            Assertions.assertNotNull(property);
+            Assertions.assertEquals(4, property.value);
         });
     }
     // TODO: MORE CONSTRAINTS NEED TO BE IMPLEMENTED
@@ -107,12 +107,12 @@ public class NodeQueries extends QueryTest {
                 "</node></graph>");
         print(graph);
 
-        Assert.assertTrue(graph.size() > 0);
+        Assertions.assertTrue(graph.size() > 0);
         graph.forEach((id, node) -> {
-            Assert.assertEquals("Course", node.name);
+            Assertions.assertEquals("Course", node.name);
             var title = node.properties.get("title").value;
             assert title != null;
-            Assert.assertTrue(((String) title).startsWith("Introduction to"));
+            Assertions.assertTrue(((String) title).startsWith("Introduction to"));
         });
     }
 }
