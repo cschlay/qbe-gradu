@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Improve the tests, especially TabularResultWriterTest">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Improve TabularResultWriter">
       <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/core/results/Headers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -150,7 +150,7 @@
       <updated>1639505431340</updated>
       <workItem from="1639505433745" duration="299000" />
       <workItem from="1639505761598" duration="1276000" />
-      <workItem from="1639667389216" duration="7517000" />
+      <workItem from="1639667389216" duration="7542000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -186,6 +186,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Upgrade to JUnit 5" />
     <MESSAGE value="Improve the tests, especially TabularResultWriterTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improve the tests, especially TabularResultWriterTest" />
+    <MESSAGE value="Improve TabularResultWriter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve TabularResultWriter" />
   </component>
 </project>

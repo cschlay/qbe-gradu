@@ -3,7 +3,6 @@ package core.results;
 import core.graphs.ResultGraph;
 import org.jetbrains.annotations.Nullable;
 
-
 public class TabularResultWriter {
     private final ResultGraph graph;
     private final Headers headers;
