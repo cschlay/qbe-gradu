@@ -37,9 +37,9 @@ class TabularResultWriterTest {
 
         var headers = new String[] { "Course.title as Title" };
         var expected = "" +
-                "| Title                 |\n" +
-                "|-----------------------|\n" +
-                "| Introduction to Logic |\n";
+                "| Title                   |\n" +
+                "|-------------------------|\n" +
+                "| \"Introduction to Logic\" |\n";
         assertEquals(expected, graph.toTabularString(headers));
     }
 
@@ -57,7 +57,7 @@ class TabularResultWriterTest {
         var expected = "" +
                 "| Course.title | Course.difficulty |\n" +
                 "|--------------+-------------------|\n" +
-                "| Logic        | 2                 |\n";
+                "| \"Logic\"      | 2                 |\n";
         assertEquals(expected, graph.toTabularString(headers));
     }
 
@@ -78,8 +78,8 @@ class TabularResultWriterTest {
         var expected = "" +
                 "| Course.title |\n" +
                 "|--------------|\n" +
-                "| Logic        |\n" +
-                "| Graph        |\n";
+                "| \"Logic\"      |\n" +
+                "| \"Graph\"      |\n";
         assertEquals(expected, graph.toTabularString(headers));
     }
 }

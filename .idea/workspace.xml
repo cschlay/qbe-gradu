@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Upgrade to JUnit 5">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Improve the tests, especially TabularResultWriterTest">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/results/Headers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/parsers/TabularHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/parsers/TabularHeader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/results/TabularResultWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/results/TabularResultWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/results/TabularResultWriterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/results/TabularResultWriterTest.java" afterDir="false" />
     </list>
@@ -15,6 +15,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,6 +52,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test" />
@@ -142,7 +150,7 @@
       <updated>1639505431340</updated>
       <workItem from="1639505433745" duration="299000" />
       <workItem from="1639505761598" duration="1276000" />
-      <workItem from="1639667389216" duration="3644000" />
+      <workItem from="1639667389216" duration="7517000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -151,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639506166093</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Improve the tests, especially TabularResultWriterTest">
+      <created>1639674502021</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639674502021</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +185,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Upgrade to JUnit 5" />
-    <option name="LAST_COMMIT_MESSAGE" value="Upgrade to JUnit 5" />
+    <MESSAGE value="Improve the tests, especially TabularResultWriterTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve the tests, especially TabularResultWriterTest" />
   </component>
 </project>
