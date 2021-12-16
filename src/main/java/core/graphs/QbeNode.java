@@ -24,6 +24,7 @@ public class QbeNode {
 
     }
 
+    // Remove this
     public QbeNode(@Nullable String name, @NotNull HashMap<String, QbeData> properties) {
         this.name = name;
         this.properties = properties;
@@ -35,6 +36,9 @@ public class QbeNode {
         this.name = name;
         edges = new ArrayList<>();
         properties = new HashMap<>();
+
+        // id is considered a property too
+        properties.put("id", new QbeData(id));
     }
 
     public boolean hasSameName(@Nullable QbeNode otherNode) {

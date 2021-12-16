@@ -11,10 +11,14 @@ public class TabularHeader {
 
         var property = parts[1].split(" as ");
         propertyName = property[0];
-        displayName = property.length > 1 ? property[1] : name;
+        displayName = property.length > 1 ? property[1] : header;
     }
 
     public boolean isNode() {
         return Character.isUpperCase(name.charAt(0));
+    }
+
+    public String toString() {
+        return displayName;
     }
 }

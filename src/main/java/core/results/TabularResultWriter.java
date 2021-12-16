@@ -3,10 +3,8 @@ package core.results;
 import core.graphs.QbeData;
 import core.graphs.ResultGraph;
 import core.parsers.TabularHeader;
-import utilities.Debug;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -32,21 +30,32 @@ public class TabularResultWriter {
     }
 
     public String[][] toTable() {
-        var result = new String[graph.size()][headers.length];
+        var result = new String[graph.size() + 1][headers.length];
 
-        int i = 0;
+        //
+        for (int i = 0; i < headers.length; i++) {
+            result[0][i] = headers[i].toString();
+            columnLengths[i] = headers[i].toString().length();
+        }
+
+        int i = 1;
         for (var node : graph.values()) {
-
             for (var property : node.properties.entrySet()) {
                 String propertyName = property.getKey();
-                int columnIndex = headerIndices.get(node.name).get(propertyName);
 
-                QbeData data = property.getValue();
-                String value = data.value.toString();
-                result[i][columnIndex] = value;
+                var headerIndex = headerIndices.get(node.name);
+                if (headerIndex != null) {
+                    @Nullable Integer columnIndex = headerIndex.get(propertyName);
 
-                if (value.length() > columnLengths[columnIndex]) {
-                    columnLengths[columnIndex] = value.length();
+                    if (columnIndex != null) {
+                        QbeData data = property.getValue();
+                        String value = data.value.toString();
+                        result[i][columnIndex] = value;
+
+                        if (value.length() > columnLengths[columnIndex]) {
+                            columnLengths[columnIndex] = value.length();
+                        }
+                    }
                 }
             }
 
@@ -59,16 +68,30 @@ public class TabularResultWriter {
         String[][] table = toTable();
         var result = new StringBuilder();
 
-
-        System.out.println(table.length);
-        for (int row = 0; row < table.length; row++) {
-            for (int col = 0; col < headers.length; col++) {
-                String padding = " ".repeat(columnLengths[col] - table[row][col].length());
-                System.out.println(columnLengths[col] - table[row][col].length());
-            }
-
+        for (int col = 0; col < headers.length; col++) {
+            result.append("| ");
+            String padding = " ".repeat(columnLengths[col] - table[0][col].length()+1);
+            result.append(table[0][col]).append(padding);
         }
-        // Add rows
+        result.append("|\n");
+
+        result.append("|");
+        for (int col = 0; col < headers.length; col++) {
+            String padding = "-".repeat(columnLengths[col] + 2);
+            result.append(padding);
+            if (col < headers.length -1) {
+                result.append("+");
+            }
+        }
+        result.append("|\n");
+
+        for (int row = 1; row < table.length; row++) {
+            for (int col = 0; col < headers.length; col++) {
+                String padding = " ".repeat(columnLengths[col] - table[row][col].length()+ 1);
+                result.append("| ").append(table[row][col]).append(padding);
+            }
+            result.append("|\n");
+        }
 
         return result.toString();
     }
