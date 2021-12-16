@@ -1,19 +1,15 @@
 package cli;
 
-import core.db.neo4j.Neo4jTraversal;
-import core.exceptions.SyntaxError;
+import db.neo4j.Neo4jTraversal;
 import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
-import core.parsers.GraphMLParser;
+import syntax.graphml.GraphMLParser;
 import demo.CourseGraphDemo;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /** Session for taking user input from CLI interface. */

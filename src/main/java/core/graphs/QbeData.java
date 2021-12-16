@@ -1,6 +1,6 @@
 package core.graphs;
 
-import core.parsers.GraphML;
+import syntax.graphml.GraphML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

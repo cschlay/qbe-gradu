@@ -1,8 +1,8 @@
 package core.graphs;
 
 import core.exceptions.SyntaxError;
-import core.parsers.TabularTokens;
-import utilities.GenericComparison;
+import syntax.tabular.TabularTokens;
+import core.utilities.GenericComparison;
 
 import java.util.Stack;
 import java.util.function.Consumer;

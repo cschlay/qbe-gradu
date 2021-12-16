@@ -1,8 +1,8 @@
 package core.graphs;
 
-import core.parsers.GraphML;
-import core.results.TabularResultWriter;
-import core.xml.XmlUtilities;
+import syntax.graphml.GraphML;
+import syntax.tabular.TabularResultWriter;
+import core.utilities.XmlUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
