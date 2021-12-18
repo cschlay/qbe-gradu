@@ -64,6 +64,7 @@ public class Neo4jTraversal {
     }
 
     public void visitQueryNode(@NotNull Transaction transaction, @NotNull QbeNode queryNode) {
+        // TODO: Fix by using empty string
         if (queryNode.name != null) {
             Label label = Label.label(queryNode.name);
             ResourceIterator<Node> nodes = transaction.findNodes(label);

@@ -20,6 +20,10 @@ public class ResultGraph extends HashMap<String, QbeNode> {
         xmlUtilities = new XmlUtilities();
     }
 
+    public int order() {
+        return super.size();
+    }
+
     // TODO: Move away
     public String toGraphML() {
         Document xmlDocument = xmlUtilities.newDocument();

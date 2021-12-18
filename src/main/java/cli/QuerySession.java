@@ -1,5 +1,6 @@
 package cli;
 
+import core.exceptions.SyntaxError;
 import db.neo4j.Neo4jTraversal;
 import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
@@ -60,11 +61,9 @@ public class QuerySession {
         } else {
             // Defaults to executing query
             try {
-                // TODO: add another intermedia method that parses it first.
-                ResultGraph resultGraph = processQuery(input);
                 System.out.println();
-                // TODO: Use writer here
-                System.out.println(resultGraph.toGraphML());
+                // TODO: Fix
+                //System.out.println(executeQuery(input));
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());
             }
@@ -116,6 +115,23 @@ public class QuerySession {
         }
     }
 
+    public QueryGraph parseQuery(String query) throws SyntaxError {
+        return parser.parse(query);
+    }
+
+    public ResultGraph executeQuery(QueryGraph query) throws Exception {
+        return new Neo4jTraversal(db, query).buildResultGraph();
+    }
+
+    public String toString(QueryGraph queryGraph, ResultGraph resultGraph) {
+        return writer.write(queryGraph, resultGraph);
+    }
+
+    public Object toResult(QueryGraph queryGraph, ResultGraph resultGraph) {
+        return writer.writeNative(queryGraph, resultGraph);
+    }
+
+    // TODO: Remove
     public ResultGraph processQuery(String query) throws Exception {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);

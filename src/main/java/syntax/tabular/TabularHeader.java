@@ -7,11 +7,11 @@ public class TabularHeader {
 
     public TabularHeader(String header) {
         String[] parts = header.split("\\.");
-        name = parts[0];
+        name = parts[0].trim();
 
-        var property = parts[1].split(" as ");
-        propertyName = property[0];
-        displayName = property.length > 1 ? property[1] : header;
+        var property = parts[1].split("as");
+        propertyName = property[0].trim();
+        displayName = property.length > 1 ? property[1].trim() : header.trim();
     }
 
     public boolean isNode() {

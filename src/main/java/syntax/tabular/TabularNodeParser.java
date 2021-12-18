@@ -13,16 +13,12 @@ public class TabularNodeParser {
         this.graph = graph;
     }
 
-    public QbeNode parse(String header, String exampleData) {
-        String[] tokens = header.split("\\.");
-        String name = tokens[0];
-        String property = tokens[1];
-
-        @Nullable QbeNode node = graph.get(name);
+    public QbeNode parse(TabularHeader header, String exampleData) {
+        @Nullable QbeNode node = graph.get(header.name);
         if (node == null) {
-            node = new QbeNode(name);
+            node = new QbeNode(header.name);
         }
-        node.properties.put(property, parseData(exampleData));
+        node.properties.put(header.propertyName, parseData(exampleData));
 
         return node;
     }
@@ -34,7 +30,11 @@ public class TabularNodeParser {
         return new QbeData(instance);
     }
 
-    private Object parseIntoJavaObject(String value) {
+    @Nullable private Object parseIntoJavaObject(String value) {
+        if ("".equals(value)) {
+            return null;
+        }
+
         if ("false".equals(value) || "true".equals(value)) {
             return Boolean.parseBoolean(value);
         } else if (value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {

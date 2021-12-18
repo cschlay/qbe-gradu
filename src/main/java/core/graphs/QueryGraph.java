@@ -8,6 +8,14 @@ import java.util.HashMap;
 public class QueryGraph extends HashMap<String, QbeNode> {
     public @Nullable Object meta;
 
+    public QueryGraph() {
+
+    }
+
+    public QueryGraph(@Nullable Object meta) {
+        this.meta = meta;
+    }
+
     private int edgeCount;
 
     /**

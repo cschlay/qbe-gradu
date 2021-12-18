@@ -14,20 +14,24 @@ public class Neo4jPropertyTraversal {
 
         for (String propertyName : queryProperties.keySet()) {
             QbeData qbeData = queryProperties.get(propertyName);
-            try {
-                Object value = neo4jNode.getProperty(propertyName);
+            if ("id".equals(propertyName)) {
+                properties.put(propertyName, new QbeData(neo4jNode.getId()));
+            } else {
+                try {
+                    Object value = neo4jNode.getProperty(propertyName);
 
-                // Only include properties that passes constraint checks
-                if (qbeData.checkConstraints(value)) {
-                    if (!qbeData.isHidden) {
-                        properties.put(propertyName, new QbeData(value));
+                    // Only include properties that passes constraint checks
+                    if (qbeData.checkConstraints(value)) {
+                        if (!qbeData.isHidden) {
+                            properties.put(propertyName, new QbeData(value));
+                        }
+                    } else {
+                        throw new InvalidNodeException();
                     }
-                } else {
+                } catch (NotFoundException e) {
+                    // Non-nullable properties must always be defined.
                     throw new InvalidNodeException();
                 }
-            } catch (NotFoundException e) {
-                // Non-nullable properties must always be defined.
-                throw new InvalidNodeException();
             }
         }
 

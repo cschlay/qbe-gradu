@@ -16,6 +16,12 @@ public class TabularResultWriter implements ResultWriter {
                 + getRowsAsString(table, columnLengths);
     }
 
+    public Object[][] writeNative(QueryGraph queryGraph, ResultGraph resultGraph) {
+        var meta = (TabularQueryMeta) queryGraph.meta;
+
+        return toTable(meta.headers, resultGraph, new int[meta.headers.length]);
+    }
+
     /**
      * Writes the graph into tabular result including the header.
      *
@@ -38,7 +44,7 @@ public class TabularResultWriter implements ResultWriter {
         for (var node : graph.values()) {
             for (var property : node.properties.entrySet()) {
                 String propertyName = property.getKey();
-                @Nullable Integer columnIndex = headers.get(node, propertyName);
+                @Nullable Integer columnIndex = headers.getIndex(node, propertyName);
 
                 if (columnIndex != null) {
                     Object value = property.getValue().value;

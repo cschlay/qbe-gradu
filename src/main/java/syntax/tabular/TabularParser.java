@@ -22,36 +22,31 @@ public class TabularParser implements QueryParser {
         String[] headers = parseRow(lines[0]);
         String[] exampleRow = parseRow(lines[2]);
 
-        var graph= parse(headers, exampleRow);
-        graph.meta = new TabularQueryMeta(headers);
+        var meta = new TabularQueryMeta(headers);
+        var graph= parse(meta, exampleRow);
 
         return graph;
     }
 
-    public QueryGraph parse(String[] headers, String[] exampleRow) throws SyntaxError {
-        if (headers.length != exampleRow.length) {
+    public QueryGraph parse(TabularQueryMeta meta, String[] exampleRow) throws SyntaxError {
+        if (meta.headers.length != exampleRow.length) {
             throw new SyntaxError("The header and example row must have same number of columns.");
         }
 
-        var graph = new QueryGraph();
+        var graph = new QueryGraph(meta);
         var nodeParser = new TabularNodeParser(graph);
 
-        for (int i = 0; i < headers.length; i++) {
-            String header = headers[i].trim();
+        for (int i = 0; i < meta.headers.length; i++) {
+            TabularHeader header = meta.headers.get(i);
             String exampleColumn = exampleRow[i].trim();
 
-            // Headers that start with uppercase are nodes and lowercase are edges.
-            if (isNode(header)) {
+            if (header.isNode()) {
                 QbeNode node = nodeParser.parse(header, exampleColumn);
                 graph.put(node.name, node);
             }
         }
 
         return graph;
-    }
-
-    private boolean isNode(String value) {
-        return Character.isUpperCase(value.charAt(0));
     }
 
     private String[] parseRow(String row) {

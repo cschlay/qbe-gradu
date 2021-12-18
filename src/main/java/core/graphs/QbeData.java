@@ -20,7 +20,7 @@ public class QbeData {
         constraints = new ArrayList<>();
     }
 
-    public QbeData(@NotNull Object value) {
+    public QbeData(@Nullable Object value) {
         this.value = value;
         constraints = null;
     }
@@ -31,9 +31,10 @@ public class QbeData {
      * @return true if it passes all checks
      */
     public boolean checkConstraints(Object valueToCheck) {
-        if (constraints == null ||constraints.isEmpty()) {
+        if (constraints == null || constraints.isEmpty()) {
             return value == null || checkEquality(valueToCheck);
         }
+
 
         for (var constraint : constraints) {
             if (!constraint.check(valueToCheck)) {
@@ -56,12 +57,18 @@ public class QbeData {
     }
 
     private boolean checkEquality(Object valueToCheck) {
-        assert value != null;
         // Checks if values are equal after casting them into respective data types.
         if (valueToCheck instanceof String) {
             return ((String) valueToCheck).matches((String) value);
         }
         // Default to built-in equality, works with primitives at least.
         return valueToCheck.equals(value);
+    }
+
+    public String toString() {
+        if (value == null) {
+            return "null";
+        }
+        return value.toString();
     }
 }

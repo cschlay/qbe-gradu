@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class QbeNode {
     @Nullable public String id;
     // Do not use null, use empty string "" instead
-    public final String name;
+    @NotNull public final String name;
     @NotNull public HashMap<String, QbeData> properties;
     @NotNull public ArrayList<QbeEdge> edges;
     public boolean isHidden;
@@ -46,12 +46,6 @@ public class QbeNode {
     }
 
     public String toString() {
-        if (name != null && id != null) {
-            return name + "(" + id + ")";
-        }
-        if (name == null) {
-            return "(" + id + ")";
-        }
-        return name;
+        return name + "(" + properties + ")";
     }
 }

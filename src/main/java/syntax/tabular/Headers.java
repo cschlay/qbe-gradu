@@ -1,6 +1,7 @@
 package syntax.tabular;
 
 import core.graphs.QbeNode;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -23,8 +24,11 @@ public class Headers {
             index.put(header.propertyName, i);
         }
     }
+    public TabularHeader get(int index) {
+        return names[index];
+    }
 
-    @Nullable public Integer get(QbeNode node, String property) {
+    @Nullable public Integer getIndex(QbeNode node, String property) {
         return indices.get(node.name).get(property);
     }
 
