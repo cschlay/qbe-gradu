@@ -2,6 +2,7 @@ package core.graphs;
 
 import interfaces.ResultWriter;
 import syntax.graphml.GraphML;
+import syntax.graphml.GraphMLResultWriter;
 import syntax.tabular.TabularResultWriter;
 import core.utilities.XmlUtilities;
 import org.w3c.dom.Document;
@@ -77,7 +78,7 @@ public class ResultGraph extends HashMap<String, QbeNode> {
             if (data.value != null) {
                 xmlDataNode.setTextContent(data.value.toString());
             }
-            String dataType = data.getType();
+            String dataType = GraphMLResultWriter.getValueType(data);
             if (!GraphML.TypeText.equals(dataType)) {
                 xmlDataNode.setAttribute(GraphML.TypeAttribute, dataType);
             }

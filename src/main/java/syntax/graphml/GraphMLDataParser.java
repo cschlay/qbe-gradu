@@ -29,9 +29,7 @@ public class GraphMLDataParser {
     }
 
     public static QbeData parseDataNode(Node node) throws SyntaxError {
-        var qbeData = new QbeData();
-        qbeData.isHidden = GraphML.isHidden(node);
-        assert qbeData.constraints != null;
+        var qbeData = new QbeData(null, !GraphML.isHidden(node), true);
 
         @Nullable String type = GraphML.getAttribute(GraphML.TypeAttribute, node);
         String dataType = type != null ? type : "text";

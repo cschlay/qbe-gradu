@@ -21,8 +21,8 @@ public class Neo4jPropertyTraversal {
                     Object value = neo4jNode.getProperty(propertyName);
 
                     // Only include properties that passes constraint checks
-                    if (qbeData.checkConstraints(value)) {
-                        if (!qbeData.isHidden) {
+                    if (qbeData.check(value)) {
+                        if (!qbeData.selected) {
                             properties.put(propertyName, new QbeData(value));
                         }
                     } else {

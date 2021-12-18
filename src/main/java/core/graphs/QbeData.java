@@ -1,43 +1,54 @@
 package core.graphs;
 
-import syntax.graphml.GraphML;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Data node which is a container for values and metadata.
+ * Data node which is a container for property values.
+ * It is also used to verify constraints.
  */
 public class QbeData {
-    /** The value can be null if constraints are defined. */
+    // A list of check constraints. https://en.wikipedia.org/wiki/Check_constraint
+    @NotNull public List<QbeConstraint> constraints;
     @Nullable public Object value;
-    @Nullable public ArrayList<QbeConstraint> constraints;
 
-    public boolean isHidden;
-
-    public QbeData () {
-        constraints = new ArrayList<>();
-    }
+    public final boolean nullable;
+    public final boolean selected;
 
     public QbeData(@Nullable Object value) {
+        constraints = new ArrayList<>();
+        this.nullable = false;
+        this.selected = true;
         this.value = value;
-        constraints = null;
+    }
+
+    public QbeData (@Nullable Object value, boolean selected, boolean nullable) {
+        constraints = new ArrayList<>();
+        this.nullable = nullable;
+        this.selected = selected;
+        this.value = value;
     }
 
     /**
-     * Checks a value against every constraint defined.
-     * @param valueToCheck to check against constraints
+     * Checks a value against constraints.
+     *
+     * @param value to check against constraints
      * @return true if it passes all checks
      */
-    public boolean checkConstraints(Object valueToCheck) {
-        if (constraints == null || constraints.isEmpty()) {
-            return value == null || checkEquality(valueToCheck);
+    public boolean check(@Nullable Object value) {
+        if (value == null) {
+            return nullable;
         }
 
+        if (constraints.isEmpty()) {
+            return checkEquality(value);
+        }
 
         for (var constraint : constraints) {
-            if (!constraint.check(valueToCheck)) {
+            if (!constraint.check(value)) {
                 return false;
             }
         }
@@ -45,30 +56,23 @@ public class QbeData {
         return true;
     }
 
-    public String getType()
-    {
-        if (value instanceof Boolean) {
-            return GraphML.TypeBoolean;
-        } else if (value instanceof Integer) {
-            return GraphML.TypeInteger;
-        }
-
-        return GraphML.TypeText;
+    public String toString() {
+        return value == null ? "null" : value.toString();
     }
 
     private boolean checkEquality(Object valueToCheck) {
-        // Checks if values are equal after casting them into respective data types.
-        if (valueToCheck instanceof String) {
+        if (value == null) {
+            return true;
+        }
+
+        if (value instanceof String && valueToCheck instanceof String) {
             return ((String) valueToCheck).matches((String) value);
         }
-        // Default to built-in equality, works with primitives at least.
-        return valueToCheck.equals(value);
-    }
 
-    public String toString() {
-        if (value == null) {
-            return "null";
+        try {
+            return valueToCheck.equals(value);
+        } catch (ClassCastException exception) {
+            return false;
         }
-        return value.toString();
     }
 }
