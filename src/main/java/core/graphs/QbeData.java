@@ -57,7 +57,7 @@ public class QbeData {
     }
 
     public String toString() {
-        return value == null ? "null" : value.toString();
+        return "Data(" + value + ")";
     }
 
     private boolean checkEquality(Object valueToCheck) {

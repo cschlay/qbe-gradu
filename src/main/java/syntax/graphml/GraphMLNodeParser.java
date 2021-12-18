@@ -21,8 +21,8 @@ public class GraphMLNodeParser {
         String name = GraphML.getAttribute(GraphML.NameAttribute, node);
 
         NodeList childNodes = node.getChildNodes();
-        var qbeNode = new QbeNode(name, GraphMLDataParser.parseNodeList(childNodes));
-        qbeNode.isHidden = GraphML.isHidden(node);
+        var qbeNode = new QbeNode(name);
+        qbeNode.properties = GraphMLDataParser.parseNodeList(childNodes);
 
         return qbeNode;
     }

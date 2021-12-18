@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Fix some query bugs and add a few test for tabular querying">
-      <change afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLResultWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/core/QbeDataTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/core/QbeEdgeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/core/QbeNodeTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/core/QueryGraphTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/core/ResultGraphTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add QbeData tests and improve its implementation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLDataParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLDataParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/core/QbeNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/core/QbeNodeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +73,7 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.QbeDataTest">
+  <component name="RunManager" selected="JUnit.All">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -192,7 +190,7 @@
       <workItem from="1639505433745" duration="299000" />
       <workItem from="1639505761598" duration="1276000" />
       <workItem from="1639667389216" duration="8467000" />
-      <workItem from="1639828797021" duration="16623000" />
+      <workItem from="1639828797021" duration="18009000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -250,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639844282283</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Add QbeData tests and improve its implementation">
+      <created>1639848675198</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1639848675198</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,6 +280,7 @@
     <MESSAGE value="Reorganize files" />
     <MESSAGE value="Make changes so that any parser can be used" />
     <MESSAGE value="Fix some query bugs and add a few test for tabular querying" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix some query bugs and add a few test for tabular querying" />
+    <MESSAGE value="Add QbeData tests and improve its implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add QbeData tests and improve its implementation" />
   </component>
 </project>

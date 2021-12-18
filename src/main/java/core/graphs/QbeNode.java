@@ -5,43 +5,39 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Used to represent nodes for queries. The results use different node.
+ * Represents graph nodes.
+ * Every known nodes have id and names.
+ * For query nodes the name and id are optional.
  */
 public class QbeNode {
-    @Nullable public String id;
-    // Do not use null, use empty string "" instead
-    @NotNull public final String name;
-    @NotNull public HashMap<String, QbeData> properties;
-    @NotNull public ArrayList<QbeEdge> edges;
-    public boolean isHidden;
+    @Nullable public final String id;
+    @Nullable public final String name;
+    @NotNull public List<QbeEdge> edges;
+    @NotNull public Map<String, QbeData> properties;
 
     public QbeNode(@Nullable String name) {
         this.name = name == null ? "" : name;
+
+        id = null;
         properties = new HashMap<>();
         edges = new ArrayList<>();
 
-    }
-
-    // Remove this
-    public QbeNode(@Nullable String name, @NotNull HashMap<String, QbeData> properties) {
-        this.name = name;
-        this.properties = properties;
-        edges = new ArrayList<>();
     }
 
     public QbeNode(long id, @Nullable String name) {
         this.id = String.valueOf(id);
         this.name = name;
+
         edges = new ArrayList<>();
         properties = new HashMap<>();
-
-        // id is considered a property too
         properties.put("id", new QbeData(id));
     }
 
-    public boolean hasSameName(@Nullable QbeNode otherNode) {
+    public boolean equalByName(@Nullable QbeNode otherNode) {
         return name != null && otherNode != null && name.equals(otherNode.name);
     }
 

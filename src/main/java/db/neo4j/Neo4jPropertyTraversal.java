@@ -7,9 +7,10 @@ import org.neo4j.graphdb.Entity;
 import org.neo4j.graphdb.NotFoundException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Neo4jPropertyTraversal {
-    public static HashMap<String, QbeData> getProperties(@NotNull Entity neo4jNode, @NotNull HashMap<String, QbeData> queryProperties) throws InvalidNodeException {
+    public static HashMap<String, QbeData> getProperties(@NotNull Entity neo4jNode, @NotNull Map<String, QbeData> queryProperties) throws InvalidNodeException {
         var properties = new HashMap<String, QbeData>();
 
         for (String propertyName : queryProperties.keySet()) {

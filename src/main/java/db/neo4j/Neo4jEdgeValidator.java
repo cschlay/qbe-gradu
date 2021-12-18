@@ -44,10 +44,10 @@ public class Neo4jEdgeValidator {
         boolean tailIsValid = queryEdge.tailNode == null;
         boolean headIsValid = queryEdge.headNode == null;
         if (queryEdge.tailNode != null) {
-            tailIsValid = queryEdge.tailNode.hasSameName(resultEdge.tailNode);
+            tailIsValid = queryEdge.tailNode.equalByName(resultEdge.tailNode);
         }
         if (queryEdge.headNode != null) {
-            headIsValid = queryEdge.headNode.hasSameName(resultEdge.headNode);
+            headIsValid = queryEdge.headNode.equalByName(resultEdge.headNode);
         }
 
         if (queryEdge.isTransitive) {
@@ -110,9 +110,9 @@ public class Neo4jEdgeValidator {
                 ? RelationshipType.withName(queryEdge.name)
                 : null;
         Direction direction = Direction.BOTH;
-        if (resultNode.hasSameName(queryEdge.tailNode)) {
+        if (resultNode.equalByName(queryEdge.tailNode)) {
             direction = Direction.OUTGOING;
-        } else if (resultNode.hasSameName(queryEdge.headNode)) {
+        } else if (resultNode.equalByName(queryEdge.headNode)) {
             // TODO: Reverse lookup doesn't work! the name is certainly not same with transitive edges
             direction = Direction.INCOMING;
         }

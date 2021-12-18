@@ -2,7 +2,6 @@ package db.neo4j;
 
 import core.exceptions.InvalidNodeException;
 import core.graphs.*;
-import interfaces.ResultWriter;
 import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.*;
 
@@ -49,7 +48,7 @@ public class Neo4jTraversal {
         for (var resultNode : resultGraph.values())
         {
             // The conditions need to checked once, so that we do not reject valid nodes that do not belong to edge query.
-            if (resultNode.hasSameName(queryEdge.tailNode) || resultNode.hasSameName(queryEdge.headNode)) {
+            if (resultNode.equalByName(queryEdge.tailNode) || resultNode.equalByName(queryEdge.headNode)) {
                 try {
                     ArrayList<QbeEdge> edges = Neo4jEdgeValidator.validateRelationships(transaction, queryEdge, resultNode, resultGraph);
                     resultNode.edges.addAll(edges);
@@ -87,9 +86,6 @@ public class Neo4jTraversal {
             var result = new QbeNode(neo4jNode.getId(), query.name);
             result.properties = Neo4jPropertyTraversal.getProperties(neo4jNode, query.properties);
             resultGraph.put(result.id, result);
-            if (query.isHidden) {
-                hiddenNodeIds.add(result.id);
-            }
         } catch (InvalidNodeException ignored) {}
     }
 

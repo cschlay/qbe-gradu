@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
@@ -71,7 +72,7 @@ public class ResultGraph extends HashMap<String, QbeNode> {
         return xmlNode;
     }
 
-    public void toGraphMLData(Document xmlDocument, HashMap<String, QbeData> properties, Consumer<Element> onCreated) {
+    public void toGraphMLData(Document xmlDocument, Map<String, QbeData> properties, Consumer<Element> onCreated) {
         properties.forEach((String propertyName, QbeData data) -> {
             Element xmlDataNode = xmlDocument.createElement(GraphML.Data);
             xmlDataNode.setAttribute(GraphML.KeyAttribute, propertyName);
