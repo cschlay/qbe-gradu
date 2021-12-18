@@ -1,5 +1,6 @@
 package core.graphs;
 
+import interfaces.ResultWriter;
 import syntax.graphml.GraphML;
 import syntax.tabular.TabularResultWriter;
 import core.utilities.XmlUtilities;
@@ -14,13 +15,9 @@ import java.util.function.Consumer;
 public class ResultGraph extends HashMap<String, QbeNode> {
     private final XmlUtilities xmlUtilities;
 
+    // TODO: MOve aaway
     public ResultGraph() throws ParserConfigurationException {
         xmlUtilities = new XmlUtilities();
-    }
-
-    public String toTabularString(String[] headers) {
-        var writer = new TabularResultWriter(headers, this);
-        return writer.toString();
     }
 
     // TODO: Move away

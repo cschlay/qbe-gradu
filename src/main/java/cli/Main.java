@@ -3,6 +3,8 @@ package cli;
 import org.neo4j.dbms.api.DatabaseManagementService;
 import org.neo4j.dbms.api.DatabaseManagementServiceBuilder;
 import org.neo4j.graphdb.GraphDatabaseService;
+import syntax.tabular.TabularParser;
+import syntax.tabular.TabularResultWriter;
 
 import java.nio.file.Path;
 
@@ -18,7 +20,7 @@ public class Main {
         GraphDatabaseService db = getDefaultDatabase(dbManagement);
 
         try {
-            var session = new QuerySession(db);
+            var session = new QuerySession(db, new TabularParser(), new TabularResultWriter());
             session.start();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());

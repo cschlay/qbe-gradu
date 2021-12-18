@@ -1,6 +1,6 @@
 package core.graphs;
 
-import core.interfaces.PropertyQueryable;
+import interfaces.PropertyQueryable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

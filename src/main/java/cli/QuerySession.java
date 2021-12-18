@@ -3,19 +3,26 @@ package cli;
 import db.neo4j.Neo4jTraversal;
 import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
-import syntax.graphml.GraphMLParser;
+import interfaces.QueryParser;
+import interfaces.ResultWriter;
 import demo.CourseGraphDemo;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.Scanner;
 
 /** Session for taking user input from CLI interface. */
 public class QuerySession {
     private final GraphDatabaseService db;
-    private final GraphMLParser parser = new GraphMLParser();
+    private final QueryParser parser;
+    private final ResultWriter writer;
+
+    public QuerySession(GraphDatabaseService db, QueryParser parser, ResultWriter writer) {
+        this.db = db;
+        this.parser = parser;
+        this.writer = writer;
+    }
 
     /**
      * Starts the query session.
@@ -53,8 +60,10 @@ public class QuerySession {
         } else {
             // Defaults to executing query
             try {
+                // TODO: add another intermedia method that parses it first.
                 ResultGraph resultGraph = processQuery(input);
                 System.out.println();
+                // TODO: Use writer here
                 System.out.println(resultGraph.toGraphML());
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());
@@ -111,9 +120,5 @@ public class QuerySession {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);
         return new Neo4jTraversal(db, queryGraph).buildResultGraph();
-    }
-
-    public QuerySession(GraphDatabaseService db) throws ParserConfigurationException {
-        this.db = db;
     }
 }

@@ -1,4 +1,4 @@
-package core.interfaces;
+package interfaces;
 
 import core.graphs.QbeData;
 import org.jetbrains.annotations.Nullable;

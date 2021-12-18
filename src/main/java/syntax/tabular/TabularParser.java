@@ -3,8 +3,9 @@ package syntax.tabular;
 import core.exceptions.SyntaxError;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
+import interfaces.QueryParser;
 
-public class TabularParser {
+public class TabularParser implements QueryParser {
     /**
      * Parse the query from string to QueryGraph.
 
@@ -21,7 +22,10 @@ public class TabularParser {
         String[] headers = parseRow(lines[0]);
         String[] exampleRow = parseRow(lines[2]);
 
-        return parse(headers, exampleRow);
+        var graph= parse(headers, exampleRow);
+        graph.meta = new TabularQueryMeta(headers);
+
+        return graph;
     }
 
     public QueryGraph parse(String[] headers, String[] exampleRow) throws SyntaxError {

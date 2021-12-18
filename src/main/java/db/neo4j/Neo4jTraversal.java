@@ -2,6 +2,7 @@ package db.neo4j;
 
 import core.exceptions.InvalidNodeException;
 import core.graphs.*;
+import interfaces.ResultWriter;
 import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.*;
 
@@ -95,7 +96,7 @@ public class Neo4jTraversal {
         this.db = db;
         this.queryGraph = queryGraph;
         this.resultGraph = new ResultGraph();
-        queryEdgeQueue = new HashSet<QbeEdge>();
+        queryEdgeQueue = new HashSet<>();
         hiddenNodeIds = new ArrayList<>();
     }
 }

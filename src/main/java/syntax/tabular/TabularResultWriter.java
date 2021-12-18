@@ -1,17 +1,19 @@
 package syntax.tabular;
 
+import core.graphs.QueryGraph;
 import core.graphs.ResultGraph;
+import interfaces.ResultWriter;
 import org.jetbrains.annotations.Nullable;
 
-public class TabularResultWriter {
-    private final ResultGraph graph;
-    private final Headers headers;
-    private final int[] columnLengths;
+public class TabularResultWriter implements ResultWriter {
+    public String write(QueryGraph queryGraph, ResultGraph resultGraph) {
+        var meta = (TabularQueryMeta) queryGraph.meta;
+        int[] columnLengths = new int[meta.headers.length];
+        var table = toTable(meta.headers, resultGraph, columnLengths);
 
-    public TabularResultWriter(String[] headers, ResultGraph graph) {
-        this.columnLengths = new int[headers.length];
-        this.graph = graph;
-        this.headers = new Headers(headers);
+        return getHeaderRowAsString(table[0], columnLengths)
+                + getHeaderSeparator(columnLengths)
+                + getRowsAsString(table, columnLengths);
     }
 
     /**
@@ -19,7 +21,7 @@ public class TabularResultWriter {
      *
      * @return table of property values
      */
-    public Object[][] toTable() {
+    public Object[][] toTable(Headers headers, ResultGraph graph, int[] columnLengths) {
         int rowCount = graph.size() + 1;
         int colCount = headers.length;
         var result = new Object[rowCount][colCount];
@@ -41,7 +43,7 @@ public class TabularResultWriter {
                 if (columnIndex != null) {
                     Object value = property.getValue().value;
                     result[rowIndex][columnIndex] = value;
-                    updateColumnLengths(columnIndex, value);
+                    columnLengths[columnIndex] = getColumnLength(columnLengths, columnIndex, value);
                 }
             }
             rowIndex++;
@@ -50,12 +52,7 @@ public class TabularResultWriter {
         return result;
     }
 
-    public String toString() {
-        Object[][] table = toTable();
-        return getHeaderRowAsString(table[0]) + getHeaderSeparator() + getRowsAsString(table);
-    }
-
-    private String getHeaderRowAsString(Object[] headers) {
+    private String getHeaderRowAsString(Object[] headers, int[] columnLengths) {
         var result = new StringBuilder();
         for (int col = 0; col < headers.length; col++) {
             String header = (String) headers[col];
@@ -66,12 +63,12 @@ public class TabularResultWriter {
         return result.toString();
     }
 
-    private String getHeaderSeparator() {
+    private String getHeaderSeparator(int[] columnLengths) {
         var result = new StringBuilder("|");
-        for (int col = 0; col < headers.length; col++) {
+        for (int col = 0; col < columnLengths.length; col++) {
             String padding = "-".repeat(columnLengths[col] + 2);
             result.append(padding);
-            if (col < headers.length -1) {
+            if (col < columnLengths.length - 1) {
                 result.append("+");
             }
         }
@@ -79,13 +76,16 @@ public class TabularResultWriter {
         return result.toString();
     }
 
-    private String getRowsAsString(Object[][] table) {
+    private String getRowsAsString(Object[][] table, int[] columnLengths) {
         var result = new StringBuilder();
-        for (int row = 1; row < table.length; row++) {
-            for (int col = 0; col < headers.length; col++) {
+        int columnCount = table[0].length;
+        int rowCount = table.length;
+
+        for (int row = 1; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
                 Object value = table[row][col];
                 String valueString = value instanceof String ? '"' + (String) value + '"' : value.toString();
-                String padding = " ".repeat(columnLengths[col] - valueString.length()+ 1);
+                String padding = " ".repeat(columnLengths[col] - valueString.length() + 1);
                 result.append("| ").append(valueString).append(padding);
             }
             result.append("|\n");
@@ -94,10 +94,8 @@ public class TabularResultWriter {
         return result.toString();
     }
 
-    private void updateColumnLengths(int index, Object value) {
+    private int getColumnLength(int[] columnLengths, int index, Object value) {
         int length = value instanceof String ? ((String) value).length() + 2 : value.toString().length();
-        if (length > columnLengths[index]) {
-            columnLengths[index] = length;
-        }
+        return Math.max(length, columnLengths[index]);
     }
 }
