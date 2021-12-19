@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add test for TabularHeader parsing and improve implementation to support edge notations">
-      <change afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularColumnParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularDataParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add edge parse and start writing tests for it">
+      <change afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularDataParserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QueryGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QueryGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularNodeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -78,7 +69,7 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All">
+  <component name="RunManager" selected="JUnit.TabularNodeParserTest">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -89,31 +80,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EdgeQueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TabularDataParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.queries.*" />
+          <option name="PATTERN" value="tabular.parser.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.EdgeQueryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Neo4jPropertyTraversalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="db.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="db" />
-      <option name="MAIN_CLASS_NAME" value="db.Neo4jPropertyTraversalTest" />
+      <option name="PACKAGE_NAME" value="tabular.parser" />
+      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularDataParserTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -164,21 +140,36 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TabularNodeParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tabular.parser" />
+      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularNodeParserTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.Neo4jPropertyTraversalTest" />
-      <item itemvalue="JUnit.EdgeQueryTest" />
       <item itemvalue="JUnit.TabularHeaderTest" />
       <item itemvalue="JUnit.TabularHeaderTest$LongEdgeHeader" />
       <item itemvalue="JUnit.TabularEdgeParserTest" />
+      <item itemvalue="JUnit.TabularDataParserTest" />
+      <item itemvalue="JUnit.TabularNodeParserTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TabularNodeParserTest" />
+        <item itemvalue="JUnit.TabularDataParserTest" />
         <item itemvalue="JUnit.TabularEdgeParserTest" />
         <item itemvalue="JUnit.TabularHeaderTest" />
         <item itemvalue="JUnit.TabularHeaderTest$LongEdgeHeader" />
-        <item itemvalue="JUnit.EdgeQueryTest" />
-        <item itemvalue="JUnit.Neo4jPropertyTraversalTest" />
       </list>
     </recent_temporary>
   </component>
@@ -195,7 +186,7 @@
       <workItem from="1639667389216" duration="8467000" />
       <workItem from="1639828797021" duration="18098000" />
       <workItem from="1639905519155" duration="2965000" />
-      <workItem from="1639908536971" duration="22254000" />
+      <workItem from="1639908536971" duration="23866000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -288,7 +279,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639921743915</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Add edge parse and start writing tests for it">
+      <created>1639933827134</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1639933827134</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +316,8 @@
     <MESSAGE value="Refactor QbeEdge and QbeNode to extend a superclass GraphEntity and add tests for id property" />
     <MESSAGE value="Add more tests to Neo4jPropertyTraversal and fix bugs found" />
     <MESSAGE value="Add test for TabularHeader parsing and improve implementation to support edge notations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add test for TabularHeader parsing and improve implementation to support edge notations" />
+    <MESSAGE value="Add edge parse and start writing tests for it" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add edge parse and start writing tests for it" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

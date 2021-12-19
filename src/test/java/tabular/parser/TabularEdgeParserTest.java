@@ -27,8 +27,8 @@ class TabularEdgeParserTest {
     }
 
     @Test
-    @DisplayName("should parse multiple columns")
-    void parseMultipleColumns() throws Exception {
+    @DisplayName("should parse multiple edges")
+    void parseMultipleEdges() throws Exception {
         String query =
                 ""
                         + "| teaches.Course.Topic.fullTime | contains.Course.Topic.depth |\n"
@@ -52,6 +52,12 @@ class TabularEdgeParserTest {
         var contains = course.findEdge("contains");
         assert contains != null;
         assertEquals(3, contains.properties.get("depth").value);
+    }
+
+    @Test
+    @DisplayName("should parse multiple property")
+    void parseMultipleProperty() throws Exception {
+        fail("NI");
     }
 
     @Test

@@ -1,118 +1,69 @@
 package tabular.parser;
 
-import core.exceptions.SyntaxError;
-import core.graphs.QbeData;
-import core.graphs.QueryGraph;
-import core.graphs.LogicalExpression;
+import org.junit.jupiter.api.DisplayName;
 import syntax.tabular.TabularParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TabularNodeParserTest {
-    // TODO: value parse belong to a separate class.
+    TabularParser parser = new TabularParser();
 
     @Test
-    void shouldParseBooleanFalse() throws Exception {
-        var query = "" +
-                "| Course.graduateOnly |\n" +
-                "|---------------------|\n" +
-                "| false |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "graduateOnly");
-        assertEquals(false, property.value);
-    }
+    @DisplayName("should parse one node")
+    void parseOneNode() throws Exception {
+        var query =
+                ""
+                        + "| Course.averageGrade |\n"
+                        + "|---------------------|\n"
+                        + "| 3.59                |";
 
-    @Test
-    void shouldParseBooleanTrue() throws Exception {
-        var query = "" +
-                "| Course.graduateOnly |\n" +
-                "|---------------------|\n" +
-                "| true |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "graduateOnly");
-        assertEquals(true, property.value);
-    }
-
-    @Test
-    void shouldParseDouble() throws Exception {
-        var query = "" +
-                "| Course.averageGrade |\n" +
-                "|---------------------|\n" +
-                "| 3.59 |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "averageGrade");
-        assertEquals(3.59, property.value);
-    }
-
-    @Test
-    void shouldParseInteger() throws Exception {
-        var query = "" +
-                "| Course.difficulty |\n" +
-                "|-------------------|\n" +
-                "| 3 |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "difficulty");
-        assertEquals(3, property.value);
-    }
-
-    @Test
-    void shouldParseString() throws Exception {
-        var query = "" +
-                "| Course.title                   |\n" +
-                "|--------------------------------|\n" +
-                "| \"Introduction to Algorithms\" |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "title");
-        assertEquals("Introduction to Algorithms", property.value);
-    }
-
-    // Special cases
-
-    @Test
-    void shouldParseLogicalExpression() throws Exception {
-        var query = "" +
-                "| Course.difficulty |\n" +
-                "|-------------------|\n" +
-                "| > 3 |";
-        var graph = parseQuery(query);
-        var property = getProperty(graph, "difficulty");
-
-        var expression = (LogicalExpression) property.value;
-        assert expression != null;
-        assertEquals("> 3", expression.value);
-    }
-
-    @Test
-    void shouldParseMultipleProperties() throws Exception {
-        var query = "" +
-                "| Course.title           | Course.difficulty |\n" +
-                "|------------------------+-------------------|\n" +
-                "| \"Introduction to .*\" | 1                 |";
-        var graph = parseQuery(query);
+        var graph = parser.parse(query);
         assertEquals(1, graph.order());
-        assertEquals(0, graph.size());
-
-        var node = graph.get("Course");
-        assertEquals(2, node.properties.size());
-
-        var title = getProperty(graph, "title").value;
-        assertEquals("Introduction to .*", title);
-
-        var difficulty = getProperty(graph, "difficulty").value;
-        assertEquals(1, difficulty);
+        assertEquals(1, graph.get("Course").properties.size());
     }
 
-    // TODO: Multiple nodes
+    @Test
+    @DisplayName("should parse multiple nodes")
+    void parseMultipleNodes() throws Exception {
+        var query =
+                ""
+                        + "| Course.title                   | Book.title |\n"
+                        + "|--------------------------------+------------|\n"
+                        + "| \"Introduction to Algorithms\" | \"Graphs\" |";
 
-    // Helpers
-    static QueryGraph parseQuery(String query) throws SyntaxError {
-        var parser = new TabularParser();
-        return parser.parse(query);
+        var graph = parser.parse(query);
+        assertEquals(2, graph.order());
+        assertEquals(1, graph.get("Book").properties.size());
+        assertEquals(1, graph.get("Course").properties.size());
     }
 
-    static QbeData getProperty(QueryGraph graph, String propertyName) {
-        var node = graph.get("Course");
-        return node.properties.get(propertyName);
+    @Test
+    @DisplayName("should parse multiple properties")
+    void parseMultipleProperties() throws Exception {
+        var query =
+                ""
+                        + "| Course.title           | Course.difficulty |\n"
+                        + "|------------------------+-------------------|\n"
+                        + "| \"Introduction to .*\" | 1                 |";
+
+        var graph = parser.parse(query);
+        assertEquals(1, graph.order());
+        assertEquals(2, graph.get("Course").properties.size());
+    }
+
+    @Test
+    @DisplayName("should parse multiple nodes and properties")
+    void parseMultipleNodesAndProperties() throws Exception {
+        var query =
+                ""
+                        + "| Course.title           | Course.difficulty | Book.title | Book.author |\n"
+                        + "|------------------------+-------------------+------------+-------------|\n"
+                        + "| \"Introduction to .*\" | 1                 | \"Graphs\" | \"Chess\"   |";
+
+        var graph = parser.parse(query);
+        assertEquals(2, graph.order());
+        assertEquals(2, graph.get("Course").properties.size());
+        assertEquals(2, graph.get("Book").properties.size());
     }
 }
