@@ -1,9 +1,7 @@
 package core.graphs;
 
-import interfaces.ResultWriter;
 import syntax.graphml.GraphML;
 import syntax.graphml.GraphMLResultWriter;
-import syntax.tabular.TabularResultWriter;
 import core.utilities.XmlUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,7 +12,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 
-public class ResultGraph extends HashMap<String, QbeNode> {
+public class ResultGraph extends Graph {
     private final XmlUtilities xmlUtilities;
 
     // TODO: MOve aaway

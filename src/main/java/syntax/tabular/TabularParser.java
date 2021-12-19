@@ -1,6 +1,7 @@
 package syntax.tabular;
 
 import core.exceptions.SyntaxError;
+import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
 import interfaces.QueryParser;
@@ -35,6 +36,7 @@ public class TabularParser implements QueryParser {
 
         var graph = new QueryGraph(meta);
         var nodeParser = new TabularNodeParser(graph);
+        var edgeParser = new TabularEdgeParser(graph);
 
         for (int i = 0; i < meta.headers.length; i++) {
             TabularHeader header = meta.headers.get(i);
@@ -43,6 +45,9 @@ public class TabularParser implements QueryParser {
             if (header.isNode()) {
                 QbeNode node = nodeParser.parse(header, exampleColumn);
                 graph.put(node.name, node);
+            } else {
+                QbeEdge edge = edgeParser.parse(header, exampleColumn);
+                graph.addEdge(edge);
             }
         }
 

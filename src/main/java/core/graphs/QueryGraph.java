@@ -2,10 +2,8 @@ package core.graphs;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 
-
-public class QueryGraph extends HashMap<String, QbeNode> {
+public class QueryGraph extends Graph {
     public @Nullable Object meta;
 
     public QueryGraph() {
