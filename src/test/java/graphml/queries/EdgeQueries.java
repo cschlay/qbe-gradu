@@ -2,9 +2,10 @@ package graphml.queries;
 
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class EdgeQueries extends QueryTest {
+@Disabled public class EdgeQueries extends QueryTest {
     @Test
     public void edgeBetweenTwoNodes() throws Exception {
         // Query all courses that contains any topic

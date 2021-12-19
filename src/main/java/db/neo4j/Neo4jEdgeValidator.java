@@ -131,9 +131,8 @@ public class Neo4jEdgeValidator {
         long tailNodeId = neo4jEdge.getStartNodeId();
         long headNodeId = neo4jEdge.getEndNodeId();
 
-        var resultEdge = new QbeEdge(id);
-        resultEdge.properties = Neo4jPropertyTraversal.getProperties(neo4jEdge, queryEdge.properties);
-        resultEdge.name = queryEdge.name;
+        var resultEdge = new QbeEdge(id, queryEdge.name);
+        resultEdge.properties = new Neo4jPropertyTraversal(queryEdge).getProperties(neo4jEdge);
         resultEdge.tailNode = graph.get(String.valueOf(tailNodeId));
         resultEdge.headNode = graph.get(String.valueOf(headNodeId));
 

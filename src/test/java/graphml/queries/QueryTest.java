@@ -7,6 +7,8 @@ import core.graphs.ResultGraph;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.neo4j.dbms.api.DatabaseManagementService;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
 import syntax.graphml.GraphMLParser;
 import syntax.tabular.TabularResultWriter;
 
@@ -38,5 +40,9 @@ public class QueryTest {
 
     public void print(ResultGraph graph) {
         System.out.println(graph.toGraphML());
+    }
+
+    public GraphDatabaseService getDatabase() {
+        return Main.getDefaultDatabase(dbManagement);
     }
 }

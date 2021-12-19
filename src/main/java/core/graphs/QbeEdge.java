@@ -1,19 +1,11 @@
 package core.graphs;
 
-import interfaces.PropertyQueryable;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
 
 /**
  * Represents an edge of a graph.
  */
-public class QbeEdge implements PropertyQueryable {
-    @Nullable public String id;
-    @Nullable public String name;
-    public HashMap<String, QbeData> properties;
-
+public class QbeEdge extends GraphEntity {
     /** The node of where edge starts: (tail) --> (x) */
     @Nullable public QbeNode tailNode;
 
@@ -23,16 +15,11 @@ public class QbeEdge implements PropertyQueryable {
     public boolean isHidden;
     public boolean isTransitive;
 
-    public QbeEdge(long id)
-    {
-        this.id = String.valueOf(id);
-        this.properties = new HashMap<>();
+    public QbeEdge(@Nullable String name) {
+        super(name);
     }
 
-    public QbeEdge(
-            @Nullable String name,
-            @NotNull HashMap<String, QbeData> properties) {
-        this.name = name;
-        this.properties = properties;
+    public QbeEdge(long id, @Nullable String name) {
+        super(id, name);
     }
 }

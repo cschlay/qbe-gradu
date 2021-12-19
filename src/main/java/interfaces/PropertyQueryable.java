@@ -1,11 +1,9 @@
 package interfaces;
 
 import core.graphs.QbeData;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface PropertyQueryable {
-    @Nullable String name = null;
-    HashMap<String, QbeData> properties = null;
+    Map<String, QbeData> getProperties();
 }

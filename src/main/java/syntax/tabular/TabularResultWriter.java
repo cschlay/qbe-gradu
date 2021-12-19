@@ -89,8 +89,7 @@ public class TabularResultWriter implements ResultWriter {
 
         for (int row = 1; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                Object value = table[row][col];
-                String valueString = value instanceof String ? '"' + (String) value + '"' : value.toString();
+                String valueString = castToString(table[row][col]);
                 String padding = " ".repeat(columnLengths[col] - valueString.length() + 1);
                 result.append("| ").append(valueString).append(padding);
             }
@@ -98,6 +97,23 @@ public class TabularResultWriter implements ResultWriter {
         }
 
         return result.toString();
+    }
+
+    /**
+     * Converts a value to its String representation.
+     *
+     * @param value instance
+     * @return the string representation of the value, nulls are returned as null string
+     */
+    private String castToString(@Nullable Object value) {
+        if (value == null) {
+            return "null";
+        }
+        if (value instanceof String) {
+            return "\"" + value + "\"";
+        }
+
+        return value.toString();
     }
 
     private int getColumnLength(int[] columnLengths, int index, Object value) {

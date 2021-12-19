@@ -4,16 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add QbeData tests and improve its implementation">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add test for QbeNode and improve code">
+      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/core/QbeNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/core/QbeNodeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/interfaces/PropertyQueryable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/interfaces/PropertyQueryable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/EdgeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/EdgeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/HiddenEntityQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/HiddenEntityQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/NodeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/NodeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/QueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +72,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="google-java-format.settings" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -84,17 +93,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ComparisonOperatorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Neo4jPropertyTraversalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="PATTERN" value="db.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.parsers" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.ComparisonOperatorTest" />
-      <option name="METHOD_NAME" value="" />
+      <option name="PACKAGE_NAME" value="db" />
+      <option name="MAIN_CLASS_NAME" value="db.Neo4jPropertyTraversalTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,19 +171,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.ComparisonOperatorTest" />
       <item itemvalue="JUnit.TabularResultWriterTest" />
       <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
       <item itemvalue="JUnit.NodeQueryTest" />
       <item itemvalue="JUnit.QbeDataTest" />
+      <item itemvalue="JUnit.Neo4jPropertyTraversalTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.QbeDataTest" />
+        <item itemvalue="JUnit.Neo4jPropertyTraversalTest" />
         <item itemvalue="JUnit.NodeQueryTest" />
+        <item itemvalue="JUnit.QbeDataTest" />
         <item itemvalue="JUnit.TabularResultWriterTest" />
         <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
-        <item itemvalue="JUnit.ComparisonOperatorTest" />
       </list>
     </recent_temporary>
   </component>
@@ -190,7 +198,9 @@
       <workItem from="1639505433745" duration="299000" />
       <workItem from="1639505761598" duration="1276000" />
       <workItem from="1639667389216" duration="8467000" />
-      <workItem from="1639828797021" duration="18009000" />
+      <workItem from="1639828797021" duration="18098000" />
+      <workItem from="1639905519155" duration="2965000" />
+      <workItem from="1639908536971" duration="3540000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -255,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639848675198</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Add test for QbeNode and improve code">
+      <created>1639850115245</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1639850115245</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,6 +298,11 @@
     <MESSAGE value="Make changes so that any parser can be used" />
     <MESSAGE value="Fix some query bugs and add a few test for tabular querying" />
     <MESSAGE value="Add QbeData tests and improve its implementation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add QbeData tests and improve its implementation" />
+    <MESSAGE value="Add test for QbeNode and improve code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add test for QbeNode and improve code" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -2,10 +2,11 @@ package graphml.queries;
 
 import demo.CourseGraphDemo;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
 
-public class NodeQueries extends QueryTest {
+@Disabled public class NodeQueries extends QueryTest {
     @Test
     public void singleNodeName() throws Exception {
         // Query all nodes that have name Course

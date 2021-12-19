@@ -84,7 +84,7 @@ public class Neo4jTraversal {
 
         try {
             var result = new QbeNode(neo4jNode.getId(), query.name);
-            result.properties = Neo4jPropertyTraversal.getProperties(neo4jNode, query.properties);
+            result.properties = new Neo4jPropertyTraversal(query).getProperties(neo4jNode);
             resultGraph.put(result.id, result);
         } catch (InvalidNodeException ignored) {}
     }

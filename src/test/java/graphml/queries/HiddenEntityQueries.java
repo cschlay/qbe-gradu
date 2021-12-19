@@ -1,11 +1,12 @@
 package graphml.queries;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class HiddenEntityQueries extends QueryTest {
+@Disabled public class HiddenEntityQueries extends QueryTest {
     @Test
     public void hiddenNode() throws Exception {
         var graph = executeQuery("<graph>",
