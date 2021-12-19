@@ -3,7 +3,6 @@ package db.neo4j;
 import core.exceptions.InvalidNodeException;
 import core.graphs.GraphEntity;
 import core.graphs.QbeData;
-import interfaces.PropertyQueryable;
 import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.Entity;
 import org.neo4j.graphdb.NotFoundException;
@@ -33,10 +32,8 @@ public class Neo4jPropertyTraversal {
 
         for (var entry : queryProperties.entrySet()) {
             String propertyName = entry.getKey();
-            QbeData data = entry.getValue();
-
-            if (data.selected) {
-                QbeData value = readProperty(neo4jEntity, propertyName, data);
+            QbeData value = readProperty(neo4jEntity, propertyName, entry.getValue());
+            if (value.selected) {
                 properties.put(propertyName, value);
             }
         }
@@ -62,11 +59,11 @@ public class Neo4jPropertyTraversal {
         try {
             @Nullable Object value = neo4jEntity.getProperty(propertyName);
             if (queryData.check(value)) {
-                return new QbeData(value);
+                return new QbeData(value, queryData.selected, false);
             }
         } catch (NotFoundException exception) {
             if (queryData.nullable) {
-                return new QbeData(null);
+                return new QbeData(null, queryData.selected, true);
             }
         }
 
