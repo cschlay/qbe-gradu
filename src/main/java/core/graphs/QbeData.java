@@ -1,6 +1,5 @@
 package core.graphs;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class QbeData {
     // A list of check constraints. https://en.wikipedia.org/wiki/Check_constraint
-    @NotNull public List<QbeConstraint> constraints;
+    public List<QbeConstraint> constraints;
     @Nullable public Object value;
 
     public final boolean nullable;

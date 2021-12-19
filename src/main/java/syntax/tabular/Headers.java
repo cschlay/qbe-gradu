@@ -1,5 +1,6 @@
 package syntax.tabular;
 
+import core.exceptions.SyntaxError;
 import core.graphs.QbeNode;
 
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +12,7 @@ public class Headers {
     private final TabularHeader[] names;
     private final HashMap<String, HashMap<String, Integer>> indices;
 
-    public Headers(String[] headers) {
+    public Headers(String[] headers) throws SyntaxError {
         indices = new HashMap<>();
         length = headers.length;
         names = new TabularHeader[length];
