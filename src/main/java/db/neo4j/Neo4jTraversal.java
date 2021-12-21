@@ -51,7 +51,7 @@ public class Neo4jTraversal {
             if (resultNode.equalByName(queryEdge.tailNode) || resultNode.equalByName(queryEdge.headNode)) {
                 try {
                     ArrayList<QbeEdge> edges = Neo4jEdgeValidator.validateRelationships(transaction, queryEdge, resultNode, resultGraph);
-                    resultNode.edges.addAll(edges);
+                    resultNode.edges.addAllById(edges);
                 } catch (InvalidNodeException ignore) {
                     invalidNodeIds.add(resultNode.id);
                 }
@@ -73,7 +73,7 @@ public class Neo4jTraversal {
             ResourceIterable<Node> nodes = transaction.getAllNodes();
             nodes.forEach((Node neo4jNode) -> visitNeo4jNode(neo4jNode, queryNode));
         }
-        queryEdgeQueue.addAll(queryNode.edges);
+        queryEdgeQueue.addAll(queryNode.edges.values());
     }
 
     private void visitNeo4jNode(Node neo4jNode, QbeNode query) {

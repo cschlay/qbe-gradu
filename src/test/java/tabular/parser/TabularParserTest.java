@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TabularParserTest {
     TabularParser parser = new TabularParser();
 
-    // TODO: Test complex cases where both nodes and edges are included
     @Test
     @DisplayName("should parse a node and an edge")
     void parseNodeAndEdge() throws Exception {
@@ -20,7 +19,7 @@ class TabularParserTest {
         var graph = parser.parse(query);
 
         var book = graph.get("Book");
-        assertEquals("title", book.properties.get("title").value);
-        assertEquals(3, book.findEdge("uses").properties.get("edition"));
+        assertEquals("Logic", book.properties.get("title").value);
+        assertEquals(3, book.edges.get("uses").properties.get("edition").value);
     }
 }

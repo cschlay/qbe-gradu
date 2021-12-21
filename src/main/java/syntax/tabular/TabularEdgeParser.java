@@ -32,10 +32,10 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
 
         @Nullable QbeEdge edge = null;
         if (tailNode != null) {
-            edge = tailNode.findEdge(header.name);
+            edge = tailNode.edges.get(header.name);
         }
         if (edge == null && headNode != null) {
-            edge = headNode.findEdge(header.name);
+            edge = headNode.edges.get(header.name);
         }
 
         return edge == null ? new QbeEdge(header.name) : edge;

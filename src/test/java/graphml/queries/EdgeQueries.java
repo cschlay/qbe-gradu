@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
         graph.forEach((id, node) -> {
             if ("Course".equals(node.name)) {
                 Assertions.assertFalse(node.edges.isEmpty());
-                node.edges.forEach(edge -> {
+                node.edges.values().forEach(edge -> {
                     Assertions.assertEquals("Topic", edge.headNode.name);
                 });
             }
@@ -48,7 +48,7 @@ import org.junit.jupiter.api.Test;
         Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             Assertions.assertFalse(node.edges.isEmpty());
-            node.edges.forEach(edge -> {
+            node.edges.values().forEach(edge -> {
                 Assertions.assertTrue((Boolean) edge.properties.get("monday").value);
             });
         });
@@ -75,7 +75,7 @@ import org.junit.jupiter.api.Test;
         Assertions.assertFalse(graph.isEmpty());
         graph.forEach((id, node) -> {
             Assertions.assertFalse(node.edges.isEmpty());
-            node.edges.forEach(edge ->{
+            node.edges.values().forEach(edge ->{
                 Assertions.assertEquals("teaches", edge.name);
                 assert edge.tailNode != null;
                 Assertions.assertTrue("Assistant".equals(edge.tailNode.name) || "Lecturer".equals(edge.tailNode.name));

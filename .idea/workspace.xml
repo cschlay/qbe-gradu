@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Split NodeParser test into to two parts">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="add more edge tests">
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Edges.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularHeader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/EdgeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/EdgeQueries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/HiddenEntityQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/HiddenEntityQueries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +33,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -70,7 +83,7 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TabularParserTest">
+  <component name="RunManager" selected="JUnit.All">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -188,7 +201,7 @@
       <workItem from="1639828797021" duration="18098000" />
       <workItem from="1639905519155" duration="2965000" />
       <workItem from="1639908536971" duration="23991000" />
-      <workItem from="1640104801019" duration="2591000" />
+      <workItem from="1640104801019" duration="5458000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -295,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639935426015</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add more edge tests">
+      <created>1640108111637</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1640108111637</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +347,8 @@
     <MESSAGE value="Add test for TabularHeader parsing and improve implementation to support edge notations" />
     <MESSAGE value="Add edge parse and start writing tests for it" />
     <MESSAGE value="Split NodeParser test into to two parts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Split NodeParser test into to two parts" />
+    <MESSAGE value="add more edge tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="add more edge tests" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

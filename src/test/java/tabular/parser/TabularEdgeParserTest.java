@@ -19,8 +19,7 @@ class TabularEdgeParserTest {
                         + "| false                         |\n";
 
         var graph = parser.parse(query);
-        var edge = graph.get("Course").findEdge("teaches");
-        assert edge != null;
+        var edge = graph.get("Course").edges.get("teaches");
 
         var property = edge.properties.get("fullTime");
         assertEquals(false, property.value);
@@ -45,12 +44,10 @@ class TabularEdgeParserTest {
         assertEquals(0, topic.properties.size());
         assertEquals(2, topic.edges.size());
 
-        var teaches = course.findEdge("teaches");
-        assert teaches != null;
+        var teaches = course.edges.get("teaches");
         assertEquals(true, teaches.properties.get("fullTime").value);
 
-        var contains = course.findEdge("contains");
-        assert contains != null;
+        var contains = course.edges.get("contains");
         assertEquals(3, contains.properties.get("depth").value);
     }
 
@@ -65,14 +62,14 @@ class TabularEdgeParserTest {
 
         var graph = parser.parse(query);
         var course = graph.get("Course");
-        var teaches = course.findEdge("teaches");
+        var teaches = course.edges.get("teaches");
         assert teaches != null;
 
         assertEquals(true, teaches.properties.get("fullTime").value);
         assertEquals(20, teaches.properties.get("students").value);
 
         var topic = graph.get("Topic");
-        assertEquals(teaches, topic.findEdge("teaches"));
+        assertEquals(teaches, topic.edges.get("teaches"));
     }
 
     @Test
@@ -101,9 +98,7 @@ class TabularEdgeParserTest {
         assertEquals(1, graph.order());
 
         var topic = graph.get("Topic");
-        var teaches = topic.findEdge("teaches");
-        assert teaches != null;
-
+        var teaches = topic.edges.get("teaches");
         assertNull(teaches.tailNode);
         assertEquals(2022, teaches.properties.get("year").value);
     }
@@ -119,9 +114,7 @@ class TabularEdgeParserTest {
         assertEquals(1, graph.order());
 
         var topic = graph.get("Course");
-        var teaches = topic.findEdge("teaches");
-        assert teaches != null;
-
+        var teaches = topic.edges.get("teaches");
         assertNull(teaches.headNode);
         assertEquals(2022, teaches.properties.get("year").value);
     }

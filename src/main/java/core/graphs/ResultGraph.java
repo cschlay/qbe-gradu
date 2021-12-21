@@ -35,12 +35,12 @@ public class ResultGraph extends Graph {
             Element xmlNodeElement = toGraphMLNode(xmlDocument, node);
             graph.appendChild(xmlNodeElement);
 
-            node.edges.forEach((QbeEdge edge) -> {
+
+            for (QbeEdge edge : node.edges.values()) {
                 if (!edges.containsKey(edge.id)) {
                     edges.put(edge.id, edge);
-
                 }
-            });
+            }
         });
         edges.forEach((id, edge) -> {
             Element xmlEdgeElement = toGraphMLEdge(xmlDocument, edge);

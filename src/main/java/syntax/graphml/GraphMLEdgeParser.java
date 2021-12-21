@@ -17,11 +17,11 @@ public class GraphMLEdgeParser {
 
             // The edge is added to both source and target nodes since traversal for both direction is needed.
             if (qbeEdge.tailNode != null) {
-                qbeEdge.tailNode.edges.add(qbeEdge);
+                qbeEdge.tailNode.edges.put(qbeEdge.name, qbeEdge);
             }
 
             if (qbeEdge.headNode != null) {
-                qbeEdge.headNode.edges.add(qbeEdge);
+                qbeEdge.headNode.edges.put(qbeEdge.name, qbeEdge);
             }
             // TODO: Handle null names
         }

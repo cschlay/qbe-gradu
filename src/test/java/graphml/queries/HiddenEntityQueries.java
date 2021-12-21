@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
         graph.forEach((id, node) -> {
             if ("Lecturer".equals(node.name)) {
                 hasLecturerNode.set(true);
-                node.edges.forEach(edge -> Assertions.assertNotEquals("teaches", edge.name));
+                node.edges.values().forEach(edge -> Assertions.assertNotEquals("teaches", edge.name));
             }
         });
         Assertions.assertTrue(hasLecturerNode.get());
