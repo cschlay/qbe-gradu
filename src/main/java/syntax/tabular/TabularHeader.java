@@ -20,7 +20,7 @@ public class TabularHeader {
 
         var cleanedHeader = cleanHeader(header, selected);
         String[] parts = cleanedHeader.split("\\.");
-        name = parts[0].trim();
+        name = cleanName(parts[0]);
 
         try {
             displayName = parseDisplayName(cleanedHeader, parts);
@@ -32,8 +32,8 @@ public class TabularHeader {
 
         if (parts.length > 2) {
             // The node is an edge and contains head and tail
-            tailNodeName = parts[1];
-            headNodeName = parts[2];
+            tailNodeName = cleanName(parts[1]);
+            headNodeName = cleanName(parts[2]);
         }
     }
 
@@ -45,6 +45,13 @@ public class TabularHeader {
         return displayName;
     }
 
+    private @Nullable String cleanName(String name) {
+        if ("_".equals(name)) {
+            return null;
+        }
+        return name.trim();
+    }
+
     private String parseDisplayName(String header, String[] parts) {
         String property = Utils.last(parts);
 
@@ -53,7 +60,7 @@ public class TabularHeader {
             return header;
         }
 
-        return Utils.last(propertyParts).trim();
+        return Utils.last(propertyParts);
     }
 
     private String parsePropertyName(String[] parts) {

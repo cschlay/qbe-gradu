@@ -11,6 +11,7 @@ import java.util.List;
  * For query nodes the name and id are optional.
  */
 public class QbeNode extends GraphEntity {
+    // TODO: Convert into HashMap just like nodes are stored in graph.
     public List<QbeEdge> edges;
 
     public QbeNode(@Nullable String name) {
