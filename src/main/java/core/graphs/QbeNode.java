@@ -23,4 +23,8 @@ public class QbeNode extends GraphEntity {
     public boolean equalByName(@Nullable QbeNode otherNode) {
         return name != null && otherNode != null && name.equals(otherNode.name);
     }
+
+    @Override public String toString() {
+        return name + "({" + properties + "}," + edges +")";
+    }
 }

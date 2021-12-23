@@ -6,6 +6,7 @@ import core.graphs.QbeNode;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Headers {
     public final int length;
@@ -30,7 +31,14 @@ public class Headers {
     }
 
     @Nullable public Integer getIndex(QbeNode node, String property) {
-        return indices.get(node.name).get(property);
+        System.out.println(node.name);
+        System.out.println(property);
+
+        @Nullable Map<String, Integer> propertyIndices = indices.get(node.name);
+        if (propertyIndices == null){
+            return null;
+        }
+        return propertyIndices.get(property);
     }
 
     public String getDisplayName(int index) {

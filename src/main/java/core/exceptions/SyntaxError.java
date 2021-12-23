@@ -1,8 +1,8 @@
 package core.exceptions;
 
 public class SyntaxError extends Exception {
-    public SyntaxError(String template, String ... arguments) {
-        super(String.format(template, (Object[]) arguments));
+    public SyntaxError(String template, Object ... arguments) {
+        super(String.format(template, arguments));
     }
 
     public SyntaxError(String message) {

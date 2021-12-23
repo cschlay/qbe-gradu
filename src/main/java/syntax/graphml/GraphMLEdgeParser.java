@@ -35,7 +35,7 @@ public class GraphMLEdgeParser {
         HashMap<String, QbeData> properties = GraphMLDataParser.parseNodeList(node.getChildNodes());
 
         var edge = new QbeEdge(name);
-        edge.properties = properties;
+        edge.properties.putAll(properties);
         edge.tailNode = graph.get(tailNodeName);
         edge.headNode = graph.get(headNodeName);
         edge.isHidden = GraphML.isHidden(node);

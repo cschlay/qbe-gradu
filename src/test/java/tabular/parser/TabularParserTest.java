@@ -19,7 +19,14 @@ class TabularParserTest {
         var graph = parser.parse(query);
 
         var book = graph.get("Book");
-        assertEquals("Logic", book.properties.get("title").value);
-        assertEquals(3, book.edges.get("uses").properties.get("edition").value);
+        var bookUses = book.edges.get("uses");
+        assertEquals("Logic", book.getProperty("title"));
+        assertEquals(3, bookUses.getProperty("edition"));
+
+        var course = graph.get("Course");
+        var courseUses = course.edges.get("uses");
+        assertEquals(3, courseUses.getProperty("edition"));
+
+        assertEquals(bookUses, courseUses);
     }
 }

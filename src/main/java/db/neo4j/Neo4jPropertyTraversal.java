@@ -67,6 +67,6 @@ public class Neo4jPropertyTraversal {
             }
         }
 
-        throw new InvalidNodeException();
+        throw new InvalidNodeException("Entity %s doesn't have property %s", neo4jEntity.getId(), propertyName);
     }
 }

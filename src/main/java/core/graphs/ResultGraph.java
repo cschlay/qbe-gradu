@@ -8,23 +8,28 @@ import org.w3c.dom.Element;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 
 public class ResultGraph extends Graph {
-    private final XmlUtilities xmlUtilities;
+    public final transient Set<QbeEdge> unvisitedEdges;
+
+    //private final XmlUtilities xmlUtilities;
 
     // TODO: MOve aaway
-    public ResultGraph() throws ParserConfigurationException {
-        xmlUtilities = new XmlUtilities();
+    public ResultGraph() {
+        unvisitedEdges = new HashSet<>();
+        //xmlUtilities = new XmlUtilities();
     }
 
     public int order() {
         return super.size();
     }
 
-    // TODO: Move away
+    /*// TODO: Move away
     public String toGraphML() {
         Document xmlDocument = xmlUtilities.newDocument();
         Element graph = xmlDocument.createElement(GraphML.Graph);
@@ -84,5 +89,5 @@ public class ResultGraph extends Graph {
 
             onCreated.accept(xmlDataNode);
         });
-    }
+    }*/
 }

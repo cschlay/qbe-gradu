@@ -47,7 +47,9 @@ public class TabularResultWriter implements ResultWriter {
                 @Nullable Integer columnIndex = headers.getIndex(node, propertyName);
 
                 if (columnIndex != null) {
-                    Object value = property.getValue().value;
+                    System.out.println(property);
+
+                    @Nullable Object value = property.getValue().value;
                     result[rowIndex][columnIndex] = value;
                     columnLengths[columnIndex] = getColumnLength(columnLengths, columnIndex, value);
                 }

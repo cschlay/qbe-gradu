@@ -8,7 +8,7 @@ public class AnonymousNodeQueries extends QueryTest {
     @Test
     public void allNodes() throws Exception {
         var graph = session.processQuery("<graph><node /></graph>");
-        System.out.println(graph.toGraphML());
+        //System.out.println(graph.toGraphML());
 
         // TODO: Assert
     }

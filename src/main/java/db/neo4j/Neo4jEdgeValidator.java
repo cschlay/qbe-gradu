@@ -33,7 +33,7 @@ public class Neo4jEdgeValidator {
         }
 
         if (!hasValidEdge && (!queryEdge.isTransitive && edgeCount == 0)) {
-            throw new InvalidNodeException();
+            throw new InvalidNodeException("Node %s doesn't have a valid edge", resultNode);
         }
 
         return edges;
@@ -131,8 +131,9 @@ public class Neo4jEdgeValidator {
         long tailNodeId = neo4jEdge.getStartNodeId();
         long headNodeId = neo4jEdge.getEndNodeId();
 
+        var properties = new Neo4jPropertyTraversal(queryEdge).getProperties(neo4jEdge);
         var resultEdge = new QbeEdge(id, queryEdge.name);
-        resultEdge.properties = new Neo4jPropertyTraversal(queryEdge).getProperties(neo4jEdge);
+        resultEdge.properties.putAll(properties);
         resultEdge.tailNode = graph.get(String.valueOf(tailNodeId));
         resultEdge.headNode = graph.get(String.valueOf(headNodeId));
 

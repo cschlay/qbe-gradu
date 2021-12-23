@@ -39,7 +39,7 @@ public class QueryTest {
     }
 
     public void print(ResultGraph graph) {
-        System.out.println(graph.toGraphML());
+        //System.out.println(graph.toGraphML());
     }
 
     public GraphDatabaseService getDatabase() {

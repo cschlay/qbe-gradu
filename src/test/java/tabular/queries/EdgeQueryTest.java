@@ -1,7 +1,9 @@
 package tabular.queries;
 
+import demo.CourseGraphDemo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.neo4j.graphdb.Relationship;
 import tabular.TabularTestClass;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,14 +20,17 @@ class EdgeQueryTest extends TabularTestClass {
                         + "|           | true                            |\n";
 
         var graph = executeQuery(query);
+        System.out.println(graph);
+
         assertTrue(graph.order() > 0);
-        graph.values()
-                .forEach(
-                        node -> {
-                            assertEquals(1, node.edges.size());
-                            var edge = node.edges.get("teaches");
-                            assertEquals("teaches", edge.name);
-                            assertEquals(true, edge.properties.get("monday").value);
-                        });
+
+        for (var node : graph.values()) {
+            assertEquals(1, node.edges.size());
+
+            for (var edge : node.edges.values()) {
+                assertEquals("teaches", edge.name);
+                assertEquals(true, edge.properties.get("monday").value);
+            }
+        }
     }
 }

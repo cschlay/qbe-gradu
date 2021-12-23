@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NodeQueryTest extends TabularTestClass {
     @Test
-    @DisplayName("Should query all nodes of a kind")
+    @DisplayName("should query all nodes of a kind")
     void queryAllNodes() throws Exception {
-        String query = "" +
+        var query = "" +
                 "| Course.id as Id | Course.title as Title |\n" +
                 "|-----------------+-----------------------|\n" +
                 "|                 |                       |\n";
@@ -22,9 +22,9 @@ class NodeQueryTest extends TabularTestClass {
     }
 
     @Test
-    @DisplayName("Should filter nodes by property")
+    @DisplayName("should filter nodes by property")
     void filterNodes() throws Exception {
-        String query = "" +
+        var query = "" +
                 "| Course.title as Title |\n" +
                 "|------------ ----------|\n" +
                 "| \"Introduction to .*\"  |\n";

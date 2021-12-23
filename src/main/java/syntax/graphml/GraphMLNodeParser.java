@@ -22,7 +22,7 @@ public class GraphMLNodeParser {
 
         NodeList childNodes = node.getChildNodes();
         var qbeNode = new QbeNode(name);
-        qbeNode.properties = GraphMLDataParser.parseNodeList(childNodes);
+        qbeNode.properties.putAll(GraphMLDataParser.parseNodeList(childNodes));
 
         return qbeNode;
     }

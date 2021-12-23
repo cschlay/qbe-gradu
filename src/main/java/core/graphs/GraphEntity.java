@@ -12,7 +12,7 @@ import java.util.Map;
 public abstract class GraphEntity {
     @Nullable public final String id;
     public final String name;
-    public Map<String, QbeData> properties;
+    public final Map<String, QbeData> properties;
 
     protected GraphEntity(@Nullable String name) {
         this.name = constructName(name);
@@ -26,6 +26,15 @@ public abstract class GraphEntity {
 
         properties = new HashMap<>();
         properties.put("id", new QbeData(id));
+    }
+
+    /**
+     * Simplifies the access of entity.properties.get("name").value to just entity.getProperty("name")
+
+     * @return the value of property
+     */
+    public @Nullable Object getProperty(String property) {
+        return properties.get(property).value;
     }
 
     public String toString() {
