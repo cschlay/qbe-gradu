@@ -31,6 +31,8 @@ public class TabularResultWriter implements ResultWriter {
         var rowWriter = new TabularRowWriter(headers, columnLengths);
         var rows = rowWriter.getRows(graph);
 
+        // TODO: The rows need some kind of post processing so that duplicates don't exist and fields that are null do not get returned
+
         var result = new Object[rows.size()][headers.length];
 
         for (int i = 0; i < rows.size(); i++) {
@@ -39,8 +41,6 @@ public class TabularResultWriter implements ResultWriter {
 
         return result;
     }
-
-
 
     private String getHeaderRowAsString(Object[] headers, int[] columnLengths) {
         var result = new StringBuilder();
@@ -98,10 +98,5 @@ public class TabularResultWriter implements ResultWriter {
         }
 
         return value.toString();
-    }
-
-    private int getColumnLength(int[] columnLengths, int index, Object value) {
-        int length = value instanceof String ? ((String) value).length() + 2 : value.toString().length();
-        return Math.max(length, columnLengths[index]);
     }
 }

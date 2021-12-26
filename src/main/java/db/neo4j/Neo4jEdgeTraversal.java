@@ -57,11 +57,11 @@ public class Neo4jEdgeTraversal {
                 exception.printStackTrace();
                 // Edge is not valid and should be discarded.
             }
+        }
 
-            if (!edgeFound) {
-                // At least one edge must exist, otherwise node is not valid.
-                throw new InvalidNodeException();
-            }
+        if (!edgeFound) {
+            // At least one edge must exist, otherwise node is not valid.
+            throw new InvalidNodeException();
         }
     }
 

@@ -21,6 +21,7 @@ public class TabularRowWriter {
 
     /** Returns a list of rows, there may exist multiple ones because of relations. */
     public List<Object[]> getRows(ResultGraph graph) {
+        System.out.println(graph);
         var rows = new ArrayList<Object[]>();
 
         // Add the headers.
@@ -33,8 +34,10 @@ public class TabularRowWriter {
         rows.add(headerRow);
 
         for (var node : graph.values()) {
-            var rowSet = writeNode(new Object[headers.length], node);
-            rows.addAll(rowSet);
+            if (!node.visited) {
+                var rowSet = writeNode(new Object[headers.length], node);
+                rows.addAll(rowSet);
+            }
         }
 
         return rows;
@@ -42,7 +45,7 @@ public class TabularRowWriter {
 
     private List<Object[]> writeEdge(Object[] template, QbeEdge edge) {
         edge.visited = true;
-        template = writeProperties(template, edge);
+        writeProperties(template, edge);
 
         var rows = new ArrayList<Object[]>();
         if (edge.tailNode != null && !edge.tailNode.visited) {
@@ -63,10 +66,9 @@ public class TabularRowWriter {
         node.visited = true;
 
         var rows = new ArrayList<Object[]>();
-        template = writeProperties(template, node);
+        writeProperties(template, node);
 
         for (QbeEdge edge : node.edges.values()) {
-            // TODO: Copy the array, and the retun values should override previous arrays
             rows.addAll(writeEdge(template.clone(), edge));
         }
 
@@ -77,7 +79,7 @@ public class TabularRowWriter {
         return rows;
     }
 
-    private Object[] writeProperties(Object[] template, GraphEntity entity) {
+    private void writeProperties(Object[] template, GraphEntity entity) {
         for (var property : entity.properties.entrySet()) {
             String propertyName = property.getKey();
             @Nullable Integer columnIndex = headers.getIndex(entity, propertyName);
@@ -88,8 +90,6 @@ public class TabularRowWriter {
                 columnLengths[columnIndex] = getColumnLength(columnLengths, columnIndex, value);
             }
         }
-
-        return template;
     }
 
     private int getColumnLength(int[] columnLengths, int index, Object value) {
