@@ -14,7 +14,7 @@ public class Neo4jEdgeTraversal {
         resultGraph = graph;
     }
 
-    public QbeNode traverse(Node neo4jNode, QbeNode queryNode, QbeNode resultNode)
+    public QbeNode query(Node neo4jNode, QbeNode queryNode, QbeNode resultNode)
             throws InvalidNodeException {
 
         for (QbeEdge queryEdge : queryNode.edges.values()) {
@@ -24,7 +24,7 @@ public class Neo4jEdgeTraversal {
         return resultNode;
     }
 
-    private QbeNode updateNodeRelations(Node neo4jNode, QbeNode resultNode, QbeEdge queryEdge)
+    private void updateNodeRelations(Node neo4jNode, QbeNode resultNode, QbeEdge queryEdge)
             throws InvalidNodeException {
         boolean edgeFound = false;
 
@@ -45,8 +45,6 @@ public class Neo4jEdgeTraversal {
                     // node is tail of the edge
                     resultEdge = createEdgeWithTail(relationship, queryEdge);
                     resultEdge.tailNode = resultNode;
-                } else {
-                    // TODO: the case where both head and tail is missing
                 }
 
                 if (resultEdge != null) {
@@ -59,12 +57,10 @@ public class Neo4jEdgeTraversal {
             }
 
             if (!edgeFound) {
-                // At least one edge must exists, otherwise node is not valid.
+                // At least one edge must exist, otherwise node is not valid.
                 throw new InvalidNodeException();
             }
         }
-
-        return resultNode;
     }
 
     private QbeEdge createEdgeWithHead(Relationship neo4jEdge, QbeEdge queryEdge) {

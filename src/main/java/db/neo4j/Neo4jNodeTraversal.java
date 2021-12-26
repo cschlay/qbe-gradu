@@ -55,7 +55,7 @@ public class Neo4jNodeTraversal {
             Node neo4jNode = neo4jNodes.next();
             try {
                 QbeNode resultNode = visitNeo4jNode(neo4jNode, queryNode);
-                edgeTraversal.traverse(neo4jNode, queryNode, resultNode);
+                edgeTraversal.query(neo4jNode, queryNode, resultNode);
                 resultNodes.put(resultNode.id, resultNode);
             } catch (InvalidNodeException exception) {
                 logger.log(Level.INFO, "Discard node {0}, property failed", neo4jNode.getId());

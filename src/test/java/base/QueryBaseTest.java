@@ -11,7 +11,7 @@ import org.neo4j.graphdb.Transaction;
 
 import java.util.function.Consumer;
 
-public class QueryBaseTest {
+public abstract class QueryBaseTest {
     protected static GraphDatabaseService db;
     protected static Neo4jOperations dbOperations;
     private static DatabaseManagementService dbManagement;

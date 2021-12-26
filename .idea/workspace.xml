@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="ADd a new version of Neo4jNodeTraversal">
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add query tests for Neo4jEdgeTraversal">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeTraversal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +190,7 @@
       <workItem from="1640194169783" duration="4725000" />
       <workItem from="1640267488769" duration="14937000" />
       <workItem from="1640426183573" duration="15130000" />
-      <workItem from="1640514094855" duration="3667000" />
+      <workItem from="1640514094855" duration="5992000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -325,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640276420439</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Reimplement edge traversal">
+      <created>1640517850844</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1640517850844</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -361,7 +361,9 @@
     <MESSAGE value="Refactor edge to use a container" />
     <MESSAGE value="Refactor edges in node to use HashMap" />
     <MESSAGE value="ADd a new version of Neo4jNodeTraversal" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADd a new version of Neo4jNodeTraversal" />
+    <MESSAGE value="Reimplement edge traversal" />
+    <MESSAGE value="Add query tests for Neo4jEdgeTraversal" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add query tests for Neo4jEdgeTraversal" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
