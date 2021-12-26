@@ -53,6 +53,11 @@ public class Neo4jPropertyTraversal {
     private QbeData readProperty(Entity neo4jEntity, String propertyName, QbeData queryData)
             throws InvalidNodeException {
         if ("id".equals(propertyName)) {
+            @Nullable var id = queryData.value;
+            if (id != null && (Long) id != neo4jEntity.getId()) {
+                throw new InvalidNodeException("Id constraint check failed %s != %s", id, neo4jEntity.getId());
+            }
+
             return new QbeData(neo4jEntity.getId());
         }
 

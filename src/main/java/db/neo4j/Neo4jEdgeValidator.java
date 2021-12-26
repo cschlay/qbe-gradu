@@ -24,9 +24,7 @@ public class Neo4jEdgeValidator {
         for (Relationship relationship : relationships) {
             QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge, graph);
             if (hasPath(queryEdge, resultEdge, relationship)) {
-                if (!queryEdge.isHidden) {
-                    edges.add(resultEdge);
-                }
+                edges.add(resultEdge);
                 hasValidEdge = true;
             }
             edgeCount++;

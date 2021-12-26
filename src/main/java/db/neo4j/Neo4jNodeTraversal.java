@@ -10,8 +10,11 @@ import org.neo4j.graphdb.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Neo4jNodeTraversal {
+    private static final Logger logger = Logger.getLogger(Neo4jNodeTraversal.class.getName());
     private final GraphDatabaseService db;
 
     public Neo4jNodeTraversal(GraphDatabaseService database) {
@@ -20,12 +23,15 @@ public class Neo4jNodeTraversal {
 
     public ResultGraph traverse(QueryGraph queryGraph) {
         var resultGraph = new ResultGraph();
+        var edgeTraversal = new Neo4jEdgeTraversal(resultGraph);
 
         try (Transaction transaction = db.beginTx()) {
             for (var queryNode : queryGraph.values()) {
-                var resultNodes = visitQueryNode(transaction, queryNode);
-                resultGraph.putAll(resultNodes);
-                resultGraph.unvisitedEdges.addAll(queryNode.edges.values());
+                var resultNodes = visitQueryNode(edgeTraversal, transaction, queryNode);
+                if (!resultNodes.isEmpty()) {
+                    resultGraph.putAll(resultNodes);
+                    resultGraph.unvisitedEdges.addAll(queryNode.edges.values());
+                }
             }
         }
 
@@ -41,17 +47,18 @@ public class Neo4jNodeTraversal {
         return transaction.getAllNodes().stream().iterator();
     }
 
-    private HashMap<String, QbeNode> visitQueryNode(Transaction transaction, QbeNode queryNode) {
+    private HashMap<String, QbeNode> visitQueryNode(Neo4jEdgeTraversal edgeTraversal, Transaction transaction, QbeNode queryNode) {
         Iterator<Node> neo4jNodes = getNeo4jNodes(transaction, queryNode);
         var resultNodes = new HashMap<String, QbeNode>();
 
         while (neo4jNodes.hasNext()) {
+            Node neo4jNode = neo4jNodes.next();
             try {
-                Node neo4jNode = neo4jNodes.next();
                 QbeNode resultNode = visitNeo4jNode(neo4jNode, queryNode);
+                edgeTraversal.traverse(neo4jNode, queryNode, resultNode);
                 resultNodes.put(resultNode.id, resultNode);
             } catch (InvalidNodeException exception) {
-                // The node is discarded
+                logger.log(Level.INFO, "Discard node {0}, property failed", neo4jNode.getId());
             }
         }
 

@@ -34,6 +34,11 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         return super.hashCode();
     }
 
+    public @Nullable QbeEdge getEdge(String nodeId, String edgeId) {
+        @Nullable QbeNode node = get(nodeId);
+        return node != null ? node.edges.get(edgeId) : null;
+    }
+
     /**
      * Link the edge between multiple nodes.
      *

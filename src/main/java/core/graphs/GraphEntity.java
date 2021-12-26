@@ -14,6 +14,8 @@ public abstract class GraphEntity {
     public final String name;
     public final Map<String, QbeData> properties;
 
+    private long _id;
+
     protected GraphEntity(@Nullable String name) {
         this.name = constructName(name);
         id = null;
@@ -21,11 +23,16 @@ public abstract class GraphEntity {
     }
 
     protected GraphEntity(long id, @Nullable String name) {
+        _id = id;
         this.id = String.valueOf(id);
         this.name = constructName(name);
 
         properties = new HashMap<>();
         properties.put("id", new QbeData(id));
+    }
+
+    public long getId() {
+        return _id;
     }
 
     /**

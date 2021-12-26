@@ -4,30 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Refactor edges in node to use HashMap">
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="ADd a new version of Neo4jNodeTraversal">
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jOperations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/exceptions/InvalidNodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/exceptions/InvalidNodeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/exceptions/SyntaxError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/exceptions/SyntaxError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Edges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Edges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/ResultGraph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLEdgeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/graphml/GraphMLNodeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/AnonymousNodeQueries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/AnonymousNodeQueries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/graphml/queries/QueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/NodeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/NodeQueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +82,15 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.Neo4jNodeTraversalTest">
+  <component name="RunManager" selected="JUnit.Neo4jEdgeTraversalTest">
+    <configuration name="All in qbe-graph-database" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -104,38 +101,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EdgeQueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.queries.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.EdgeQueryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EdgeQueryTest.queryAllEdgesExplicit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.queries.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.EdgeQueryTest" />
-      <option name="METHOD_NAME" value="queryAllEdgesExplicit" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Neo4jNodeTraversalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Neo4jEdgeTraversalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
@@ -144,58 +110,72 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="db" />
-      <option name="MAIN_CLASS_NAME" value="db.Neo4jNodeTraversalTest" />
+      <option name="MAIN_CLASS_NAME" value="db.Neo4jEdgeTraversalTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Neo4jTraversalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="PATTERN" value="db.neo4j.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularParserTest" />
+      <option name="PACKAGE_NAME" value="db" />
+      <option name="MAIN_CLASS_NAME" value="db.Neo4jTraversalTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularParserTest.parseNodeIdAndEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Neo4jTraversalTest.queryEdgeWithProperties" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="PATTERN" value="db.neo4j.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularParserTest" />
-      <option name="METHOD_NAME" value="parseNodeIdAndEdge" />
+      <option name="PACKAGE_NAME" value="db" />
+      <option name="MAIN_CLASS_NAME" value="db.Neo4jTraversalTest" />
+      <option name="METHOD_NAME" value="queryEdgeWithProperties" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tabular in qbe-graph-database" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tabular.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tabular" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.EdgeQueryTest" />
-      <item itemvalue="JUnit.EdgeQueryTest.queryAllEdgesExplicit" />
-      <item itemvalue="JUnit.TabularParserTest.parseNodeIdAndEdge" />
-      <item itemvalue="JUnit.TabularParserTest" />
-      <item itemvalue="JUnit.Neo4jNodeTraversalTest" />
+      <item itemvalue="JUnit.tabular in qbe-graph-database" />
+      <item itemvalue="JUnit.All in qbe-graph-database" />
+      <item itemvalue="JUnit.Neo4jTraversalTest" />
+      <item itemvalue="JUnit.Neo4jTraversalTest.queryEdgeWithProperties" />
+      <item itemvalue="JUnit.Neo4jEdgeTraversalTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Neo4jNodeTraversalTest" />
-        <item itemvalue="JUnit.EdgeQueryTest" />
-        <item itemvalue="JUnit.TabularParserTest" />
-        <item itemvalue="JUnit.TabularParserTest.parseNodeIdAndEdge" />
-        <item itemvalue="JUnit.EdgeQueryTest.queryAllEdgesExplicit" />
+        <item itemvalue="JUnit.Neo4jEdgeTraversalTest" />
+        <item itemvalue="JUnit.Neo4jTraversalTest.queryEdgeWithProperties" />
+        <item itemvalue="JUnit.Neo4jTraversalTest" />
+        <item itemvalue="JUnit.All in qbe-graph-database" />
+        <item itemvalue="JUnit.tabular in qbe-graph-database" />
       </list>
     </recent_temporary>
   </component>
@@ -215,7 +195,9 @@
       <workItem from="1639908536971" duration="23991000" />
       <workItem from="1640104801019" duration="5968000" />
       <workItem from="1640194169783" duration="4725000" />
-      <workItem from="1640267488769" duration="6475000" />
+      <workItem from="1640267488769" duration="14937000" />
+      <workItem from="1640426183573" duration="15130000" />
+      <workItem from="1640514094855" duration="3667000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -336,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640111026517</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="ADd a new version of Neo4jNodeTraversal">
+      <created>1640276420439</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1640276420439</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,7 +360,8 @@
     <MESSAGE value="add more edge tests" />
     <MESSAGE value="Refactor edge to use a container" />
     <MESSAGE value="Refactor edges in node to use HashMap" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor edges in node to use HashMap" />
+    <MESSAGE value="ADd a new version of Neo4jNodeTraversal" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADd a new version of Neo4jNodeTraversal" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
