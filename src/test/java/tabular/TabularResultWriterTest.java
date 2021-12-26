@@ -1,9 +1,7 @@
 package tabular;
 
-import core.graphs.QbeData;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
+import core.exceptions.SyntaxError;
+import core.graphs.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularQueryMeta;
@@ -12,6 +10,8 @@ import syntax.tabular.TabularResultWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TabularResultWriterTest {
+    TabularResultWriter writer = new TabularResultWriter();
+
     @Test
     @DisplayName("Should include id")
     void includeId() throws Exception {
@@ -98,4 +98,26 @@ class TabularResultWriterTest {
         var writer = new TabularResultWriter();
         assertEquals(expected, writer.write(queryGraph, resultGraph));
     }
+
+    @Test
+    @DisplayName("should include edges")
+    void queryWithEdges() throws SyntaxError {
+        var queryGraph = new QueryGraph();
+        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.id", "teaches.Assistant.Course.monday" });
+
+        var resultGraph = new ResultGraph();
+        var course = new QbeNode(1, "Course");
+        var teaches = new QbeEdge(2, "teaches");
+        teaches.tailNode = course;
+        teaches.properties.put("monday", new QbeData(true));
+        course.edges.put(teaches.id, teaches);
+
+        resultGraph.put(course.id, course);
+
+
+
+        var table = writer.write(queryGraph, resultGraph);
+        System.out.println(table);
+    }
+
 }

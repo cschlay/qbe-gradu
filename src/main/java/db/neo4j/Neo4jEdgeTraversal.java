@@ -53,6 +53,8 @@ public class Neo4jEdgeTraversal {
                     resultNode.edges.put(resultEdge.id, resultEdge);
                 }
             } catch (InvalidNodeException exception) {
+
+                exception.printStackTrace();
                 // Edge is not valid and should be discarded.
             }
 

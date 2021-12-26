@@ -34,8 +34,6 @@ public class Neo4jTraversal {
         logger.log(Level.INFO, "Querying graph: {0}", queryGraph);
 
         return nodeTraversal.traverse(queryGraph);
-        //var edgeTraversal = new Neo4jEdgeTraversal(db, resultGraph);
-        //return edgeTraversal.updateGraph();
     }
 
     /*public void visitQueryEdge(Transaction transaction, ResultGraph resultGraph, QbeEdge queryEdge) {

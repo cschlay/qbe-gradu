@@ -1,6 +1,8 @@
 package syntax.tabular;
 
 import core.exceptions.SyntaxError;
+import core.graphs.GraphEntity;
+import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 
 import org.jetbrains.annotations.Nullable;
@@ -26,15 +28,15 @@ public class Headers {
             index.put(header.propertyName, i);
         }
     }
+
     public TabularHeader get(int index) {
         return names[index];
     }
 
-    @Nullable public Integer getIndex(QbeNode node, String property) {
-        System.out.println(node.name);
-        System.out.println(property);
+    // TODO: Need to be separated from node and edge!
+    @Nullable public Integer getIndex(GraphEntity entity, String property) {
+        @Nullable Map<String, Integer> propertyIndices = indices.get(entity.name);
 
-        @Nullable Map<String, Integer> propertyIndices = indices.get(node.name);
         if (propertyIndices == null){
             return null;
         }

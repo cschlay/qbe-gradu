@@ -13,6 +13,7 @@ public abstract class GraphEntity {
     @Nullable public final String id;
     public final String name;
     public final Map<String, QbeData> properties;
+    public boolean visited;
 
     private long _id;
 

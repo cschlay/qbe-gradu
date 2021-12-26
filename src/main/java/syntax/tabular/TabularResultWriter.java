@@ -28,37 +28,19 @@ public class TabularResultWriter implements ResultWriter {
      * @return table of property values
      */
     public Object[][] toTable(Headers headers, ResultGraph graph, int[] columnLengths) {
-        int rowCount = graph.size() + 1;
-        int colCount = headers.length;
-        var result = new Object[rowCount][colCount];
+        var rowWriter = new TabularRowWriter(headers, columnLengths);
+        var rows = rowWriter.getRows(graph);
 
-        // Add the headers.
-        for (int col = 0; col < headers.length; col++) {
-            var headerName = headers.getDisplayName(col);
-            result[0][col] = headerName;
-            columnLengths[col] = headerName.length();
-        }
+        var result = new Object[rows.size()][headers.length];
 
-        // Add rows
-        int rowIndex = 1;
-        for (var node : graph.values()) {
-            for (var property : node.properties.entrySet()) {
-                String propertyName = property.getKey();
-                @Nullable Integer columnIndex = headers.getIndex(node, propertyName);
-
-                if (columnIndex != null) {
-                    System.out.println(property);
-
-                    @Nullable Object value = property.getValue().value;
-                    result[rowIndex][columnIndex] = value;
-                    columnLengths[columnIndex] = getColumnLength(columnLengths, columnIndex, value);
-                }
-            }
-            rowIndex++;
+        for (int i = 0; i < rows.size(); i++) {
+            result[i] = rows.get(i);
         }
 
         return result;
     }
+
+
 
     private String getHeaderRowAsString(Object[] headers, int[] columnLengths) {
         var result = new StringBuilder();
