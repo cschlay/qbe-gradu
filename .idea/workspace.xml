@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add read test to node and fix bugs found">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/ReadTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/ReadTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/core/graphs/ComparisonOperatorTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/core/graphs/LogicalOperatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/core/graphs/LogicalExpressionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +81,7 @@
       <recent name="core.graphs" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ReadTest">
+  <component name="RunManager" selected="JUnit.LogicalExpressionTest">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -101,6 +102,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="core.utilities" />
       <option name="MAIN_CLASS_NAME" value="core.utilities.ComparisonTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LogicalExpressionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="core.graphs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="core.graphs" />
+      <option name="MAIN_CLASS_NAME" value="core.graphs.LogicalExpressionTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -153,37 +169,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularNodeParserTest.parseOneNode" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="core.graphs.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularNodeParserTest" />
-      <option name="METHOD_NAME" value="parseOneNode" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="JUnit.All" />
       <item itemvalue="JUnit.ReadTest" />
-      <item itemvalue="JUnit.TabularNodeParserTest.parseOneNode" />
       <item itemvalue="JUnit.ReadTest$ByPropertyTest.byLogicalExpression" />
       <item itemvalue="JUnit.ComparisonTest" />
       <item itemvalue="JUnit.ReadTest.findById" />
+      <item itemvalue="JUnit.LogicalExpressionTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.LogicalExpressionTest" />
         <item itemvalue="JUnit.ReadTest" />
         <item itemvalue="JUnit.ReadTest.findById" />
         <item itemvalue="JUnit.ComparisonTest" />
         <item itemvalue="JUnit.ReadTest$ByPropertyTest.byLogicalExpression" />
-        <item itemvalue="JUnit.TabularNodeParserTest.parseOneNode" />
       </list>
     </recent_temporary>
   </component>
@@ -213,7 +213,7 @@
       <workItem from="1641464730276" duration="2584000" />
       <workItem from="1641489432161" duration="3319000" />
       <workItem from="1641492880925" duration="605000" />
-      <workItem from="1641643116170" duration="16105000" />
+      <workItem from="1641643116170" duration="17038000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -381,7 +381,13 @@
       <option name="presentableId" value="LOCAL−00024" />
       <updated>1641662932086</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL−00025" summary="Add read test to node and fix bugs found">
+      <created>1641663010053</created>
+      <option name="number" value="LOCAL−00025" />
+      <option name="presentableId" value="LOCAL−00025" />
+      <updated>1641663010053</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
