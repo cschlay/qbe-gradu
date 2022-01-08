@@ -45,7 +45,7 @@ class QbeDataTest {
         var data = new QbeData(expression, false, false);
 
         assertFalse(data.check(0));
-        assertFalse(data.check(3));
+        assertTrue(data.check(3));
         assertFalse(data.check(6));
     }
 
@@ -53,8 +53,8 @@ class QbeDataTest {
     @DisplayName("should check strings using regex")
     void checkByRegex() {
         var data = new QbeData("Introduction to .*", false, false);
+        assertFalse(data.check("Logic"));
         assertTrue(data.check("Introduction to Algorithms"));
         assertTrue(data.check("Introduction to Logic"));
-
     }
 }

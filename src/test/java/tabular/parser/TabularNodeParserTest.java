@@ -21,6 +21,8 @@ class TabularNodeParserTest {
         var graph = parser.parse(query);
         assertEquals(1, graph.order());
         assertEquals(1, graph.get("Course").properties.size());
+
+        graph.values().forEach(node -> assertEquals(3.59, node.getProperty("averageGrade")));
     }
 
     @Test

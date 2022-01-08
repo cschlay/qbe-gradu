@@ -54,7 +54,7 @@ public class Neo4jPropertyTraversal {
             throws InvalidNodeException {
         if ("id".equals(propertyName)) {
             @Nullable var id = queryData.value;
-            if (id != null && (Long) id != neo4jEntity.getId()) {
+            if (id != null && (int) id != neo4jEntity.getId()) {
                 throw new InvalidNodeException("Id constraint check failed %s != %s", id, neo4jEntity.getId());
             }
 

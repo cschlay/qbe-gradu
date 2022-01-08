@@ -2,8 +2,10 @@ package base;
 
 import cli.Main;
 import cli.QuerySession;
+import core.graphs.ResultGraph;
 import db.neo4j.Neo4jOperations;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.neo4j.dbms.api.DatabaseManagementService;
@@ -18,6 +20,8 @@ public abstract class QueryBaseTest {
     protected static GraphDatabaseService db;
     protected static Neo4jOperations dbOperations;
     private static DatabaseManagementService dbManagement;
+
+    protected static Transaction tx;
 
     @BeforeAll
     public static void beforeAll() {
@@ -34,6 +38,12 @@ public abstract class QueryBaseTest {
     @BeforeEach
     public void beforeEach() {
         dbOperations.reset();
+        tx = db.beginTx();
+    }
+
+    @AfterEach
+    public void afterEach() {
+        tx.close();
     }
 
     protected void inTransaction(Consumer<Transaction> action) {
@@ -43,6 +53,19 @@ public abstract class QueryBaseTest {
     }
 
     protected QuerySession getSession() {
-        return  new QuerySession(db, new TabularParser(), new TabularResultWriter());
+        return new QuerySession(db, new TabularParser(), new TabularResultWriter());
     }
-}
+
+    protected ResultGraph execute(String query) throws Exception {
+        var session = getSession();
+        var queryGraph = session.parseQuery(query);
+        System.out.println("Query graph:");
+        System.out.println(queryGraph);
+
+        var resultGraph = session.executeQuery(queryGraph);
+        System.out.println("Query:");
+        System.out.println(query);
+        System.out.println("Result:");
+        System.out.println(session.toString(queryGraph, resultGraph));
+        return resultGraph;
+    }}

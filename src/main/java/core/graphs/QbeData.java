@@ -42,14 +42,12 @@ public class QbeData {
             return nullable;
         }
 
-        if (constraints.isEmpty()) {
-            return checkEquality(value);
+        if (this.value instanceof LogicalExpression) {
+            return ((LogicalExpression) this.value).evaluate(value);
         }
 
-        for (var constraint : constraints) {
-            if (!constraint.check(value)) {
-                return false;
-            }
+        if (constraints.isEmpty()) {
+            return checkEquality(value);
         }
 
         return true;

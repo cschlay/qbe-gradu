@@ -16,8 +16,7 @@ public class TabularHeader {
     public @Nullable String tailNodeName;
 
     public TabularHeader(String header) throws SyntaxError {
-        selected = header.endsWith("*");
-
+        selected = header.lastIndexOf('*') != -1;
         var cleanedHeader = cleanHeader(header, selected);
         String[] parts = cleanedHeader.split("\\.");
         name = cleanName(parts[0]);
@@ -70,7 +69,7 @@ public class TabularHeader {
 
     private String cleanHeader(String header, boolean selected) {
         if (selected) {
-            return header.substring(0, header.length() - 1).trim();
+            return header.replace("*", "").trim();
         }
         return header.trim();
     }

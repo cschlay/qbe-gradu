@@ -21,7 +21,6 @@ public class TabularRowWriter {
 
     /** Returns a list of rows, there may exist multiple ones because of relations. */
     public List<Object[]> getRows(ResultGraph graph) {
-        System.out.println(graph);
         var rows = new ArrayList<Object[]>();
 
         // Add the headers.

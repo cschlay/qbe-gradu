@@ -89,5 +89,7 @@ class TabularHeaderTest {
             assertEquals("Caption", header.displayName);
             assertFalse(header.selected);
         }
+
+        // TODO: Add test for selection*
     }
 }

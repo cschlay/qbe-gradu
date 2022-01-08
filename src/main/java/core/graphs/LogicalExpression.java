@@ -2,25 +2,45 @@ package core.graphs;
 
 import core.exceptions.SyntaxError;
 import syntax.tabular.TabularTokens;
-import core.utilities.GenericComparison;
+import core.utilities.Comparison;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
 import java.util.function.Consumer;
 
 /**
  * Represents a logical expression parsed from tabular query.
  */
 public class LogicalExpression {
-    public final String value;
+    public final String expression;
 
     public LogicalExpression(String expression) {
-        this.value = expression;
+        this.expression = expression;
     }
 
-    public static <T> boolean evaluate(String query, T value) {
-        var tokens = query.replace(",", "").replaceAll("[()]", " ").split(" ");
+    /**
+     * Evaluates a value against the expression.
+     *
+     * @param value to evaluate
+     * @param <T> the type of value
+     * @return true if the expression returns true with the value
+     */
+    public <T> boolean evaluate(T value) {
+        return evaluate(expression, value);
+    }
 
-        var stack = new Stack<>();
+    /**
+     * Evaluates value against any arbitrary query.
+     * Prefer using .evaluate(T value).
+     *
+     * @param expression to use
+     * @param value to evaluate
+     * @param <T> type of value
+     * @return true if the expression returns true with the value
+     */
+    public static <T> boolean evaluate(String expression, T value) {
+        var tokens = expression.replace(",", "").replaceAll("[()]", " ").split(" ");
+
+        var stack = new ArrayDeque<>(); // Deque is an implementation of Stack
 
         reverseIteration(tokens, token -> {
             var lowerCaseToken = token.toLowerCase();
@@ -52,15 +72,19 @@ public class LogicalExpression {
         return result.equals(value);
     }
 
+    public String toString() {
+        return String.format("LogicalExpression(%s)", expression);
+    }
+
     private static <T> boolean evaluateComparator(String operator, T a, Object b) {
         if (TabularTokens.GreaterThan.equals(operator)) {
-            return GenericComparison.isGreaterThan(a, b);
+            return Comparison.greaterThan(a, b);
         } else if (TabularTokens.GreaterThanOrEqual.equals(operator)) {
-            return GenericComparison.isGreaterThanOrEqual(a, b);
+            return Comparison.greaterThanOrEqualTo(a, b);
         } else if (TabularTokens.LessThan.equals(operator)) {
-            return GenericComparison.isLessThan(a, b);
+            return Comparison.lessThan(a, b);
         } else if (TabularTokens.LessThanOrEqual.equals(operator)) {
-            return GenericComparison.isLessThanOrEqual(a, b);
+            return Comparison.lessThanOrEqualTo(a, b);
         } else if (operator.equals(TabularTokens.Equality)) {
             return a.equals(b);
         }
@@ -85,6 +109,9 @@ public class LogicalExpression {
     private static  <T> Object castToSameType(T example, String value) throws SyntaxError {
         if (example instanceof Integer) {
             return Integer.parseInt(value);
+        }
+        if (example instanceof Double) {
+            return Double.parseDouble(value);
         }
 
         throw new SyntaxError(String.format("Invalid token %s", value));

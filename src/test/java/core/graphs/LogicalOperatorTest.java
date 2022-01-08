@@ -1,9 +1,10 @@
-package tabular.parser;
+package core.graphs;
 
 import core.graphs.LogicalExpression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+// TODO: merge into one
 public class LogicalOperatorTest {
     @Test
     public void And() {
