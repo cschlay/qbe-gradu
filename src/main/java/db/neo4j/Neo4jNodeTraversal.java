@@ -1,5 +1,6 @@
 package db.neo4j;
 
+import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
@@ -58,7 +59,7 @@ public class Neo4jNodeTraversal {
                 edgeTraversal.query(neo4jNode, queryNode, resultNode);
                 resultNodes.put(resultNode.id, resultNode);
             } catch (InvalidNodeException exception) {
-                logger.log(Level.INFO, "Discard node {0}, property failed", neo4jNode.getId());
+                // Discard node because a property check failed
             }
         }
 
@@ -66,10 +67,14 @@ public class Neo4jNodeTraversal {
     }
 
     private QbeNode visitNeo4jNode(Node neo4jNode, QbeNode query) throws InvalidNodeException {
-        Map<String, QbeData> properties = new Neo4jPropertyTraversal(query).getProperties(neo4jNode);
-        var resultNode = new QbeNode(neo4jNode.getId(), query.name);
-        resultNode.properties.putAll(properties);
+        try {
+            Map<String, QbeData> properties = new Neo4jPropertyTraversal(query).getProperties(neo4jNode);
+            var resultNode = new QbeNode(neo4jNode.getId(), query.name);
+            resultNode.properties.putAll(properties);
 
-        return resultNode;
+            return resultNode;
+        } catch (IdConstraintException exception) {
+            throw new InvalidNodeException(exception.getMessage());
+        }
     }
 }

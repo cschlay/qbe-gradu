@@ -1,5 +1,6 @@
 package db.neo4j;
 
+import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.GraphEntity;
 import core.graphs.QbeData;
@@ -27,7 +28,7 @@ public class Neo4jPropertyTraversal {
      * @return a collection of properties for the result entity
      * @throws InvalidNodeException if node should be discarded
      */
-    public Map<String, QbeData> getProperties(Entity neo4jEntity) throws InvalidNodeException {
+    public Map<String, QbeData> getProperties(Entity neo4jEntity) throws InvalidNodeException, IdConstraintException {
         var properties = new HashMap<String, QbeData>();
 
         for (var entry : queryProperties.entrySet()) {
@@ -51,11 +52,10 @@ public class Neo4jPropertyTraversal {
      * @throws InvalidNodeException if the property is invalid
      */
     private QbeData readProperty(Entity neo4jEntity, String propertyName, QbeData queryData)
-            throws InvalidNodeException {
+            throws InvalidNodeException, IdConstraintException {
         if ("id".equals(propertyName)) {
-            @Nullable var id = queryData.value;
-            if (id != null && (int) id != neo4jEntity.getId()) {
-                throw new InvalidNodeException("Id constraint check failed %s != %s", id, neo4jEntity.getId());
+            if (!checkId(queryData, neo4jEntity)) {
+                throw new IdConstraintException(queryData.value, neo4jEntity.getId());
             }
 
             return new QbeData(neo4jEntity.getId());
@@ -73,5 +73,20 @@ public class Neo4jPropertyTraversal {
         }
 
         throw new InvalidNodeException("Entity %s doesn't have property %s", neo4jEntity.getId(), propertyName);
+    }
+
+    // Helper to check id's whether int or long.
+    private boolean checkId(QbeData data, Entity neo4jEntity) {
+        @Nullable var id = data.value;
+
+        long neo4jId = neo4jEntity.getId();
+        if (id instanceof Integer) {
+            return (int) id == neo4jId;
+        }
+        if (id instanceof Long) {
+            return (long) id == neo4jId;
+        }
+
+        return true;
     }
 }

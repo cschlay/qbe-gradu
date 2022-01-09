@@ -1,4 +1,4 @@
-package tabular.queries;
+package tabular.queries.node;
 
 import base.QueryBaseTest;
 import org.junit.jupiter.api.Test;

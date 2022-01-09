@@ -1,5 +1,6 @@
 package db.neo4j;
 
+import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
@@ -52,9 +53,7 @@ public class Neo4jEdgeTraversal {
                     resultEdge.properties.putAll(properties);
                     resultNode.edges.put(resultEdge.id, resultEdge);
                 }
-            } catch (InvalidNodeException exception) {
-
-                exception.printStackTrace();
+            } catch (InvalidNodeException | IdConstraintException exception) {
                 // Edge is not valid and should be discarded.
             }
         }

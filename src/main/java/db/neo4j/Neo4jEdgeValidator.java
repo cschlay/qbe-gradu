@@ -1,5 +1,6 @@
 package db.neo4j;
 
+import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
@@ -22,12 +23,16 @@ public class Neo4jEdgeValidator {
         boolean hasValidEdge = false;
         int edgeCount = 0;
         for (Relationship relationship : relationships) {
-            QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge, graph);
-            if (hasPath(queryEdge, resultEdge, relationship)) {
-                edges.add(resultEdge);
-                hasValidEdge = true;
+            try {
+                QbeEdge resultEdge = visitNeo4jEdge(relationship, queryEdge, graph);
+                if (hasPath(queryEdge, resultEdge, relationship)) {
+                    edges.add(resultEdge);
+                    hasValidEdge = true;
+                }
+                edgeCount++;
+            } catch (IdConstraintException exception) {
+                // Discard edge
             }
-            edgeCount++;
         }
 
         if (!hasValidEdge && (!queryEdge.isTransitive && edgeCount == 0)) {
@@ -124,7 +129,7 @@ public class Neo4jEdgeValidator {
         return transaction.getNodeById(Long.parseLong(id));
     }
 
-    private static QbeEdge visitNeo4jEdge(Relationship neo4jEdge, QbeEdge queryEdge, ResultGraph graph) throws InvalidNodeException {
+    private static QbeEdge visitNeo4jEdge(Relationship neo4jEdge, QbeEdge queryEdge, ResultGraph graph) throws InvalidNodeException, IdConstraintException {
         long id = neo4jEdge.getId();
         long tailNodeId = neo4jEdge.getStartNodeId();
         long headNodeId = neo4jEdge.getEndNodeId();
