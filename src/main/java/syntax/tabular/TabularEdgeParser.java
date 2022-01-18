@@ -21,7 +21,7 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
         edge.tailNode = getTailNode(edge, header);
 
         QbeData data = dataParser.parse(exampleData);
-        edge.properties.put(header.propertyName, data);
+        edge.properties.put(header.name, data);
 
         return edge;
     }

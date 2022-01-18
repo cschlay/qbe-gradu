@@ -1,6 +1,6 @@
 package tabular.parser;
 
-import org.junit.jupiter.api.DisplayName;
+import core.exceptions.SyntaxError;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularHeader;
@@ -9,87 +9,73 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TabularHeaderTest {
     @Nested
-    class LongEdgeHeaderTest {
+    class UnknownNameTest {
         @Test
-        @DisplayName("should parse the node header without display name")
-        void parseWithoutDisplayName() throws Exception {
-            var header = new TabularHeader("contains.Course.Topic.difficulty");
-
-            assertEquals("contains.Course.Topic.difficulty", header.displayName);
-            assertEquals("contains", header.name);
-            assertEquals("difficulty", header.propertyName);
-            assertEquals("Course", header.tailNodeName);
-            assertEquals("Topic", header.headNodeName);
-            assertFalse(header.selected);
+        void simpleName() throws SyntaxError {
+            var header = new TabularHeader("Book");
+            assertEquals("Book", header.name);
+            assertEquals("Book", header.displayName);
         }
 
         @Test
-        @DisplayName("should parse the node header with display name")
-        void parseWithDisplayName() throws Exception {
-            var header = new TabularHeader("contains.Course.Topic.difficulty AS Difficulty");
-
-            assertEquals("Difficulty", header.displayName);
+        void withDisplayName() throws SyntaxError {
+            var header = new TabularHeader("contains AS includes");
             assertEquals("contains", header.name);
-            assertEquals("difficulty", header.propertyName);
-            assertEquals("Course", header.tailNodeName);
-            assertEquals("Topic", header.headNodeName);
-            assertFalse(header.selected);
+            assertEquals("includes", header.displayName);
+        }
+
+        @Test
+        void withSelect() throws SyntaxError {
+            var header = new TabularHeader("price*");
+            assertEquals("price", header.name);
+            assertEquals("price", header.displayName);
+            assertTrue(header.selected);
+        }
+
+        @Test
+        void withDisplayNameAndSelect() throws SyntaxError {
+            var header = new TabularHeader("price AS cost*");
+            assertEquals("price", header.name);
+            assertEquals("cost", header.displayName);
+            assertTrue(header.selected);
         }
     }
 
     @Nested
-    class ShortEdgeHeaderTest {
+    class EdgeHeaderTest {
         @Test
-        @DisplayName("should parse the node header without display name")
-        void parseWithoutDisplayName() throws Exception {
+        void simpleName() throws Exception {
             var header = new TabularHeader("contains.difficulty");
-
+            assertEquals("contains", header.entityName);
             assertEquals("contains.difficulty", header.displayName);
-            assertEquals("contains", header.name);
-            assertEquals("difficulty", header.propertyName);
-            assertNull(header.tailNodeName);
-            assertNull(header.headNodeName);
-            assertFalse(header.selected);
+            assertEquals("difficulty", header.name);
         }
 
         @Test
-        @DisplayName("should parse the node header with display name")
-        void parseWithDisplayName() throws Exception {
-            var header = new TabularHeader("contains.difficulty AS Difficulty");
-
-            assertEquals("Difficulty", header.displayName);
-            assertEquals("contains", header.name);
-            assertEquals("difficulty", header.propertyName);
-            assertNull(header.tailNodeName);
-            assertNull(header.headNodeName);
-            assertFalse(header.selected);
+        void withDisplayName() throws Exception {
+            var header = new TabularHeader("contains.difficulty AS Level");
+            assertEquals("contains", header.entityName);
+            assertEquals("Level", header.displayName);
+            assertEquals("difficulty", header.name);
         }
     }
 
     @Nested
     class NodeHeadersTest {
         @Test
-        @DisplayName("should parse the node header without display name")
-        void parseWithoutDisplayName() throws Exception {
+        void simpleName() throws Exception {
             var header = new TabularHeader("Course.title");
-
-            assertEquals("Course", header.name);
-            assertEquals("title", header.propertyName);
+            assertEquals("Course", header.entityName);
+            assertEquals("title", header.name);
             assertEquals("Course.title", header.displayName);
-            assertFalse(header.selected);
         }
 
         @Test
-        @DisplayName("should parse the node header with display name")
-        void parseWithDisplayName() throws Exception {
+        void withDisplayName() throws Exception {
             var header = new TabularHeader("Course.title AS Caption");
-
-            assertEquals("Course", header.name);
-            assertEquals("title", header.propertyName);
+            assertEquals("Course", header.entityName);
+            assertEquals("title", header.name);
             assertEquals("Caption", header.displayName);
-            assertFalse(header.selected);
         }
-
-        // TODO: Add test for selection*
     }
 }

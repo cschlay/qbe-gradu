@@ -20,7 +20,7 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
             node = new QbeNode(header.name);
         }
         QbeData data = dataParser.parse(exampleData);
-        node.properties.put(header.propertyName, data);
+        node.properties.put(header.name, data);
 
         return node;
     }

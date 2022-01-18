@@ -1,6 +1,6 @@
 package tabular.parser;
 
-import core.types.GraphCommands;
+import core.graphs.GraphEntityOperations;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,9 +17,9 @@ class TabularEdgeParserTest {
     @DisplayName("entity column")
     class EntityColumnTest {
         @ParameterizedTest
-        @EnumSource(GraphCommands.class)
+        @EnumSource(GraphEntityOperations.class)
         @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
-        void parseCommands(GraphCommands command) throws Exception {
+        void parseCommands(GraphEntityOperations command) throws Exception {
             var query = "" +
                     "| contains |\n" +
                     "|----------|\n" +

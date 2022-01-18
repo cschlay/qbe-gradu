@@ -24,8 +24,8 @@ public class Headers {
             var header = new TabularHeader(headers[i]);
             names[i] = header;
 
-            HashMap<String, Integer> index = indices.computeIfAbsent(header.name, key -> new HashMap<>());
-            index.put(header.propertyName, i);
+            HashMap<String, Integer> index = indices.computeIfAbsent(header.entityName, key -> new HashMap<>());
+            index.put(header.name, i);
         }
     }
 

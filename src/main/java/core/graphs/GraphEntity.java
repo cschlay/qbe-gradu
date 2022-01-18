@@ -1,6 +1,6 @@
 package core.graphs;
 
-import core.types.GraphCommands;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -14,10 +14,13 @@ public abstract class GraphEntity {
     @Nullable public final String id;
     public final String name;
     public final Map<String, QbeData> properties;
-    public GraphCommands type;
+    public GraphEntityOperations type;
     public boolean visited;
 
     private long _id;
+
+    // Flags
+    public GraphEntityOperations operation = GraphEntityOperations.QUERY;
 
     protected GraphEntity(@Nullable String name) {
         this.name = constructName(name);

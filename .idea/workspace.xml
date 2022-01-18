@@ -4,29 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add more tests to EdgeQueryTest and reduce size of NodeQueryTest">
-      <change afterPath="$PROJECT_DIR$/src/main/java/core/types/GraphCommands.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Don't remember what was changed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularHeaderType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularDataParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularDataParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/core/QbeDataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/core/QbeDataTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/core/utilities/ComparisonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/core/utilities/ComparisonTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/AnonymousNodeQueries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/EdgeQueries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/HiddenEntityQueries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/NodeQueries.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/graphml/queries/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/QueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/TabularTestClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularDataParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularDataParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/types/GraphCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntityOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularHeader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularNodeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularNodeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularHeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularHeaderTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/EdgeQueryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +28,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -93,11 +84,11 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="db" />
       <recent name="core.graphs" />
+      <recent name="db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TabularDataParserTest">
+  <component name="RunManager" selected="JUnit.TabularParserTest">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -146,22 +137,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NodeQueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.queries.node.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries.node" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.node.NodeQueryTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TabularDataParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -193,22 +168,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularNodeParserTest$EntityColumnTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser.TabularNodeParserTest" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularNodeParserTest$EntityColumnTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TabularNodeParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TabularHeaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
@@ -217,7 +177,37 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularNodeParserTest" />
+      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularHeaderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TabularParserTest$SimpleNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tabular.parser.TabularParserTest" />
+      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularParserTest$SimpleNodeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TabularParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tabular.parser" />
+      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularParserTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -225,19 +215,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.NodeQueryTest" />
-      <item itemvalue="JUnit.TabularNodeParserTest$EntityColumnTest" />
-      <item itemvalue="JUnit.TabularNodeParserTest" />
       <item itemvalue="JUnit.TabularEdgeParserTest" />
       <item itemvalue="JUnit.TabularDataParserTest" />
+      <item itemvalue="JUnit.TabularParserTest" />
+      <item itemvalue="JUnit.TabularHeaderTest" />
+      <item itemvalue="JUnit.TabularParserTest$SimpleNodeTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TabularParserTest" />
+        <item itemvalue="JUnit.TabularParserTest$SimpleNodeTest" />
+        <item itemvalue="JUnit.TabularHeaderTest" />
         <item itemvalue="JUnit.TabularDataParserTest" />
         <item itemvalue="JUnit.TabularEdgeParserTest" />
-        <item itemvalue="JUnit.TabularNodeParserTest" />
-        <item itemvalue="JUnit.TabularNodeParserTest$EntityColumnTest" />
-        <item itemvalue="JUnit.NodeQueryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -274,6 +264,7 @@
       <workItem from="1641920868805" duration="830000" />
       <workItem from="1642007141694" duration="2397000" />
       <workItem from="1642259249484" duration="1479000" />
+      <workItem from="1642493156533" duration="5286000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -453,7 +444,13 @@
       <option name="presentableId" value="LOCAL−00026" />
       <updated>1641726559296</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL−00027" summary="Don't remember what was changed">
+      <created>1642493264357</created>
+      <option name="number" value="LOCAL−00027" />
+      <option name="presentableId" value="LOCAL−00027" />
+      <updated>1642493264357</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,7 +468,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Upgrade to JUnit 5" />
     <MESSAGE value="Improve the tests, especially TabularResultWriterTest" />
     <MESSAGE value="Improve TabularResultWriter" />
     <MESSAGE value="Reorganize tests" />
@@ -496,7 +492,8 @@
     <MESSAGE value="Add refactor Comparison so that double is supported and add test to it" />
     <MESSAGE value="Add read test to node and fix bugs found" />
     <MESSAGE value="Add more tests to EdgeQueryTest and reduce size of NodeQueryTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add more tests to EdgeQueryTest and reduce size of NodeQueryTest" />
+    <MESSAGE value="Don't remember what was changed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Don't remember what was changed" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
