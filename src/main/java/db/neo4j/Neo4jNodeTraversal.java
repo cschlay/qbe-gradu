@@ -11,11 +11,8 @@ import org.neo4j.graphdb.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Neo4jNodeTraversal {
-    private static final Logger logger = Logger.getLogger(Neo4jNodeTraversal.class.getName());
     private final GraphDatabaseService db;
 
     public Neo4jNodeTraversal(GraphDatabaseService database) {

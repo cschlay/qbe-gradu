@@ -24,16 +24,6 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         }
     }
 
-    @Override
-    public boolean equals(Object graph) {
-        return super.equals(graph);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     public @Nullable QbeEdge getEdge(String nodeId, String edgeId) {
         @Nullable QbeNode node = get(nodeId);
         return node != null ? node.edges.get(edgeId) : null;
@@ -64,5 +54,16 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         }
 
         return links;
+    }
+
+    // Not part of the implementation
+    @Override
+    public boolean equals(Object graph) {
+        return super.equals(graph);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

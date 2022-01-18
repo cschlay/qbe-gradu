@@ -11,6 +11,45 @@ class TabularDataParserTest {
     TabularDataParser parser = new TabularDataParser();
 
     @Test
+    @DisplayName("should tokenize delete expressions")
+    void tokenizeDelete() {
+        var t1 = parser.tokenize("DELETE");
+        assertTrue(t1.delete);
+
+        var t2 = parser.tokenize("DELETE any thing");
+        assertTrue(t2.delete);
+        assertEquals("any thing", t2.value);
+
+        var t3 = parser.tokenize("DELETE \"DELETE\"");
+        assertTrue(t3.delete);
+        assertEquals("\"DELETE\"", t3.value);
+    }
+
+    @Test
+    @DisplayName("should tokenize update expressions")
+    void tokenizeUpdate() {
+        var t1 = parser.tokenize("UPDATE any thing");
+        assertEquals("", t1.value);
+        assertEquals("any thing", t1.update);
+
+        var t2 = parser.tokenize("UPDATE any thing TO no thing");
+        assertEquals("any thing", t2.value);
+        assertEquals("no thing", t2.update);
+
+        var t3 = parser.tokenize("UPDATE \"UPDATE BOOK\" TO \"BOOK TO UPDATE\"");
+        assertEquals("\"UPDATE BOOK\"", t3.value);
+        assertEquals("\"TO UPDATE\"", t2.update);
+    }
+/*
+    @Test
+    @DisplayName("should tokenize aggregation functions")
+    void parseAggregation() {
+        String[] tokens = parser.tokenize("COUNT any thing");
+        assertEquals("COUNT", tokens[0]);
+        assertEquals("any thing", tokens[1]);
+    }*/
+
+    @Test
     @DisplayName("should parse false and true into boolean")
     void parseBoolean() {
         assertEquals(false, parser.parse("false").value);

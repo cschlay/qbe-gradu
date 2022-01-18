@@ -17,6 +17,11 @@ public class QbeData {
     public final boolean nullable;
     public final boolean selected;
 
+    /** Mark as delete, so the property gets deleted. */
+    public boolean delete;
+    /** Value to update node */
+    public @Nullable Object update;
+
     public QbeData(@Nullable Object value) {
         constraints = new ArrayList<>();
         this.nullable = false;

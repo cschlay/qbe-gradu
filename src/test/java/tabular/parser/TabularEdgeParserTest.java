@@ -1,13 +1,40 @@
 package tabular.parser;
 
+import core.types.GraphCommands;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import syntax.tabular.TabularParser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TabularEdgeParserTest {
     TabularParser parser = new TabularParser();
+
+    @Nested
+    @DisplayName("entity column")
+    class EntityColumnTest {
+        @ParameterizedTest
+        @EnumSource(GraphCommands.class)
+        @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
+        void parseCommands(GraphCommands command) throws Exception {
+            var query = "" +
+                    "| contains |\n" +
+                    "|----------|\n" +
+                    String.format("| %s Book.Topic |\n", command.name());
+            var graph = parser.parse(query);
+
+            var n1 = graph.get("Book");
+            var n2 = graph.get("Topic");
+            var edge = n1.edges.get("contains");
+            assertEquals(edge, n2.edges.get("contains"));
+            assertEquals(command, edge.type);
+            assertEquals(n1, edge.tailNode);
+            assertEquals(n2, edge.headNode);
+        }
+    }
 
     @Test
     @DisplayName("should parse one column")
@@ -70,21 +97,6 @@ class TabularEdgeParserTest {
 
         var topic = graph.get("Topic");
         assertEquals(teaches, topic.edges.get("teaches"));
-    }
-
-    @Test
-    @DisplayName("should parse short notation")
-    void parseShortNotation() throws Exception {
-        // It might be possible by first querying nodes
-        // Then query all edges of that name and check the conditions.
-        // And ensure that necessary nodes are included and slap it to the result
-        fail("TODO: Try to deduct the edges");
-    }
-
-    @Test
-    @DisplayName("should parse anonymous edge")
-    void parseAnonymousEdge() throws Exception {
-        fail("TODO: check feasibility");
     }
 
     @Test

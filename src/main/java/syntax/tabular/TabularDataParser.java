@@ -8,6 +8,12 @@ import org.jetbrains.annotations.Nullable;
  * Parser for values used in tabular queries.
  */
 public class TabularDataParser {
+    public class Token {
+        public boolean delete;
+        public @Nullable String update;
+        public String value;
+    }
+
     /**
      * Parse tabular value in the cell into processable object
      *
@@ -15,8 +21,37 @@ public class TabularDataParser {
      * @return QbeData instance
      */
     public QbeData parse(String value) {
-        var data = parseValue(value);
-        return new QbeData(data);
+        Token tokens = tokenize(value);
+
+        var data = parseValue(tokens.value);
+        var instance = new QbeData(data);
+        instance.delete = tokens.delete;
+        instance.update = tokens.update;
+        return instance;
+    }
+
+    public Token tokenize(String value) {
+        var token = new Token();
+        if (value.startsWith("DELETE")) {
+            token.delete = true;
+            token.value = value.replaceFirst("DELETE", "").trim();
+        } else if (value.startsWith("UPDATE")) {
+            if (value.contains("\"")) {
+                // Strings are treated differently because they may contain word "TO" in e.g. book title.
+
+            } else {
+
+            }
+
+            if (value.contains(" TO ")) {
+
+            } else {
+
+            }
+        } else {
+            token.value = value;
+        }
+        return token;
     }
 
     /**

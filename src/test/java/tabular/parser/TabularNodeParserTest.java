@@ -1,13 +1,47 @@
 package tabular.parser;
 
+import core.exceptions.SyntaxError;
+import core.types.GraphCommands;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import syntax.tabular.TabularParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TabularNodeParserTest {
     TabularParser parser = new TabularParser();
+
+    @Nested
+    @DisplayName("entity columns")
+    class EntityColumnTest {
+        @ParameterizedTest
+        @EnumSource(GraphCommands.class)
+        @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
+        void parseCommands(GraphCommands command) throws Exception {
+            var query = "" +
+                    "| Book   |\n" +
+                    "|--------|\n" +
+                    String.format("| %s |\n", command.name());
+            var graph = parser.parse(query);
+            var node = graph.get("Book");
+            assertEquals(command, node.type);
+        }
+
+        @Test
+        @DisplayName("should throw SyntaxError if command is not valid")
+        void syntaxErrors() {
+            var query = "" +
+                    "| Book |\n" +
+                    "|------|\n" +
+                    "| PUT  |\n";
+            var exception = assertThrows(SyntaxError.class, () -> parser.parse(query));
+            assertEquals("Invalid entity command PUT, should be CREATE, DELETE, UPDATE or QUERY", exception.getMessage());
+        }
+    }
 
     @Test
     @DisplayName("should parse one node")

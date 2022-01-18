@@ -6,7 +6,6 @@ import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import db.neo4j.Neo4jPropertyTraversal;
 import demo.CourseGraphDemo;
-import graphml.queries.QueryTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;

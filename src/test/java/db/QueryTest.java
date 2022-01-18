@@ -1,4 +1,4 @@
-package graphml.queries;
+package db;
 
 import cli.CLICommands;
 import cli.Main;
