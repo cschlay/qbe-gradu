@@ -1,105 +1,69 @@
 package tabular.parser;
 
 import core.exceptions.SyntaxError;
+import core.graphs.QbeNode;
+import core.graphs.QueryGraph;
 import core.graphs.QueryType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import syntax.tabular.TabularParser;
+import syntax.tabular.TabularHeader;
+import syntax.tabular.TabularNodeParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TabularNodeParserTest {
-    TabularParser parser = new TabularParser();
-
-    @Nested
-    @DisplayName("entity columns")
-    class EntityColumnTest {
-        @ParameterizedTest
-        @EnumSource(QueryType.class)
-        @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
-        void parseCommands(QueryType command) throws Exception {
-            var query = "" +
-                    "| Book   |\n" +
-                    "|--------|\n" +
-                    String.format("| %s |\n", command.name());
-            var graph = parser.parse(query);
-            var node = graph.get("Book");
-            assertEquals(command, node.type);
-        }
-
-        @Test
-        @DisplayName("should throw SyntaxError if command is not valid")
-        void syntaxErrors() {
-            var query = "" +
-                    "| Book |\n" +
-                    "|------|\n" +
-                    "| PUT  |\n";
-            var exception = assertThrows(SyntaxError.class, () -> parser.parse(query));
-            assertEquals("Invalid entity command PUT, should be CREATE, DELETE, UPDATE or QUERY", exception.getMessage());
-        }
+    @ParameterizedTest
+    @EnumSource(QueryType.class)
+    void parseEntity(QueryType type) throws Exception {
+        TabularNodeParser parser = setup();
+        var header = new TabularHeader("Movie");
+        QbeNode node = parser.parseEntity(header, type.name());
+        assertEquals("Movie", node.name);
+        assertEquals(type, node.type);
     }
 
     @Test
-    @DisplayName("should parse one node")
-    void parseOneNode() throws Exception {
-        var query =
-                ""
-                        + "| Course.averageGrade |\n"
-                        + "|---------------------|\n"
-                        + "| 3.59                |";
-
-        var graph = parser.parse(query);
-        assertEquals(1, graph.order());
-        assertEquals(1, graph.get("Course").properties.size());
-
-        graph.values().forEach(node -> assertEquals(3.59, node.getProperty("averageGrade")));
+    void parseEntityErrors() {
+        TabularNodeParser parser = setup();
+        var header = new TabularHeader("movie");
+        assertThrows(SyntaxError.class, () -> parser.parseEntity(header, QueryType.QUERY.name()));
     }
 
     @Test
-    @DisplayName("should parse multiple nodes")
-    void parseMultipleNodes() throws Exception {
-        var query =
-                ""
-                        + "| Course.title                   | Book.title |\n"
-                        + "|--------------------------------+------------|\n"
-                        + "| \"Introduction to Algorithms\" | \"Graphs\" |";
-
-        var graph = parser.parse(query);
-        assertEquals(2, graph.order());
-        assertEquals(1, graph.get("Book").properties.size());
-        assertEquals(1, graph.get("Course").properties.size());
+    void parsePropertyNewNode() {
+        TabularNodeParser parser = setup();
+        var header = new TabularHeader("Movie.name");
+        QbeNode node = parser.parseProperty(header, "\"Spider-Man\"");
+        assertEquals("Spider-Man", node.getProperty("name"));
     }
 
     @Test
-    @DisplayName("should parse multiple properties")
-    void parseMultipleProperties() throws Exception {
-        var query =
-                ""
-                        + "| Course.title           | Course.difficulty |\n"
-                        + "|------------------------+-------------------|\n"
-                        + "| \"Introduction to .*\" | 1                 |";
+    void parsePropertyExistingNode() {
+        var graph = new QueryGraph();
+        var node0 = new QbeNode("Movie");
+        graph.put(node0);
 
-        var graph = parser.parse(query);
-        assertEquals(1, graph.order());
-        assertEquals(2, graph.get("Course").properties.size());
+        var parser = new TabularNodeParser(graph);
+        var header = new TabularHeader("Movie.name");
+
+        QbeNode node = parser.parseProperty(header, "\"Spider-Man 2\"");
+        assertEquals(node0, node);
+        assertEquals("Spider-Man 2", node0.getProperty("name"));
     }
 
     @Test
-    @DisplayName("should parse multiple nodes and properties")
-    void parseMultipleNodesAndProperties() throws Exception {
-        var query =
-                ""
-                        + "| Course.title           | Course.difficulty | Book.title | Book.author |\n"
-                        + "|------------------------+-------------------+------------+-------------|\n"
-                        + "| \"Introduction to .*\" | 1                 | \"Graphs\" | \"Chess\"   |";
+    void parseIdProperty() {
+        TabularNodeParser parser = setup();
+        var header = new TabularHeader("Movie.id");
+        QbeNode node = parser.parseProperty(header, "1");
+        assertEquals(1, node.getProperty("id"));
+        assertEquals("1", node.id);
+    }
 
-        var graph = parser.parse(query);
-        assertEquals(2, graph.order());
-        assertEquals(2, graph.get("Course").properties.size());
-        assertEquals(2, graph.get("Book").properties.size());
+    private TabularNodeParser setup() {
+        var graph = new QueryGraph();
+        return new TabularNodeParser(graph);
     }
 }

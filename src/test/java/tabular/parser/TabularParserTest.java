@@ -62,7 +62,7 @@ class TabularParserTest {
             var graph = parser.parse(query);
             var node = graph.get("Song");
 
-            assertEquals(QueryType.CREATE, node.type);
+            assertEquals(QueryType.INSERT, node.type);
             assertEquals("How to Solve It", node.getProperty("title"));
             assertEquals(20.3, node.getProperty("length"));
         }
@@ -145,7 +145,7 @@ class TabularParserTest {
             assertEquals(QueryType.QUERY, song.type);
 
             var edge = artist.edges.get("composed");
-            assertEquals(QueryType.CREATE, edge.type);
+            assertEquals(QueryType.INSERT, edge.type);
             assertEquals(true, edge.getProperty("active"));
         }
 

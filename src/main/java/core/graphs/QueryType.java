@@ -1,8 +1,11 @@
 package core.graphs;
 
+/**
+ * Marks the operation to perform with the node.
+ */
 public enum QueryType {
-    CREATE,
     DELETE,
+    INSERT,
     UPDATE,
     QUERY,
 }
