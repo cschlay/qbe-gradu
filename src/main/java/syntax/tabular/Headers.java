@@ -26,7 +26,7 @@ public class Headers {
     @Nullable public Integer getIndex(GraphEntity entity, String property) {
         for (int i = 0; i < headers.length; i++) {
             TabularHeader header = headers[i];
-            if (entity.name.equals(header.entityName)) {
+            if (entity.name.equals(header.entityName) && header.name.equals(property)) {
                 return i;
             }
         }

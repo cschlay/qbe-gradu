@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Fix the NodeQueryTest to use new short notation">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Change EdgeQueryTest to use the new syntax">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/TabularResultWriterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/TabularResultWriterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,51 +172,52 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularNodeParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TabularResultWriterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
-          <option name="ENABLED" value="false" />
+          <option name="PATTERN" value="tabular.*" />
+          <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularNodeParserTest" />
+      <option name="PACKAGE_NAME" value="tabular" />
+      <option name="MAIN_CLASS_NAME" value="tabular.TabularResultWriterTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TabularParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TabularResultWriterTest.includeId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
+          <option name="PATTERN" value="tabular.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularParserTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="tabular" />
+      <option name="MAIN_CLASS_NAME" value="tabular.TabularResultWriterTest" />
+      <option name="METHOD_NAME" value="includeId" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.TabularParserTest" />
-      <item itemvalue="JUnit.TabularNodeParserTest" />
       <item itemvalue="JUnit.TabularEdgeParserTest" />
       <item itemvalue="JUnit.NodeQueryTest" />
       <item itemvalue="JUnit.EdgeQueryTest" />
+      <item itemvalue="JUnit.TabularResultWriterTest" />
+      <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TabularResultWriterTest" />
+        <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
         <item itemvalue="JUnit.EdgeQueryTest" />
         <item itemvalue="JUnit.NodeQueryTest" />
         <item itemvalue="JUnit.TabularEdgeParserTest" />
-        <item itemvalue="JUnit.TabularNodeParserTest" />
-        <item itemvalue="JUnit.TabularParserTest" />
       </list>
     </recent_temporary>
   </component>
@@ -253,7 +255,7 @@
       <workItem from="1642007141694" duration="2397000" />
       <workItem from="1642259249484" duration="1479000" />
       <workItem from="1642493156533" duration="22930000" />
-      <workItem from="1642583960940" duration="11640000" />
+      <workItem from="1642583960940" duration="12579000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -463,7 +465,13 @@
       <option name="presentableId" value="LOCAL−00031" />
       <updated>1642594578174</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL−00032" summary="Change EdgeQueryTest to use the new syntax">
+      <created>1642598960941</created>
+      <option name="number" value="LOCAL−00032" />
+      <option name="presentableId" value="LOCAL−00032" />
+      <updated>1642598960941</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +489,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Make changes so that any parser can be used" />
     <MESSAGE value="Fix some query bugs and add a few test for tabular querying" />
     <MESSAGE value="Add QbeData tests and improve its implementation" />
     <MESSAGE value="Add test for QbeNode and improve code" />
@@ -506,7 +513,8 @@
     <MESSAGE value="Improve TabularParser to support implicit entity syntax and add tests" />
     <MESSAGE value="Replace TabularNodeParser tests" />
     <MESSAGE value="Fix the NodeQueryTest to use new short notation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix the NodeQueryTest to use new short notation" />
+    <MESSAGE value="Change EdgeQueryTest to use the new syntax" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change EdgeQueryTest to use the new syntax" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

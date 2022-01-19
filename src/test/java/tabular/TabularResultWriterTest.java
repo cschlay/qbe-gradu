@@ -13,7 +13,6 @@ class TabularResultWriterTest {
     TabularResultWriter writer = new TabularResultWriter();
 
     @Test
-    @DisplayName("Should include id")
     void includeId() throws Exception {
         var queryGraph = new QueryGraph();
         queryGraph.meta = new TabularQueryMeta(new String[] { "Course.id" });
@@ -23,12 +22,11 @@ class TabularResultWriterTest {
         node.properties.put("title", new QbeData("Algebra"));
         resultGraph.put(node.id, node);
 
+        System.out.println(node);
         var expected = "" +
                 "| Course.id |\n" +
                 "|-----------|\n" +
                 "| 1         |\n";
-
-        var writer = new TabularResultWriter();
         assertEquals(expected, writer.write(queryGraph, resultGraph));
     }
 
