@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * Parser for values used in tabular queries.
  */
 public class TabularDataParser {
-    public class Token {
+    public static class Token {
         public boolean delete;
         public @Nullable String update;
         public String value;
@@ -26,7 +26,7 @@ public class TabularDataParser {
         var data = parseValue(tokens.value);
         var instance = new QbeData(data);
         instance.delete = tokens.delete;
-        instance.update = tokens.update;
+        instance.update = parseValue(tokens.update);
         return instance;
     }
 
@@ -36,18 +36,9 @@ public class TabularDataParser {
             token.delete = true;
             token.value = value.replaceFirst("DELETE", "").trim();
         } else if (value.startsWith("UPDATE")) {
-            if (value.contains("\"")) {
-                // Strings are treated differently because they may contain word "TO" in e.g. book title.
-
-            } else {
-
-            }
-
-            if (value.contains(" TO ")) {
-
-            } else {
-
-            }
+            token.value = "";
+            token.update = value.replaceFirst("UPDATE", "").trim();
+            // Can be extended to parse "UPDATE x TO y" syntax. In that case token.value = x and token.update = y
         } else {
             token.value = value;
         }
@@ -68,8 +59,8 @@ public class TabularDataParser {
      * @param value to parse
      * @return Java equivalent of the value
      */
-    private @Nullable Object parseValue(String value) {
-        if ("".equals(value) || "null".equals(value)) {
+    private @Nullable Object parseValue(@Nullable String value) {
+        if (value == null || "".equals(value) || "null".equals(value)) {
             return null;
         }
 

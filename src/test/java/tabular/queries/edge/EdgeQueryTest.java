@@ -61,13 +61,13 @@ class EdgeQueryTest extends QueryBaseTest {
                 "| contains.Book.Topic.id* |\n" +
                 "|-------------------------|\n" +
                 "|                         |\n";
-        assertQuery(q1, edge -> assertEquals(e1.getId(), edge.getId()));
+        assertQuery(q1, edge -> assertEquals(String.valueOf(e1.getId()), edge.id));
 
         var q2 = "" +
                 "| contains.Topic.Book.id* |\n" +
                 "|-------------------------|\n" +
                 "|                         |\n";
-        assertQuery(q2, edge -> assertEquals(e2.getId(), edge.getId()));
+        assertQuery(q2, edge -> assertEquals(String.valueOf(e2.getId()), edge.id));
 
     }
 

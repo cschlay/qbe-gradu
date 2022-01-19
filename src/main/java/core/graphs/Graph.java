@@ -1,5 +1,6 @@
 package core.graphs;
 
+import core.exceptions.EntityNotFound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -10,6 +11,14 @@ import java.util.Queue;
 public abstract class Graph extends HashMap<String, QbeNode> {
     public transient Queue<QbeEdge> hangingEdges;
 
+    public void put(QbeNode node) {
+        if (node.id != null) {
+            put(node.id, node);
+        } else {
+            put(node.name, node);
+        }
+    }
+
     /**
      * Adds an edge to the graph and links them to nodes if not already.
      * "id" is used as key if defined, otherwise "name" is used.
@@ -17,16 +26,25 @@ public abstract class Graph extends HashMap<String, QbeNode> {
      *
      * @param edge to add
      */
-    public void addEdge(QbeEdge edge) {
+    public void put(QbeEdge edge) {
         int links = linkEdge(edge);
         if (links == 0) {
             hangingEdges.add(edge);
         }
     }
 
-    public @Nullable QbeEdge getEdge(String nodeId, String edgeId) {
+    public QbeEdge edge(String nodeId, String edgeId) throws EntityNotFound {
         @Nullable QbeNode node = get(nodeId);
-        return node != null ? node.edges.get(edgeId) : null;
+        if (node == null) {
+            throw new EntityNotFound("Node '%s' not found, when looking for edge '%s'.", nodeId, edgeId);
+        }
+
+        @Nullable QbeEdge edge = node.edges.get(edgeId);
+        if (edge != null) {
+            return edge;
+        }
+
+        throw new EntityNotFound("Node '%s' doesn't have edge '%s'.", nodeId, edgeId);
     }
 
     /**

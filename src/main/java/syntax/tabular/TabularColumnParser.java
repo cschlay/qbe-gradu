@@ -1,5 +1,10 @@
 package syntax.tabular;
 
+
+import core.exceptions.SyntaxError;
+
 public interface TabularColumnParser<T> {
-    T parse(TabularHeader header, String exampleData);
+    T parseProperty(TabularHeader header, String value);
+
+    T parseEntity(TabularHeader header, String value) throws SyntaxError;
 }

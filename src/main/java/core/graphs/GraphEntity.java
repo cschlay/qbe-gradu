@@ -1,6 +1,6 @@
 package core.graphs;
 
-import org.jetbrains.annotations.NotNull;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -11,16 +11,13 @@ import java.util.Map;
  * They share features such as "id", "name" and "properties".
  */
 public abstract class GraphEntity {
-    @Nullable public final String id;
+    @Nullable public String id;
     public final String name;
     public final Map<String, QbeData> properties;
-    public GraphEntityOperations type;
+
+    public QueryType type = QueryType.QUERY;
+
     public boolean visited;
-
-    private long _id;
-
-    // Flags
-    public GraphEntityOperations operation = GraphEntityOperations.QUERY;
 
     protected GraphEntity(@Nullable String name) {
         this.name = constructName(name);
@@ -29,16 +26,10 @@ public abstract class GraphEntity {
     }
 
     protected GraphEntity(long id, @Nullable String name) {
-        _id = id;
+        this(name);
+
         this.id = String.valueOf(id);
-        this.name = constructName(name);
-
-        properties = new HashMap<>();
         properties.put("id", new QbeData(id));
-    }
-
-    public long getId() {
-        return _id;
     }
 
     /**

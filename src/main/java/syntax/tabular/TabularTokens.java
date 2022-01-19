@@ -1,5 +1,8 @@
 package syntax.tabular;
 
+import core.exceptions.SyntaxError;
+import core.graphs.QueryType;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,4 +21,20 @@ public class TabularTokens {
             Equality, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual);
     public static List<String> LogicalOperators = Arrays.asList(
             And, Or, Not);
+
+    public static QueryType getQueryType(String queryType) throws SyntaxError  {
+        switch (queryType) {
+            case "QUERY":
+                return QueryType.QUERY;
+            case "DELETE":
+                return QueryType.DELETE;
+            case "INSERT":
+                return QueryType.CREATE;
+            case "UPDATE":
+                return QueryType.UPDATE;
+            default:
+                String message = "Query type '%s' is not supported. Use one of 'QUERY', 'DELETE', 'INSERT' or 'UPDATE'";
+                throw new SyntaxError(message, queryType);
+        }
+    }
 }

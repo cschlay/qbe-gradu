@@ -15,10 +15,6 @@ public class TabularHeader {
     public final String displayName;
     public final boolean selected;
 
-    // Only exists for edge instances and may change if they can be implicitly deducted.
-    @Nullable public String headNodeName;
-    @Nullable public String tailNodeName;
-
     public TabularHeader(String header) {
         selected = header.lastIndexOf('*') != -1;
 

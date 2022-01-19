@@ -1,5 +1,6 @@
 package db.neo4j;
 
+import core.exceptions.EntityNotFound;
 import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.QbeEdge;
@@ -68,23 +69,21 @@ public class Neo4jEdgeTraversal {
         String tailId = String.valueOf(neo4jEdge.getStartNodeId());
         String edgeId = String.valueOf(neo4jEdge.getId());
 
-        @Nullable QbeEdge edge = resultGraph.getEdge(tailId, edgeId);
-        if (edge != null) {
-            return edge;
+        try {
+            return resultGraph.edge(tailId, edgeId);
+        } catch (EntityNotFound expected) {
+            return new QbeEdge(neo4jEdge.getId(), queryEdge.name);
         }
-
-        return new QbeEdge(neo4jEdge.getId(), queryEdge.name);
     }
 
     private QbeEdge createEdgeWithTail(Relationship neo4jEdge, QbeEdge queryEdge) {
         String headId = String.valueOf(neo4jEdge.getEndNodeId());
         String edgeId = String.valueOf(neo4jEdge.getId());
 
-        @Nullable QbeEdge edge = resultGraph.getEdge(headId, edgeId);
-        if (edge != null) {
-            return edge;
+        try {
+            return resultGraph.edge(headId, edgeId);
+        } catch (EntityNotFound expected) {
+            return new QbeEdge(neo4jEdge.getId(), queryEdge.name);
         }
-
-        return new QbeEdge(neo4jEdge.getId(), queryEdge.name);
     }
 }

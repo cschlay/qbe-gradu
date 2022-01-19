@@ -1,7 +1,7 @@
 package tabular.parser;
 
 import core.exceptions.SyntaxError;
-import core.graphs.GraphEntityOperations;
+import core.graphs.QueryType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,9 +19,9 @@ class TabularNodeParserTest {
     @DisplayName("entity columns")
     class EntityColumnTest {
         @ParameterizedTest
-        @EnumSource(GraphEntityOperations.class)
+        @EnumSource(QueryType.class)
         @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
-        void parseCommands(GraphEntityOperations command) throws Exception {
+        void parseCommands(QueryType command) throws Exception {
             var query = "" +
                     "| Book   |\n" +
                     "|--------|\n" +

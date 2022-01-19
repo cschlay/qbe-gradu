@@ -1,67 +1,64 @@
 package syntax.tabular;
 
-import core.graphs.QbeData;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
+import core.exceptions.SyntaxError;
+import core.graphs.*;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
     private final TabularDataParser dataParser;
+    // Cache the parsed edges, so that lookup is faster.
+    private final Map<String, QbeEdge> edges;
     private final QueryGraph graph;
 
     public TabularEdgeParser(QueryGraph graph) {
         this.graph = graph;
+
+        edges = new HashMap<>();
         dataParser = new TabularDataParser();
     }
 
-    public QbeEdge parse(TabularHeader header, String exampleData) {
-        QbeEdge edge = getOrCreateEdge(header);
-        edge.headNode = getHeadNode(edge, header);
-        edge.tailNode = getTailNode(edge, header);
+    public QbeEdge parseEntity(TabularHeader header, String value) throws SyntaxError {
+        String[] parts = value.split("([ .])");
+        if (parts.length != 3) {
+            throw new SyntaxError("Edge entity column must include operation e.g. 'CREATE Topic.Song'.");
+        }
 
-        QbeData data = dataParser.parse(exampleData);
+        QbeEdge edge = new QbeEdge(header.name);
+        edge.type = TabularTokens.getQueryType(parts[0]);
+        edge.tailNode = getOrCreateNode(parts[1]);
+        edge.headNode = getOrCreateNode(parts[2]);
+        edges.put(edge.name, edge);
+        return edge;
+    }
+
+    public QbeEdge parseProperty(TabularHeader header, String value) {
+        QbeEdge edge = getOrCreateEdge(header.entityName);
+        QbeData data = dataParser.parse(value);
         edge.properties.put(header.name, data);
+
+        if ("id".equals(header.name)) {
+            edge.id = value;
+        }
 
         return edge;
     }
 
-    private QbeEdge getOrCreateEdge(TabularHeader header) {
-        @Nullable QbeNode tailNode = graph.get(header.tailNodeName);
-        @Nullable QbeNode headNode = graph.get(header.headNodeName);
-
-        @Nullable QbeEdge edge = null;
-        if (tailNode != null) {
-            edge = tailNode.edges.get(header.name);
-        }
-        if (edge == null && headNode != null) {
-            edge = headNode.edges.get(header.name);
+    private QbeEdge getOrCreateEdge(String name) {
+        @Nullable QbeEdge edge = edges.get(name);
+        if (edge != null) {
+            return edge;
         }
 
-        return edge == null ? new QbeEdge(header.name) : edge;
+        edge = new QbeEdge(name);
+        edges.put(edge.name, edge);
+        return edge;
     }
 
-    private @Nullable QbeNode getHeadNode(QbeEdge edge, TabularHeader header) {
-        if (edge.headNode != null) {
-            return edge.headNode;
-        }
-
-        @Nullable QbeNode node = graph.get(header.headNodeName);
-        if (node == null) {
-            return header.headNodeName == null ? null : new QbeNode(header.headNodeName);
-        }
-        return node;
-    }
-
-    private QbeNode getTailNode(QbeEdge edge, TabularHeader header) {
-        if (edge.tailNode != null) {
-            return edge.tailNode;
-        }
-
-        @Nullable QbeNode node = graph.get(header.tailNodeName);
-        if (node == null) {
-            return header.tailNodeName == null ? null : new QbeNode(header.tailNodeName);
-        }
-        return node;
+    private QbeNode getOrCreateNode(String name) {
+        @Nullable QbeNode node = graph.get(name);
+        return node != null ? node : new QbeNode(name);
     }
 }

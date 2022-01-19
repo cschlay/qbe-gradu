@@ -1,5 +1,6 @@
 package syntax.tabular;
 
+import core.exceptions.SyntaxError;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
@@ -14,13 +15,23 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
         dataParser = new TabularDataParser();
     }
 
-    public QbeNode parse(TabularHeader header, String exampleData) {
-        @Nullable QbeNode node = graph.get(header.name);
+    public QbeNode parseEntity(TabularHeader header, String value) throws SyntaxError {
+        var node = new QbeNode(header.name);
+        node.type = TabularTokens.getQueryType(value);
+        return node;
+    }
+
+    public QbeNode parseProperty(TabularHeader header, String value) {
+        @Nullable QbeNode node = graph.get(header.entityName);
         if (node == null) {
-            node = new QbeNode(header.name);
+            node = new QbeNode(header.entityName);
         }
-        QbeData data = dataParser.parse(exampleData);
+        QbeData data = dataParser.parse(value);
         node.properties.put(header.name, data);
+
+        if ("id".equals(header.name)) {
+            node.id = value;
+        }
 
         return node;
     }

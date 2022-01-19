@@ -27,7 +27,7 @@ class Neo4jTraversalTest extends QueryTest {
         var queryGraph = new QueryGraph();
         queryGraph.put(tail.name, tail);
         queryGraph.put(head.name, head);
-        queryGraph.addEdge(edge);
+        queryGraph.put(edge);
 
         var traversal = new Neo4jTraversal(getDatabase(), queryGraph);
         var resultGraph = traversal.buildResultGraph();

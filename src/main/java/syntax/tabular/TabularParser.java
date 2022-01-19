@@ -4,10 +4,9 @@ import core.exceptions.SyntaxError;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
-import core.utilities.Debug;
+import core.utilities.Utils;
 import interfaces.QueryParser;
-
-import java.util.Arrays;
+import org.jetbrains.annotations.Nullable;
 
 public class TabularParser implements QueryParser {
     /**
@@ -24,17 +23,7 @@ public class TabularParser implements QueryParser {
 
         String[] headers = splitRow(rows[0]);
         var queryMeta = new TabularQueryMeta(headers);
-
-        Debug.printList(Arrays.asList(rows));
-        // Support for multiple query rows, by iterating each row by header.
-        int exampleRowCount = rows.length - 2;
-        var queryGraphs = new QueryGraph[exampleRowCount];
-        for (int i = 0; i < exampleRowCount; i++) {
-            queryGraphs[i] = parseRow(queryMeta, rows[i]);
-        }
-
-        // TODO:
-        return queryGraphs[0];
+        return parseRow(queryMeta, rows[2]);
     }
 
     public QueryGraph parseRow(TabularQueryMeta meta, String exampleRow) throws SyntaxError {
@@ -47,20 +36,48 @@ public class TabularParser implements QueryParser {
         var nodeParser = new TabularNodeParser(graph);
         var edgeParser = new TabularEdgeParser(graph);
 
+        @Nullable String entityName = null;
         for (int i = 0; i < meta.headers.length; i++) {
+            String value = columns[i].trim();
             TabularHeader header = meta.headers.get(i);
-            String exampleColumn = columns[i].trim();
+            header.type = getColumnType(header, value);
 
             if (TabularHeaderType.NODE == header.type) {
-                QbeNode node = nodeParser.parse(header, exampleColumn);
-                graph.put(node.name, node);
+                entityName = header.name;
+                QbeNode node = nodeParser.parseEntity(header, value);
+                graph.put(node);
+            } else if (TabularHeaderType.EDGE == header.type) {
+                entityName = header.name;
+                QbeEdge edge = edgeParser.parseEntity(header, value);
+                graph.put(edge);
+            } else if (entityName == null) {
+                throw new SyntaxError("The entity columns must be defined before properties e.g. | Book | title |");
             } else {
-                QbeEdge edge = edgeParser.parse(header, exampleColumn);
-                graph.addEdge(edge);
+                if (header.entityName == null) {
+                    header.entityName = entityName;
+                }
+                if (Utils.startsWithUppercase(header.entityName)) {
+                    QbeNode node = nodeParser.parseProperty(header, value);
+                    graph.put(node);
+                } else {
+                    QbeEdge edge = edgeParser.parseProperty(header, value);
+                    graph.put(edge);
+                }
             }
         }
 
         return graph;
+    }
+
+    private TabularHeaderType getColumnType(TabularHeader header, String value) {
+        if (Utils.startsWithUppercase(header.name)) {
+            return TabularHeaderType.NODE;
+        }
+        if (value.matches("(UPDATE|INSERT|DELETE|QUERY) [A-z]+.[A-z]+")) {
+            return TabularHeaderType.EDGE;
+        }
+
+        return TabularHeaderType.PROPERTY;
     }
 
     private String[] splitRow(String row) {

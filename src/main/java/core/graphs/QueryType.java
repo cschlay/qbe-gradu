@@ -1,6 +1,6 @@
 package core.graphs;
 
-public enum GraphEntityOperations {
+public enum QueryType {
     CREATE,
     DELETE,
     UPDATE,
