@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EdgeQueryTest extends QueryBaseTest {
     @Test
-    @DisplayName("should find by id")
     void findById() throws Exception {
         var n1 = tx.createNode(Label.label("Book"));
         var n2 = tx.createNode(Label.label("Topic"));
@@ -25,14 +24,13 @@ class EdgeQueryTest extends QueryBaseTest {
 
         var id = String.valueOf(e.getId());
         var query = "" +
-                "| contains.Book.Topic.id* |\n" +
-                "|-------------------------|\n" +
-                String.format("| %s |\n", id);
+                "| contains | id* |\n" +
+                "|----------+-----|\n" +
+                String.format("| QUERY Book.Topic | %s |\n", id);
         assertQuery(query, edge -> assertEquals(id, edge.id));
     }
 
     @Test
-    @DisplayName("should filter by name")
     void filterByName() throws Exception {
         var n1 = tx.createNode(Label.label("Book"));
         var n2 = tx.createNode(Label.label("Topic"));
@@ -42,14 +40,13 @@ class EdgeQueryTest extends QueryBaseTest {
         tx.commit();
 
         var query = "" +
-                "| sold_by.Book.Store.id* |\n" +
-                "|------------------------|\n" +
-                "|                        |\n";
+                "| sold_by          | id* |\n" +
+                "|------------------+-----|\n" +
+                "| QUERY Book.Store |     |\n";
         assertQuery(query, edge -> assertEquals("sold_by", edge.name));
     }
 
     @Test
-    @DisplayName("should ensure direction")
     void ensureDirection() throws Exception {
         var n1 = tx.createNode(Label.label("Book"));
         var n2 = tx.createNode(Label.label("Topic"));
@@ -58,21 +55,20 @@ class EdgeQueryTest extends QueryBaseTest {
         tx.commit();
 
         var q1 = "" +
-                "| contains.Book.Topic.id* |\n" +
-                "|-------------------------|\n" +
-                "|                         |\n";
+                "| contains         | id* |\n" +
+                "|------------------+-----|\n" +
+                "| QUERY Book.Topic |     |\n";
         assertQuery(q1, edge -> assertEquals(String.valueOf(e1.getId()), edge.id));
 
         var q2 = "" +
-                "| contains.Topic.Book.id* |\n" +
+                "| contains          | id* |\n" +
                 "|-------------------------|\n" +
-                "|                         |\n";
+                "|  QUERY Topic.Book |     |\n";
         assertQuery(q2, edge -> assertEquals(String.valueOf(e2.getId()), edge.id));
 
     }
 
     @Nested
-    @DisplayName("filter by properties")
     class ByPropertyTest {
         @BeforeEach
         void setup() {
@@ -99,45 +95,45 @@ class EdgeQueryTest extends QueryBaseTest {
         @Test
         void byBoolean() throws Exception {
             var query = "" +
-                    "| writes.Author.Book.reviewed* |\n" +
-                    "|------------------------------|\n" +
-                    "| false                        |\n";
+                    "| writes            | reviewed* |\n" +
+                    "|-------------------+-----------|\n" +
+                    "| QUERY Author.Book | false     |\n";
             assertQuery(query, edge -> assertEquals(false, edge.getProperty("reviewed")));
         }
 
         @Test
         void byDouble() throws Exception {
             var query = "" +
-                    "| writes.Author.Book.hours* |\n" +
-                    "|---------------------------|\n" +
-                    "| 200.0                     |\n";
+                    "| writes            | hours* |\n" +
+                    "|-------------------+--------|\n" +
+                    "| QUERY Author.Book | 200.0  |\n";
             assertQuery(query, edge -> assertEquals(200.0, edge.getProperty("hours")));
         }
 
         @Test
         void byInteger() throws Exception {
             var query = "" +
-                    "| writes.Author.Book.started |\n" +
-                    "|----------------------------|\n" +
-                    "| 2021                       |\n";
+                    "| writes            |started* |\n" +
+                    "|-------------------+---------|\n" +
+                    "| QUERY Author.Book | 2021    |\n";
             assertQuery(query, edge -> assertEquals(2021, edge.getProperty("started")));
         }
 
         @Test
         void byString() throws Exception {
             var query = "" +
-                    "| writes.Author.Book.code |\n" +
-                    "|-------------------------|\n" +
-                    "| \"box\"                 |\n";
+                    "| writes            | code*   |\n" +
+                    "|-------------------+---------|\n" +
+                    "| QUERY Author.Book | \"box\" |\n";
             assertQuery(query, edge -> assertEquals("box", edge.getProperty("code")));
         }
 
         @Test
         void byLogicalExpression() throws Exception {
             var query = "" +
-                    "| writes.Author.Book.started |\n" +
-                    "|-------------------------|\n" +
-                    "| >= 2019                 |\n";
+                    "| writes            | started* |\n" +
+                    "|-------------------+----------|\n" +
+                    "| QUERY Author.Book | >= 2019  |\n";
             assertQuery(query, edge -> {
                 var property = edge.getProperty("started");
                 assert property != null;
