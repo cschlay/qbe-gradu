@@ -59,13 +59,12 @@ public abstract class QueryBaseTest {
     protected ResultGraph execute(String query) throws Exception {
         var session = getSession();
         var queryGraph = session.parseQuery(query);
-        System.out.println("Query graph:");
-        System.out.println(queryGraph);
+        System.out.printf("QueryGraph: %s%n", queryGraph);
 
         var resultGraph = session.executeQuery(queryGraph);
-        System.out.println("Query:");
-        System.out.println(query);
-        System.out.println("Result:");
-        System.out.println(session.toString(queryGraph, resultGraph));
+        System.out.printf("ResultGraph: %s%n", resultGraph);
+
+        System.out.printf("== Query ==%n%s%n", query);
+        System.out.printf("== Result==%n%s%n", session.toString(queryGraph, resultGraph));
         return resultGraph;
     }}

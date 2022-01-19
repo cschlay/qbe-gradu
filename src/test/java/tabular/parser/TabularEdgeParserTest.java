@@ -1,133 +1,80 @@
 package tabular.parser;
 
+import core.exceptions.SyntaxError;
+import core.graphs.QbeEdge;
+import core.graphs.QueryGraph;
 import core.graphs.QueryType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import syntax.tabular.TabularParser;
+import syntax.tabular.TabularEdgeParser;
+import syntax.tabular.TabularHeader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TabularEdgeParserTest {
-    TabularParser parser = new TabularParser();
+    @ParameterizedTest
+    @EnumSource(QueryType.class)
+    void parseEntity(QueryType type) throws Exception {
+        TabularEdgeParser parser = setup();
+        var header = new TabularHeader("writes");
 
-    @Nested
-    @DisplayName("entity column")
-    class EntityColumnTest {
-        @ParameterizedTest
-        @EnumSource(QueryType.class)
-        @DisplayName("should parse CREATE, QUERY, UPDATE, and DELETE commands")
-        void parseCommands(QueryType command) throws Exception {
-            var query = "" +
-                    "| contains |\n" +
-                    "|----------|\n" +
-                    String.format("| %s Book.Topic |\n", command.name());
-            var graph = parser.parse(query);
-
-            var n1 = graph.get("Book");
-            var n2 = graph.get("Topic");
-            var edge = n1.edges.get("contains");
-            assertEquals(edge, n2.edges.get("contains"));
-            assertEquals(command, edge.type);
-            assertEquals(n1, edge.tailNode);
-            assertEquals(n2, edge.headNode);
-        }
+        var value = String.format("%s %s.%s", type.name(), "Artist", "Score");
+        QbeEdge edge = parser.parseEntity(header, value);
+        assertEquals("writes", edge.name);
+        assertEquals(type, edge.type);
+        assert edge.tailNode != null;
+        assertEquals("Artist", edge.tailNode.name);
+        assert edge.headNode != null;
+        assertEquals("Score", edge.headNode.name);
     }
 
     @Test
-    @DisplayName("should parse one column")
-    void parseOneColumn() throws Exception {
-        var query =
-                ""
-                        + "| teaches.Course.Topic.fullTime |\n"
-                        + "|-------------------------------|\n"
-                        + "| false                         |\n";
-
-        var graph = parser.parse(query);
-        var edge = graph.get("Course").edges.get("teaches");
-
-        var property = edge.properties.get("fullTime");
-        assertEquals(false, property.value);
+    void parseEntityErrors() {
+        TabularEdgeParser parser = setup();
+        assertThrows(SyntaxError.class, () ->
+                parser.parseEntity(new TabularHeader("Writes"), QueryType.QUERY.name()));
+        assertThrows(SyntaxError.class, () ->
+                parser.parseEntity(new TabularHeader("writes"), "QUERY Artist"));
+        assertThrows(SyntaxError.class, () ->
+                parser.parseEntity(new TabularHeader("writes"), "QUERY"));
+        assertThrows(SyntaxError.class, () ->
+                parser.parseEntity(new TabularHeader("writes"), "QUERY Artist."));
+        assertThrows(SyntaxError.class, () ->
+                parser.parseEntity(new TabularHeader("writes"), "QUERY .Score"));
     }
 
     @Test
-    @DisplayName("should parse multiple edges")
-    void parseMultipleEdges() throws Exception {
-        var query =
-                ""
-                        + "| teaches.Course.Topic.fullTime | contains.Course.Topic.depth |\n"
-                        + "|-------------------------------+-----------------------------|\n"
-                        + "| true                          | 3                           |\n";
-
-        var graph = parser.parse(query);
-
-        var course = graph.get("Course");
-        assertEquals(0, course.properties.size());
-        assertEquals(2, course.edges.size());
-
-        var topic = graph.get("Topic");
-        assertEquals(0, topic.properties.size());
-        assertEquals(2, topic.edges.size());
-
-        var teaches = course.edges.get("teaches");
-        assertEquals(true, teaches.properties.get("fullTime").value);
-
-        var contains = course.edges.get("contains");
-        assertEquals(3, contains.properties.get("depth").value);
+    void parsePropertyNewEdge() {
+        TabularEdgeParser parser = setup();
+        var header = new TabularHeader("writes.hours");
+        QbeEdge edge = parser.parseProperty(header, "500");
+        assertEquals("writes", edge.name);
+        assertEquals(500, edge.getProperty("hours"));
     }
 
     @Test
-    @DisplayName("should parse multiple property")
-    void parseMultipleProperty() throws Exception {
-        var query =
-                ""
-                        + "| teaches.Course.Topic.fullTime | teaches.Course.Topic.students |\n"
-                        + "|-------------------------------+-------------------------------|\n"
-                        + "| true                          | 20                            |\n";
+    void parsePropertyExistingEdge() throws SyntaxError {
+        var graph = new QueryGraph();
+        var parser = new TabularEdgeParser(graph);
 
-        var graph = parser.parse(query);
-        var course = graph.get("Course");
-        var teaches = course.edges.get("teaches");
-        assert teaches != null;
-
-        assertEquals(true, teaches.properties.get("fullTime").value);
-        assertEquals(20, teaches.properties.get("students").value);
-
-        var topic = graph.get("Topic");
-        assertEquals(teaches, topic.edges.get("teaches"));
+        QbeEdge edge0 = parser.parseEntity(new TabularHeader("writes"), "QUERY Author.Story");
+        QbeEdge edge = parser.parseProperty(new TabularHeader("writes.hours"), "500");
+        assertEquals(edge0, edge);
+        assertEquals(500, edge0.getProperty("hours"));
     }
 
     @Test
-    @DisplayName("should parse with anonymous tailNode")
-    void parseAnonymousTailNode() throws Exception {
-        var query = "" +
-                "| teaches._.Topic.year |\n" +
-                "|----------------------|\n" +
-                "| 2022                 |";
-        var graph = parser.parse(query);
-        assertEquals(1, graph.order());
-
-        var topic = graph.get("Topic");
-        var teaches = topic.edges.get("teaches");
-        assertNull(teaches.tailNode);
-        assertEquals(2022, teaches.properties.get("year").value);
+    void parseIdProperty() {
+        TabularEdgeParser parser = setup();
+        var header = new TabularHeader("teaches.id");
+        QbeEdge edge = parser.parseProperty(header, "1");
+        assertEquals(1, edge.getProperty("id"));
+        assertEquals("1", edge.id);
     }
 
-    @Test
-    @DisplayName("should parse anonymous headNode")
-    void parseAnonymousHeadNode() throws Exception {
-        var query = "" +
-                "| teaches.Course._.year |\n" +
-                "|-----------------------|\n" +
-                "| 2022                  |";
-        var graph = parser.parse(query);
-        assertEquals(1, graph.order());
-
-        var topic = graph.get("Course");
-        var teaches = topic.edges.get("teaches");
-        assertNull(teaches.headNode);
-        assertEquals(2022, teaches.properties.get("year").value);
+    private TabularEdgeParser setup() {
+        var graph = new QueryGraph();
+        return new TabularEdgeParser(graph);
     }
 }

@@ -3,7 +3,6 @@ package tabular.queries.node;
 import base.QueryBaseTest;
 import core.graphs.QbeNode;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
@@ -14,36 +13,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NodeQueryTest extends QueryBaseTest {
     @Test
-    @DisplayName("should find by id")
     void findById() throws Exception {
+        // Find a book by its id
         tx.createNode();
         var n = tx.createNode(Label.label("Book"));
         tx.commit();
 
         var id = String.valueOf(n.getId());
         var query = "" +
-                "| Book.id* |\n" +
-                "|----------|\n" +
-                String.format("| %s       |\n", id);
+                "| Book | id* |\n" +
+                "|------+-----|\n" +
+                String.format("| QUERY | %s |\n", id);
         assertQuery(query, node -> assertEquals(id, node.id));
     }
 
     @Test
-    @DisplayName("should filter by name")
     void filterByName() throws Exception {
+        // Find all nodes with name "Course"
         tx.createNode(Label.label("Book"));
         tx.createNode(Label.label("Course"));
         tx.commit();
 
         var query = "" +
-                "| Course.id* |\n" +
-                "|------------|\n" +
-                "|            |\n";
+                "| Course | id* |\n" +
+                "|--------+-----|\n" +
+                "| QUERY  |     |\n";
         assertQuery(query, node -> assertEquals("Course", node.name));
     }
 
     @Nested
-    @DisplayName("filter by properties")
     class ByPropertyTest {
         @BeforeEach
         void setup() {
@@ -72,46 +70,51 @@ class NodeQueryTest extends QueryBaseTest {
 
         @Test
         void byBoolean() throws Exception {
+            // Find all used non-used books
             var query = "" +
-                    "| Book.used* |\n" +
-                    "|------------|\n" +
-                    "| false      |\n";
+                    "| Book  | used* |\n" +
+                    "|-------+-------|\n" +
+                    "| QUERY | false |\n";
             assertQuery(query, node -> assertEquals(false, node.getProperty("used")));
         }
 
         @Test
         void byDouble() throws Exception {
+            // Find all books with exact price of 20.99
             var query = "" +
-                    "| Book.price* |\n" +
-                    "|-------------|\n" +
-                    "| 20.99       |\n";
+                    "| Book  | price* |\n" +
+                    "|-------+--------|\n" +
+                    "| QUERY | 20.99  |\n";
             assertQuery(query, node -> assertEquals(20.99, node.getProperty("price")));
         }
 
         @Test
         void byInteger() throws Exception {
+            // Find all books published in 2022
             var query = "" +
-                    "| Book.year* |\n" +
-                    "|------------|\n" +
-                    "| 2022       |\n";
+                    "| Book  | year* |\n" +
+                    "|-------+-------|\n" +
+                    "| QUERY | 2022  |\n";
             assertQuery(query, node -> assertEquals(2022, node.getProperty("year")));
         }
 
         @Test
         void byString() throws Exception {
+            // Find all books where title starts with "Alg"
             var query = "" +
-                    "| Book.title* |\n" +
-                    "|-------------|\n" +
-                    "| \"Alg.*\"   |\n";
+                    "| Book  | title*    |\n" +
+                    "|-------+-----------|\n" +
+                    "| QUERY | \"Alg.*\" |\n";
             assertQuery(query, node -> assertEquals("Algebra", node.getProperty("title")));
         }
 
         @Test
         void byLogicalExpression() throws Exception {
+            // Find books that are cheaper than or equal to 50
             var query = "" +
-                    "| Book.price*          |\n" +
-                    "|----------------------|\n" +
-                    "| <= 50.0              |\n";
+                    "| Book  | price* |\n" +
+                    "|-------+--------|\n" +
+                    "| QUERY | < 50.0 |\n";
             assertQuery(query, node -> {
                 var property = node.getProperty("price");
                 assert property != null;

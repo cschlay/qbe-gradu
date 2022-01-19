@@ -28,26 +28,10 @@ class TabularDataParserTest {
     @Test
     @DisplayName("should tokenize update expressions")
     void tokenizeUpdate() {
-        var t1 = parser.tokenize("UPDATE any thing");
-        assertEquals("", t1.value);
-        assertEquals("any thing", t1.update);
-
-        var t2 = parser.tokenize("UPDATE any thing TO no thing");
-        assertEquals("any thing", t2.value);
-        assertEquals("no thing", t2.update);
-
-        var t3 = parser.tokenize("UPDATE \"UPDATE BOOK\" TO \"BOOK TO UPDATE\"");
-        assertEquals("\"UPDATE BOOK\"", t3.value);
-        assertEquals("\"TO UPDATE\"", t2.update);
+        var token = parser.tokenize("UPDATE any thing");
+        assertEquals("", token.value);
+        assertEquals("any thing", token.update);
     }
-/*
-    @Test
-    @DisplayName("should tokenize aggregation functions")
-    void parseAggregation() {
-        String[] tokens = parser.tokenize("COUNT any thing");
-        assertEquals("COUNT", tokens[0]);
-        assertEquals("any thing", tokens[1]);
-    }*/
 
     @Test
     @DisplayName("should parse false and true into boolean")
