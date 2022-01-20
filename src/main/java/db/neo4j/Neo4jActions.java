@@ -5,10 +5,13 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 
-public class Neo4jOperations {
+/**
+ * All neo4j database actions with
+ */
+public class Neo4jActions {
     private final GraphDatabaseService db;
 
-    public Neo4jOperations(GraphDatabaseService database) {
+    public Neo4jActions(GraphDatabaseService database) {
         db = database;
     }
 

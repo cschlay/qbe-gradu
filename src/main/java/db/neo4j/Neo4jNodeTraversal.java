@@ -2,10 +2,7 @@ package db.neo4j;
 
 import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
-import core.graphs.QbeData;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
+import core.graphs.*;
 import org.neo4j.graphdb.*;
 
 import java.util.HashMap;
@@ -24,30 +21,46 @@ public class Neo4jNodeTraversal {
         var edgeTraversal = new Neo4jEdgeTraversal(resultGraph);
 
         try (Transaction transaction = db.beginTx()) {
+            // TODO: should a queue be used instead, so that all insert and update is performed first?
             for (var queryNode : queryGraph.values()) {
-                var resultNodes = visitQueryNode(edgeTraversal, transaction, queryNode);
+                Map<String, QbeNode> resultNodes = visitQueryNode(edgeTraversal, transaction, queryNode);
                 if (!resultNodes.isEmpty()) {
                     resultGraph.putAll(resultNodes);
                     resultGraph.unvisitedEdges.addAll(queryNode.edges.values());
                 }
             }
+
+            transaction.commit();
         }
 
         return resultGraph;
     }
 
-    private Iterator<Node> getNeo4jNodes(Transaction transaction, QbeNode queryNode) {
-        if (queryNode.name != null) {
-            Label label = Label.label(queryNode.name);
-            return transaction.findNodes(label);
+    public QbeNode createNode(Transaction tx, QbeNode queryNode)  {
+        Label label = Label.label(queryNode.name);
+        Node neo4jNode = tx.createNode(label);
+
+        var resultNode = new QbeNode(neo4jNode.getId(), queryNode.name);
+        for (var property : queryNode.properties.entrySet()) {
+            String name = property.getKey();
+            QbeData data = property.getValue();
+            neo4jNode.setProperty(name, data.value);
+            resultNode.property(name, data);
         }
 
-        return transaction.getAllNodes().stream().iterator();
+        return resultNode;
     }
 
-    private HashMap<String, QbeNode> visitQueryNode(Neo4jEdgeTraversal edgeTraversal, Transaction transaction, QbeNode queryNode) {
-        Iterator<Node> neo4jNodes = getNeo4jNodes(transaction, queryNode);
+    private HashMap<String, QbeNode> visitQueryNode(Neo4jEdgeTraversal edgeTraversal, Transaction tx, QbeNode queryNode) {
         var resultNodes = new HashMap<String, QbeNode>();
+
+        if (queryNode.type == QueryType.INSERT) {
+            QbeNode resultNode =  createNode(tx, queryNode);
+            resultNodes.put(resultNode.id, resultNode);
+            return resultNodes;
+        }
+
+        Iterator<Node> neo4jNodes = Neo4j.nodes(tx, queryNode);
 
         while (neo4jNodes.hasNext()) {
             Node neo4jNode = neo4jNodes.next();

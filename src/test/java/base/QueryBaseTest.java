@@ -3,7 +3,7 @@ package base;
 import cli.Main;
 import cli.QuerySession;
 import core.graphs.ResultGraph;
-import db.neo4j.Neo4jOperations;
+import db.neo4j.Neo4jActions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 public abstract class QueryBaseTest {
     protected static GraphDatabaseService db;
-    protected static Neo4jOperations dbOperations;
+    protected static Neo4jActions dbOperations;
     private static DatabaseManagementService dbManagement;
 
     protected static Transaction tx;
@@ -27,7 +27,7 @@ public abstract class QueryBaseTest {
     public static void beforeAll() {
         dbManagement = Main.setupDatabase("data/test");
         db = Main.getDefaultDatabase(dbManagement);
-        dbOperations = new Neo4jOperations(db);
+        dbOperations = new Neo4jActions(db);
     }
 
     @AfterAll

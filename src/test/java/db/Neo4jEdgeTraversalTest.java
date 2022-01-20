@@ -87,7 +87,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var resultEdge = resultNode.edges.get(String.valueOf(relation.getId()));
                 assertNotNull(resultEdge);
                 assertFalse(resultEdge.properties.isEmpty());
-                assertEquals(relation.getProperty("difficulty"), resultEdge.getProperty("difficulty"));
+                assertEquals(relation.getProperty("difficulty"), resultEdge.property("difficulty"));
             });
         }
     }
@@ -163,7 +163,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var resultEdge = resultNode.edges.get(String.valueOf(relation.getId()));
                 assertNotNull(resultEdge);
                 assertFalse(resultEdge.properties.isEmpty());
-                assertEquals(relation.getProperty("difficulty"), resultEdge.getProperty("difficulty"));
+                assertEquals(relation.getProperty("difficulty"), resultEdge.property("difficulty"));
             });
         }
 

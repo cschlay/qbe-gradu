@@ -4,10 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Change EdgeQueryTest to use the new syntax">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add support for node INSERT">
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4j.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/Headers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/TabularResultWriterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/TabularResultWriterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jEdgeTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularEdgeParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularNodeParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/parser/TabularParserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/CreateNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/InsertNodeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +62,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="22HrbQl9U5mPfQaz6kqshVPNIfQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -78,7 +94,7 @@
       <recent name="db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All">
+  <component name="RunManager" selected="JUnit.InsertNodeTest">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -142,6 +158,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="InsertNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tabular.queries.node.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tabular.queries.node" />
+      <option name="MAIN_CLASS_NAME" value="tabular.queries.node.InsertNodeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NodeQueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -152,21 +183,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="tabular.queries.node" />
       <option name="MAIN_CLASS_NAME" value="tabular.queries.node.NodeQueryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TabularEdgeParserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.parser.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.parser" />
-      <option name="MAIN_CLASS_NAME" value="tabular.parser.TabularEdgeParserTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -205,19 +221,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.TabularEdgeParserTest" />
       <item itemvalue="JUnit.NodeQueryTest" />
       <item itemvalue="JUnit.EdgeQueryTest" />
       <item itemvalue="JUnit.TabularResultWriterTest" />
       <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
+      <item itemvalue="JUnit.InsertNodeTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.InsertNodeTest" />
         <item itemvalue="JUnit.TabularResultWriterTest" />
         <item itemvalue="JUnit.TabularResultWriterTest.includeId" />
         <item itemvalue="JUnit.EdgeQueryTest" />
         <item itemvalue="JUnit.NodeQueryTest" />
-        <item itemvalue="JUnit.TabularEdgeParserTest" />
       </list>
     </recent_temporary>
   </component>
@@ -255,7 +271,8 @@
       <workItem from="1642007141694" duration="2397000" />
       <workItem from="1642259249484" duration="1479000" />
       <workItem from="1642493156533" duration="22930000" />
-      <workItem from="1642583960940" duration="12579000" />
+      <workItem from="1642583960940" duration="20084000" />
+      <workItem from="1642666480868" duration="151000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -471,7 +488,13 @@
       <option name="presentableId" value="LOCAL−00032" />
       <updated>1642598960941</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL−00033" summary="Fix a bug with headers">
+      <created>1642599874503</created>
+      <option name="number" value="LOCAL−00033" />
+      <option name="presentableId" value="LOCAL−00033" />
+      <updated>1642599874503</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -489,8 +512,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix some query bugs and add a few test for tabular querying" />
-    <MESSAGE value="Add QbeData tests and improve its implementation" />
     <MESSAGE value="Add test for QbeNode and improve code" />
     <MESSAGE value="Refactor QbeEdge and QbeNode to extend a superclass GraphEntity and add tests for id property" />
     <MESSAGE value="Add more tests to Neo4jPropertyTraversal and fix bugs found" />
@@ -514,14 +535,16 @@
     <MESSAGE value="Replace TabularNodeParser tests" />
     <MESSAGE value="Fix the NodeQueryTest to use new short notation" />
     <MESSAGE value="Change EdgeQueryTest to use the new syntax" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change EdgeQueryTest to use the new syntax" />
+    <MESSAGE value="Fix a bug with headers" />
+    <MESSAGE value="Add support for node INSERT" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add support for node INSERT" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/qbe_graph_database$All.ic" NAME="All Coverage Results" MODIFIED="1642593511489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/qbe_graph_database$All.ic" NAME="All Coverage Results" MODIFIED="1642601898463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>tabular.*</FILTER>
       <FILTER>syntax.*</FILTER>
       <FILTER>cli.*</FILTER>

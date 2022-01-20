@@ -75,7 +75,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | used* |\n" +
                     "|-------+-------|\n" +
                     "| QUERY | false |\n";
-            assertQuery(query, node -> assertEquals(false, node.getProperty("used")));
+            assertQuery(query, node -> assertEquals(false, node.property("used")));
         }
 
         @Test
@@ -85,7 +85,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | price* |\n" +
                     "|-------+--------|\n" +
                     "| QUERY | 20.99  |\n";
-            assertQuery(query, node -> assertEquals(20.99, node.getProperty("price")));
+            assertQuery(query, node -> assertEquals(20.99, node.property("price")));
         }
 
         @Test
@@ -95,7 +95,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | year* |\n" +
                     "|-------+-------|\n" +
                     "| QUERY | 2022  |\n";
-            assertQuery(query, node -> assertEquals(2022, node.getProperty("year")));
+            assertQuery(query, node -> assertEquals(2022, node.property("year")));
         }
 
         @Test
@@ -105,7 +105,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | title*    |\n" +
                     "|-------+-----------|\n" +
                     "| QUERY | \"Alg.*\" |\n";
-            assertQuery(query, node -> assertEquals("Algebra", node.getProperty("title")));
+            assertQuery(query, node -> assertEquals("Algebra", node.property("title")));
         }
 
         @Test
@@ -116,7 +116,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "|-------+--------|\n" +
                     "| QUERY | < 50.0 |\n";
             assertQuery(query, node -> {
-                var property = node.getProperty("price");
+                var property = node.property("price");
                 assert property != null;
                 assertTrue((double) property < 50.0);
             });

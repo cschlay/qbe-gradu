@@ -34,11 +34,25 @@ public abstract class GraphEntity {
 
     /**
      * Simplifies the access of entity.properties.get("name").value to just entity.getProperty("name")
-
+     *
      * @return the value of property
      */
-    public @Nullable Object getProperty(String property) {
+    public @Nullable Object property(String property) {
         return properties.get(property).value;
+    }
+
+    /**
+     * Puts a new property, it will replace previous value if already exist.
+     *
+     * @param property name
+     * @param value of the property
+     */
+    public void property(String property, Object value) {
+        if (value instanceof QbeData) {
+            properties.put(property, (QbeData) value);
+        } else {
+            properties.put(property, new QbeData(value));
+        }
     }
 
     public String toString() {

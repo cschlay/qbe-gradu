@@ -120,7 +120,7 @@ public class QuerySession {
     }
 
     public ResultGraph executeQuery(QueryGraph query) throws Exception {
-        return new Neo4jTraversal(db, query).buildResultGraph();
+        return new Neo4jTraversal(db).executeQueryGraph(query);
     }
 
     public String toString(QueryGraph queryGraph, ResultGraph resultGraph) {
@@ -135,6 +135,6 @@ public class QuerySession {
     public ResultGraph processQuery(String query) throws Exception {
         // Can extend to support different query languages as long as they construct same QueryGraph.
         QueryGraph queryGraph = parser.parse(query);
-        return new Neo4jTraversal(db, queryGraph).buildResultGraph();
+        return new Neo4jTraversal(db).executeQueryGraph(queryGraph);
     }
 }

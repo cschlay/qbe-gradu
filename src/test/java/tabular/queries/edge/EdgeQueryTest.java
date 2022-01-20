@@ -3,7 +3,6 @@ package tabular.queries.edge;
 import base.QueryBaseTest;
 import core.graphs.QbeEdge;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
@@ -98,7 +97,7 @@ class EdgeQueryTest extends QueryBaseTest {
                     "| writes            | reviewed* |\n" +
                     "|-------------------+-----------|\n" +
                     "| QUERY Author.Book | false     |\n";
-            assertQuery(query, edge -> assertEquals(false, edge.getProperty("reviewed")));
+            assertQuery(query, edge -> assertEquals(false, edge.property("reviewed")));
         }
 
         @Test
@@ -107,7 +106,7 @@ class EdgeQueryTest extends QueryBaseTest {
                     "| writes            | hours* |\n" +
                     "|-------------------+--------|\n" +
                     "| QUERY Author.Book | 200.0  |\n";
-            assertQuery(query, edge -> assertEquals(200.0, edge.getProperty("hours")));
+            assertQuery(query, edge -> assertEquals(200.0, edge.property("hours")));
         }
 
         @Test
@@ -116,7 +115,7 @@ class EdgeQueryTest extends QueryBaseTest {
                     "| writes            |started* |\n" +
                     "|-------------------+---------|\n" +
                     "| QUERY Author.Book | 2021    |\n";
-            assertQuery(query, edge -> assertEquals(2021, edge.getProperty("started")));
+            assertQuery(query, edge -> assertEquals(2021, edge.property("started")));
         }
 
         @Test
@@ -125,7 +124,7 @@ class EdgeQueryTest extends QueryBaseTest {
                     "| writes            | code*   |\n" +
                     "|-------------------+---------|\n" +
                     "| QUERY Author.Book | \"box\" |\n";
-            assertQuery(query, edge -> assertEquals("box", edge.getProperty("code")));
+            assertQuery(query, edge -> assertEquals("box", edge.property("code")));
         }
 
         @Test
@@ -135,7 +134,7 @@ class EdgeQueryTest extends QueryBaseTest {
                     "|-------------------+----------|\n" +
                     "| QUERY Author.Book | >= 2019  |\n";
             assertQuery(query, edge -> {
-                var property = edge.getProperty("started");
+                var property = edge.property("started");
                 assert property != null;
                 assertTrue((int) property >= 2019);
             });

@@ -29,8 +29,8 @@ class Neo4jTraversalTest extends QueryTest {
         queryGraph.put(head.name, head);
         queryGraph.put(edge);
 
-        var traversal = new Neo4jTraversal(getDatabase(), queryGraph);
-        var resultGraph = traversal.buildResultGraph();
+        var traversal = new Neo4jTraversal(getDatabase());
+        var resultGraph = traversal.executeQueryGraph(queryGraph);
         System.out.println(resultGraph);
 
         var courseExists = false;
@@ -73,8 +73,8 @@ class Neo4jTraversalTest extends QueryTest {
         queryGraph.put(tail.name, tail);
         queryGraph.put(head.name, head);
 
-        var traversal = new Neo4jTraversal(getDatabase(), queryGraph);
-        var resultGraph = traversal.buildResultGraph();
+        var traversal = new Neo4jTraversal(getDatabase());
+        var resultGraph = traversal.executeQueryGraph(queryGraph);
         assertTrue(resultGraph.order() > 0);
 
         var courseExists = false;
