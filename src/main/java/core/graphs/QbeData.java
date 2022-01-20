@@ -59,7 +59,7 @@ public class QbeData {
     }
 
     public String toString() {
-        return "Data(" + value + ")";
+        return "" + value;
     }
 
     private boolean checkEquality(Object valueToCheck) {

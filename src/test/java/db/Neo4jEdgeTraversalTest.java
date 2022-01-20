@@ -37,7 +37,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var traversal = new Neo4jEdgeTraversal(resultGraph);
 
                 try {
-                    traversal.query(head, queryNode, resultNode);
+                    traversal.query(tx, head, queryNode, resultNode);
                 } catch (InvalidNodeException e) {
                     e.printStackTrace();
                 }
@@ -78,7 +78,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var traversal = new Neo4jEdgeTraversal(resultGraph);
 
                 try {
-                    traversal.query(head, queryNode, resultNode);
+                    traversal.query(tx, head, queryNode, resultNode);
                 } catch (InvalidNodeException e) {
                     e.printStackTrace();
                 }
@@ -113,7 +113,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var traversal = new Neo4jEdgeTraversal(resultGraph);
 
                 try {
-                    traversal.query(tail, queryNode, resultNode);
+                    traversal.query(tx, tail, queryNode, resultNode);
                 } catch (InvalidNodeException e) {
                     e.printStackTrace();
                 }
@@ -154,7 +154,7 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
                 var traversal = new Neo4jEdgeTraversal(resultGraph);
 
                 try {
-                    traversal.query(tail, queryNode, resultNode);
+                    traversal.query(tx, tail, queryNode, resultNode);
                 } catch (InvalidNodeException e) {
                     e.printStackTrace();
                 }

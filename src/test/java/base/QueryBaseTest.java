@@ -22,6 +22,7 @@ public abstract class QueryBaseTest {
     private static DatabaseManagementService dbManagement;
 
     protected static Transaction tx;
+    protected static TestUtils dbx;
 
     @BeforeAll
     public static void beforeAll() {
@@ -39,6 +40,7 @@ public abstract class QueryBaseTest {
     public void beforeEach() {
         dbOperations.reset();
         tx = db.beginTx();
+        dbx = new TestUtils(tx);
     }
 
     @AfterEach
@@ -59,10 +61,10 @@ public abstract class QueryBaseTest {
     protected ResultGraph execute(String query) throws Exception {
         var session = getSession();
         var queryGraph = session.parseQuery(query);
-        System.out.printf("QueryGraph: %s%n", queryGraph);
+        System.out.printf("QueryGraph:%n%s%n", queryGraph);
 
         var resultGraph = session.executeQuery(queryGraph);
-        System.out.printf("ResultGraph: %s%n", resultGraph);
+        System.out.printf("ResultGraph:%n%s%n", resultGraph);
 
         System.out.printf("== Query ==%n%s%n", query);
         System.out.printf("== Result==%n%s%n", session.toString(queryGraph, resultGraph));

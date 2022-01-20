@@ -1,5 +1,6 @@
 package core.graphs;
 
+import core.utilities.CustomStringBuilder;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -21,5 +22,23 @@ public class QbeEdge extends GraphEntity {
 
     public QbeEdge(long id, @Nullable String name) {
         super(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return toString(0);
+    }
+
+    public String toString(int indent) {
+        var ret = new CustomStringBuilder();
+
+        var tail = tailNode != null ? String.format("%s(%s)", tailNode.name, tailNode.id) : "None";
+        var head = headNode != null ? String.format("%s(%s)", headNode.name, headNode.id) : "None";
+
+        ret.line("%s %s %s -> %s%n", name, type, tail, head);
+        for (var property : properties.entrySet()) {
+            ret.line(indent + 2, "%s = %s%n", property.getKey(), property.getValue());
+        }
+        return ret.toString();
     }
 }

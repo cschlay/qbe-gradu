@@ -1,6 +1,7 @@
 package core.graphs;
 
 import core.exceptions.EntityNotFound;
+import core.utilities.CustomStringBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -19,6 +20,13 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         }
     }
 
+    public void put(String key, QbeEdge edge) {
+        int links = linkEdge(key, edge);
+        if (links == 0) {
+            hangingEdges.add(edge);
+        }
+    }
+
     /**
      * Adds an edge to the graph and links them to nodes if not already.
      * "id" is used as key if defined, otherwise "name" is used.
@@ -27,7 +35,9 @@ public abstract class Graph extends HashMap<String, QbeNode> {
      * @param edge to add
      */
     public void put(QbeEdge edge) {
-        int links = linkEdge(edge);
+        @Nullable String key = edge.id != null ? edge.id : edge.name;
+
+        int links = linkEdge(key, edge);
         if (links == 0) {
             hangingEdges.add(edge);
         }
@@ -52,9 +62,7 @@ public abstract class Graph extends HashMap<String, QbeNode> {
      *
      * @return the number of links created
      */
-    private int linkEdge(QbeEdge edge) {
-        @Nullable String key = edge.id != null ? edge.id : edge.name;
-
+    private int linkEdge(@Nullable String key, QbeEdge edge) {
         if (key == null) {
             return 0;
         }
@@ -83,5 +91,14 @@ public abstract class Graph extends HashMap<String, QbeNode> {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        var ret = new CustomStringBuilder();
+        for (var node : entrySet()) {
+            ret.line("%s: %s", node.getKey(), node.getValue().toString());
+        }
+        return ret.toString();
     }
 }

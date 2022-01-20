@@ -5,9 +5,11 @@ import core.graphs.QbeData;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
+import core.utilities.Debug;
 import core.utilities.Utils;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,7 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
 
         QbeEdge edge = new QbeEdge(header.name);
         edge.type = TabularTokens.getQueryType(parts[0]);
+        // This is a problem, it creates empty relations if name cannot be parsed
         edge.tailNode = getOrCreateNode(parts[1]);
         edge.headNode = getOrCreateNode(parts[2]);
         edges.put(edge.name, edge);

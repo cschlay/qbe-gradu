@@ -139,9 +139,9 @@ class TabularParserTest {
                     "|--------+-----------+-------+---------+--------------------+-----------------|\n" +
                     "| QUERY  | 1         | QUERY | 2       | INSERT Artist.Song | true            |\n";
             var graph = parser.parse(query);
-            var artist = graph.get("1");
+            var artist = graph.get("Artist");
             assertEquals(QueryType.QUERY, artist.type);
-            var song = graph.get("2");
+            var song = graph.get("Song");
             assertEquals(QueryType.QUERY, song.type);
 
             var edge = artist.edges.get("composed");

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InsertNodeTest extends QueryBaseTest {
     @Test
-    void noProperty() throws Exception {
+    void withoutProperties() throws Exception {
         var query = "" +
                 "| Book   |\n" +
                 "|--------|\n" +

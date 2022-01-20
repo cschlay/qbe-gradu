@@ -1,11 +1,9 @@
 package db.neo4j;
 
-import core.exceptions.BaseException;
+import core.exceptions.QueryException;
 import core.graphs.GraphEntity;
 import core.graphs.QbeNode;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 
 import java.util.Iterator;
 
@@ -15,11 +13,23 @@ import java.util.Iterator;
 public class Neo4j {
     private Neo4j() {}
 
-    public static long id(GraphEntity entity) throws BaseException {
+    public static long id(GraphEntity entity) throws QueryException {
         if (entity.id == null)  {
-            throw new BaseException("Entity '%s' doesn't have id", entity.name);
+            throw new QueryException("Entity '%s' doesn't have id", entity.name);
         }
         return Long.parseLong(entity.id);
+    }
+
+    public static class Edge {
+        public static Relationship create(String label, Node tail, Node head) {
+            return tail.createRelationshipTo(head, RelationshipType.withName(label));
+        }
+    }
+
+
+    public static Node findNode(Transaction tx, QbeNode node) throws QueryException {
+        long id = id(node);
+        return tx.getNodeById(id);
     }
 
     public static Iterator<Node> nodes(Transaction tx, QbeNode queryNode) {

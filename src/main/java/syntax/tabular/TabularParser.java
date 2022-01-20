@@ -45,11 +45,11 @@ public class TabularParser implements QueryParser {
             if (TabularHeaderType.NODE == header.type) {
                 entityName = header.name;
                 QbeNode node = nodeParser.parseEntity(header, value);
-                graph.put(node);
+                graph.put(node.name, node);
             } else if (TabularHeaderType.EDGE == header.type) {
                 entityName = header.name;
                 QbeEdge edge = edgeParser.parseEntity(header, value);
-                graph.put(edge);
+                graph.put(edge.name, edge);
             } else if (entityName == null) {
                 throw new SyntaxError("The entity columns must be defined before properties e.g. | Book | title |");
             } else {
@@ -58,10 +58,10 @@ public class TabularParser implements QueryParser {
                 }
                 if (Utils.startsWithUppercase(header.entityName)) {
                     QbeNode node = nodeParser.parseProperty(header, value);
-                    graph.put(node);
+                    graph.put(node.name, node);
                 } else {
                     QbeEdge edge = edgeParser.parseProperty(header, value);
-                    graph.put(edge);
+                    graph.put(edge.name, edge);
                 }
             }
         }

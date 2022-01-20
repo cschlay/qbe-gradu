@@ -1,5 +1,6 @@
 package core.graphs;
 
+import core.utilities.CustomStringBuilder;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -25,6 +26,16 @@ public class QbeNode extends GraphEntity {
     }
 
     @Override public String toString() {
-        return name + "({" + properties + "}," + edges +")";
+        return toString(0);
+    }
+
+    public String toString(int indent) {
+        var ret = new CustomStringBuilder();
+        ret.line(indent, "%s %s\n", name, type);
+        for (var property : properties.entrySet()) {
+            ret.line(indent + 2, "%s = %s\n", property.getKey(), property.getValue());
+        }
+        ret.line(edges.toString(indent + 2));
+        return ret.toString();
     }
 }
