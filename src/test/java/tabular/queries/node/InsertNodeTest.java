@@ -51,6 +51,4 @@ class InsertNodeTest extends QueryBaseTest {
             assertEquals(2019, neo4jNode.getProperty("bestseller"));
         });
     }
-
-    // TODO: Add a few error cases
 }

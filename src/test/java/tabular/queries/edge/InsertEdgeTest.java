@@ -3,8 +3,6 @@ package tabular.queries.edge;
 import base.QueryBaseTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
@@ -32,7 +30,6 @@ class InsertEdgeTest extends QueryBaseTest {
                 "|------------------+-------+----------+-------+----------|\n" +
                 "| INSERT Band.Song | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
-
         assertEdge(graph, (tx, edge) -> {
             Relationship relation = Neo4j.relationById(tx, edge);
             assertTrue(relation.getStartNodeId() == band.getId() || relation.getEndNodeId() == song.getId());
@@ -47,7 +44,6 @@ class InsertEdgeTest extends QueryBaseTest {
                 "|-------------------+----------------+-------+----------+-------+----------|\n" +
                 "| INSERT Band.Song  | true           | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
-
         assertEdge(graph, (tx, edge) -> {
             assertEquals(true, edge.property("feat"));
             Relationship relation = Neo4j.relationById(tx, edge);
@@ -56,41 +52,18 @@ class InsertEdgeTest extends QueryBaseTest {
     }
 
     @Test
-    void multipleProperties() {
-        fail();
-    }
-
-    @Test
-    void groupInsert() {
-        fail();
-    }
-
-    @Test
-    void noTail() {
-        fail();
-    }
-
-    @Test
-    void noHead() {
-        fail();
-    }
-
-    @Test
-    @Tag("negative")
-    void noNodes() {
-        fail();
-    }
-
-    @Nested
-    class GroupTest {
-        @Test
-        void noProperty() {
-            // Add 'performs' relation between to 'Band' and 'Song'.
-            var query = "" +
-                    "| performs         |\n" +
-                    "|------------------|\n" +
-                    "| INSERT Band.Song |\n";
-            fail();
-        }
+    void multipleProperties() throws Exception {
+        // Also add property 'time' to limit lengthy guest appearances
+        var query = "" +
+                "| performs          | performs.feat* | performs.time | Band  | Band.id* | Song  | Song.id* |\n" +
+                "|-------------------+----------------+---------------+-------+----------+-------+----------|\n" +
+                "| INSERT Band.Song  | true           | 20.0           | QUERY | %s       | QUERY | %s       |\n";
+        var graph = execute(query, band.getId(), song.getId());
+        assertEdge(graph, (tx, edge) -> {
+            assertEquals(true, edge.property("feat"));
+            Relationship relation = Neo4j.relationById(tx, edge);
+            assertEquals(true, relation.getProperty("feat"));
+            assertEquals(20.0, relation.getProperty("time"));
+        });
     }
 }

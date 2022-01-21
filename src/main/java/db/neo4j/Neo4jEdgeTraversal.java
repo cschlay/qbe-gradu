@@ -21,7 +21,7 @@ public class Neo4jEdgeTraversal {
         for (QbeEdge queryEdge : queryNode.edges.values()) {
             if (QueryType.INSERT == queryEdge.type) {
                 try {
-                    var edge = createEdge(tx, neo4jNode, resultNode, queryEdge);
+                    QbeEdge edge = createEdge(tx, neo4jNode, resultNode, queryEdge);
                     resultGraph.put(edge);
                 } catch (QueryException expected) {
                     // The error is thrown because, head node is used in creation.
@@ -37,24 +37,21 @@ public class Neo4jEdgeTraversal {
     }
 
     private QbeEdge createEdge(Transaction tx, Node neo4jNode, QbeNode resultNode, QbeEdge queryEdge) throws QueryException  {
-        // Only create relation from tail because to avoid duplicate creation
         boolean isTail = queryEdge.tailNode != null && queryEdge.tailNode.name.equals(resultNode.name);
 
         if (isTail && queryEdge.headNode != null && queryEdge.headNode.id != null) {
-            System.out.println("CREATE");
             Node head = Neo4j.findNode(tx, queryEdge.headNode);
             Relationship neo4jEdge = Neo4j.Edge.create(queryEdge.name, neo4jNode, head);
 
             var resultEdge = new QbeEdge(neo4jEdge.getId(), queryEdge.name);
             new Neo4jPropertyTraversal(queryEdge).mutableCopyProperties(neo4jEdge, resultEdge);
             resultEdge.tailNode = resultNode;
-            // TODO: Add if not exist
-            resultEdge.headNode = resultGraph.get(queryEdge.headNode.id);
+            resultEdge.headNode = resultGraph.computeIfAbsent(queryEdge.headNode.id, k -> new QbeNode(neo4jEdge.getEndNodeId(), queryEdge.headNode.name));
 
             return resultEdge;
         }
-        // TODO:  There is another case where it is group creation
 
+        // TODO: Group node creation is not supported.
 
         throw new QueryException("Cannot create relationship with head node '%s', create it with tail node '%s'.", queryEdge.headNode, queryEdge.tailNode);
     }

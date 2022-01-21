@@ -55,6 +55,7 @@ public class Neo4jNodeTraversal {
             return resultNodes;
         }
 
+        // This is problem, it should query by id!
         Iterator<Node> neo4jNodes = Neo4j.nodes(tx, queryNode);
 
         while (neo4jNodes.hasNext()) {
@@ -62,7 +63,13 @@ public class Neo4jNodeTraversal {
             try {
                 QbeNode resultNode = visitNeo4jNode(neo4jNode, queryNode);
                 edgeTraversal.query(tx, neo4jNode, queryNode, resultNode);
-                resultNodes.put(resultNode.id, resultNode);
+
+                if (queryNode.type == QueryType.DELETE) {
+                    neo4jNode.delete();
+                }
+                 else {
+                    resultNodes.put(resultNode.id, resultNode);
+                }
             } catch (InvalidNodeException exception) {
                 // Discard node because a property check failed
             }

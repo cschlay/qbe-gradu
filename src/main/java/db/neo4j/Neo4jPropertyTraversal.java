@@ -31,9 +31,13 @@ public class Neo4jPropertyTraversal {
         for (var property : queryProperties.entrySet()) {
             String name = property.getKey();
             Object value = property.getValue().value;
-            neo4jEntity.setProperty(name, value);
+            if (!"id".equals(name)) {
+                neo4jEntity.setProperty(name, value);
+            }
             resultEntity.properties.put(name, new QbeData(value));
         }
+
+        resultEntity.properties.put("id", new QbeData(neo4jEntity.getId()));
     }
 
     /**
