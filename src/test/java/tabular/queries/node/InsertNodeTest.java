@@ -1,7 +1,6 @@
 package tabular.queries.node;
 
 import base.QueryBaseTest;
-import core.graphs.QbeNode;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
@@ -16,7 +15,8 @@ class InsertNodeTest extends QueryBaseTest {
                 "| Book   |\n" +
                 "|--------|\n" +
                 "| INSERT |\n";
-        assertQuery(query, node -> tx.getNodeById(Neo4j.id(node)));
+        var graph = execute(query);
+        assertNode(graph, (tx, node) -> tx.getNodeById(Neo4j.id(node)));
     }
 
     @Test
@@ -25,7 +25,13 @@ class InsertNodeTest extends QueryBaseTest {
                 "| Book   | title*                 |\n" +
                 "|--------+------------------------|\n" +
                 "| INSERT | \"Wizard Programmers\" |\n";
-        assertQuery(query, node -> {
+        var graph = execute(query);
+        assertNode(graph, (tx, node) -> {
+            Node neo4jNode = tx.getNodeById(Neo4j.id(node));
+            Object property = neo4jNode.getProperty("title");
+            assertEquals("Wizard Programmers", property);
+        });
+        assertNode(graph, (tx, node) -> {
             Node neo4jNode = tx.getNodeById(Neo4j.id(node));
             Object property = neo4jNode.getProperty("title");
             assertEquals("Wizard Programmers", property);
@@ -38,7 +44,8 @@ class InsertNodeTest extends QueryBaseTest {
                 "| Book   | title*                 | bestseller* |\n" +
                 "|--------+------------------------+-------------|\n" +
                 "| INSERT | \"Wizard Programmers\" | 2019        |\n";
-        assertQuery(query, node -> {
+        var graph = execute(query);
+        assertNode(graph, (tx, node) -> {
             Node neo4jNode = tx.getNodeById(Neo4j.id(node));
             assertEquals("Wizard Programmers", neo4jNode.getProperty("title"));
             assertEquals(2019, neo4jNode.getProperty("bestseller"));
@@ -46,18 +53,4 @@ class InsertNodeTest extends QueryBaseTest {
     }
 
     // TODO: Add a few error cases
-
-    @FunctionalInterface
-    private interface Assertion<QbeNode> {
-        void accept(QbeNode node) throws Exception;
-    }
-
-    private void assertQuery(String query, Assertion<QbeNode> assertion) throws Exception {
-        var graph = execute(query);
-        assertFalse(graph.isEmpty(), "Graph is empty");
-
-        for (var node : graph.values()) {
-            assertion.accept(node);
-        }
-    }
 }

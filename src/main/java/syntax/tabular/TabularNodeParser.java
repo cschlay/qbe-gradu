@@ -32,7 +32,7 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
             throw new SyntaxError("Entity name for nodes must start with uppercase letter such as 'Book'.");
         }
 
-        var node = new QbeNode(header.name);
+        QbeNode node = graph.getOrDefault(header.name, new QbeNode(header.name));
         node.type = TabularTokens.getQueryType(value);
         return node;
     }

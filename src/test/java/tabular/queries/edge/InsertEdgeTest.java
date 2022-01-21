@@ -1,46 +1,58 @@
 package tabular.queries.edge;
 
 import base.QueryBaseTest;
-import core.graphs.Graph;
 import db.neo4j.Neo4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InsertEdgeTest extends QueryBaseTest {
-    @Test
-    void withoutProperties() throws Exception {
-        // Add 'performs' relation between to 'Band' and 'Song'.
-        Node band = dbx.newNode("Band");
-        Node song = dbx.newNode("Song");
-        tx.commit();
+    Node band;
+    Node song;
 
-        var query = "" +
-                "| performs         | Band  | Band.id | Song  | Song.id |\n" +
-                "|------------------+-------+---------+-------+---------|\n" +
-                "| INSERT Band.Song | QUERY | %s      | QUERY | %s      |\n";
-        query = String.format(query, band.getId(), song.getId());
-
-        Graph graph = execute(query);
-        assertFalse(graph.isEmpty());
-
-        for (var node : graph.values()) {
-            assertFalse(node.edges.isEmpty());
-            for (var edge : node.edges.values()) {
-                var rel = tx.getRelationshipById(Neo4j.id(edge));
-                assertTrue(rel.getStartNodeId() == band.getId() || rel.getEndNodeId() == song.getId());
-            }
-        }
+    @BeforeEach
+    void setup() throws Exception {
+        run(tx -> {
+            band = Neo4j.createNode(tx, "Band");
+            song = Neo4j.createNode(tx, "Song");
+            tx.commit();
+        });
     }
 
     @Test
-    void oneProperty() {
-        fail();
+    void withoutProperties() throws Exception {
+        // Add 'performs' relation between to 'Band' and 'Song'.
+        var query = "" +
+                "| performs         | Band  | Band.id* | Song  | Song.id* |\n" +
+                "|------------------+-------+----------+-------+----------|\n" +
+                "| INSERT Band.Song | QUERY | %s       | QUERY | %s       |\n";
+        var graph = execute(query, band.getId(), song.getId());
+
+        assertEdge(graph, (tx, edge) -> {
+            Relationship relation = Neo4j.relationById(tx, edge);
+            assertTrue(relation.getStartNodeId() == band.getId() || relation.getEndNodeId() == song.getId());
+        });
+    }
+
+    @Test
+    void oneProperty() throws Exception {
+        // Adds property 'feat' with 'performs' relation between 'Band' and 'Song' to indicate guest artists of the song.
+        var query = "" +
+                "| performs          | performs.feat* | Band  | Band.id* | Song  | Song.id* |\n" +
+                "|-------------------+----------------+-------+----------+-------+----------|\n" +
+                "| INSERT Band.Song  | true           | QUERY | %s       | QUERY | %s       |\n";
+        var graph = execute(query, band.getId(), song.getId());
+
+        assertEdge(graph, (tx, edge) -> {
+            assertEquals(true, edge.property("feat"));
+            Relationship relation = Neo4j.relationById(tx, edge);
+            assertEquals(true, relation.getProperty("feat"));
+        });
     }
 
     @Test

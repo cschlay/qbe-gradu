@@ -41,12 +41,7 @@ public class Neo4jNodeTraversal {
         Node neo4jNode = tx.createNode(label);
 
         var resultNode = new QbeNode(neo4jNode.getId(), queryNode.name);
-        for (var property : queryNode.properties.entrySet()) {
-            String name = property.getKey();
-            QbeData data = property.getValue();
-            neo4jNode.setProperty(name, data.value);
-            resultNode.property(name, data);
-        }
+        new Neo4jPropertyTraversal(queryNode).mutableCopyProperties(neo4jNode, resultNode);
 
         return resultNode;
     }

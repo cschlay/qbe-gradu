@@ -1,9 +1,6 @@
 package db.neo4j;
 
-import core.exceptions.EntityNotFound;
-import core.exceptions.IdConstraintException;
-import core.exceptions.InvalidNodeException;
-import core.exceptions.QueryException;
+import core.exceptions.*;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryType;
@@ -26,9 +23,10 @@ public class Neo4jEdgeTraversal {
                 try {
                     var edge = createEdge(tx, neo4jNode, resultNode, queryEdge);
                     resultGraph.put(edge);
-
                 } catch (QueryException expected) {
                     // The error is thrown because, head node is used in creation.
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             } else {
                 updateNodeRelations(neo4jNode, resultNode, queryEdge);
@@ -41,17 +39,17 @@ public class Neo4jEdgeTraversal {
     private QbeEdge createEdge(Transaction tx, Node neo4jNode, QbeNode resultNode, QbeEdge queryEdge) throws QueryException  {
         // Only create relation from tail because to avoid duplicate creation
         boolean isTail = queryEdge.tailNode != null && queryEdge.tailNode.name.equals(resultNode.name);
-        System.out.println("INSERT A");
 
         if (isTail && queryEdge.headNode != null && queryEdge.headNode.id != null) {
-            System.out.println("INSERT B");
+            System.out.println("CREATE");
             Node head = Neo4j.findNode(tx, queryEdge.headNode);
             Relationship neo4jEdge = Neo4j.Edge.create(queryEdge.name, neo4jNode, head);
 
             var resultEdge = new QbeEdge(neo4jEdge.getId(), queryEdge.name);
-            // TODO: Properties
+            new Neo4jPropertyTraversal(queryEdge).mutableCopyProperties(neo4jEdge, resultEdge);
             resultEdge.tailNode = resultNode;
-            resultEdge.headNode = resultGraph.get(queryEdge.headNode.name);
+            // TODO: Add if not exist
+            resultEdge.headNode = resultGraph.get(queryEdge.headNode.id);
 
             return resultEdge;
         }

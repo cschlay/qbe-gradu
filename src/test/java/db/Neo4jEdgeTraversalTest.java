@@ -21,8 +21,8 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
     class HeadNodeTest {
         @Test
         @DisplayName("should query edge by name")
-        void queryEdgeByName() {
-            inTransaction(tx -> {
+        void queryEdgeByName() throws Exception {
+            run(tx -> {
                 var head = tx.createNode(Label.label("Topic"));
                 var tail = tx.createNode();
                 var relation = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
@@ -54,8 +54,8 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
 
         @Test
         @DisplayName("should filter edges")
-        void filterEdges() {
-            inTransaction(tx -> {
+        void filterEdges() throws Exception {
+            run(tx -> {
                 // Setup
                 var head = tx.createNode(Label.label("Topic"));
                 var tail = tx.createNode(Label.label("Book"));
@@ -97,8 +97,8 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
     class TailNodeTest {
         @Test
         @DisplayName("should query edge by name")
-        void queryEdgeByName() {
-            inTransaction(tx -> {
+        void queryEdgeByName() throws Exception {
+            run(tx -> {
                 var head = tx.createNode();
                 var tail = tx.createNode(Label.label("Book"));
                 var relation = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
@@ -130,8 +130,8 @@ class Neo4jEdgeTraversalTest extends QueryBaseTest {
 
         @Test
         @DisplayName("should filter edges")
-        void filterEdges() {
-            inTransaction(tx -> {
+        void filterEdges() throws Exception {
+            run(tx -> {
                 // Setup
                 var head = tx.createNode(Label.label("Topic"));
                 var tail = tx.createNode(Label.label("Book"));

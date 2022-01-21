@@ -1,6 +1,6 @@
 package core.exceptions;
 
-public class EntityNotFound extends BaseException {
+public class EntityNotFound extends QbeException {
     public EntityNotFound(String template, Object... arguments) {
         super(template, arguments);
     }

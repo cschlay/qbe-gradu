@@ -2,6 +2,7 @@ package db.neo4j;
 
 import core.exceptions.QueryException;
 import core.graphs.GraphEntity;
+import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import org.neo4j.graphdb.*;
 
@@ -21,9 +22,19 @@ public class Neo4j {
     }
 
     public static class Edge {
+        private Edge() {}
+
         public static Relationship create(String label, Node tail, Node head) {
             return tail.createRelationshipTo(head, RelationshipType.withName(label));
         }
+    }
+
+    public static Relationship relationById(Transaction tx, QbeEdge edge) throws QueryException {
+        return tx.getRelationshipById(id(edge));
+    }
+
+    public static Node createNode(Transaction tx, String label) {
+        return tx.createNode(Label.label(label));
     }
 
 

@@ -22,6 +22,21 @@ public class Neo4jPropertyTraversal {
     }
 
     /**
+     * Copy the properties of query entity into a Neo4j entity and result entity
+     *
+     * @param neo4jEntity to copy properties to
+     * @param resultEntity to copy properties to
+     */
+    public void mutableCopyProperties(Entity neo4jEntity, GraphEntity resultEntity) {
+        for (var property : queryProperties.entrySet()) {
+            String name = property.getKey();
+            Object value = property.getValue().value;
+            neo4jEntity.setProperty(name, value);
+            resultEntity.properties.put(name, new QbeData(value));
+        }
+    }
+
+    /**
      * Returns the properties of Neo4j entity that meets the query examples
      *
      * @param neo4jEntity to read properties from
