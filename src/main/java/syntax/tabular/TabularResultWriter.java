@@ -74,7 +74,9 @@ public class TabularResultWriter implements ResultWriter {
         for (int row = 1; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
                 String valueString = castToString(table[row][col]);
-                String padding = " ".repeat(columnLengths[col] - valueString.length() + 1);
+                int p = columnLengths[col] - valueString.length() + 1;
+
+                String padding = " ".repeat(Math.max(p, 1));
                 result.append("| ").append(valueString).append(padding);
             }
             result.append("|\n");

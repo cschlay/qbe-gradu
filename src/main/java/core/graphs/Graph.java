@@ -41,7 +41,7 @@ public abstract class Graph extends HashMap<String, QbeNode> {
     public String toString() {
         var ret = new CustomStringBuilder();
         for (var node : entrySet()) {
-            ret.line("%s: %s", node.getKey(), node.getValue().toString());
+            ret.line("%s", node.getValue().toString());
         }
         return ret.toString();
     }

@@ -32,13 +32,25 @@ public class QbeEdge extends GraphEntity {
     public String toString(int indent) {
         var ret = new CustomStringBuilder();
 
-        var tail = tailNode != null ? String.format("%s(%s)", tailNode.name, tailNode.id) : "None";
-        var head = headNode != null ? String.format("%s(%s)", headNode.name, headNode.id) : "None";
+        String tail = toStringNodeName(tailNode);
+        String head = toStringNodeName(headNode);
 
-        ret.line("%s %s %s -> %s%n", name, type, tail, head);
+        ret.line("%s: %s -> %s %s%n", name, tail, head, type);
         for (var property : properties.entrySet()) {
             ret.line(indent + 2, "%s = %s%n", property.getKey(), property.getValue());
         }
         return ret.toString();
+    }
+
+    private String toStringNodeName(@Nullable QbeNode node) {
+        if (node == null) {
+            return "None";
+        }
+
+        if (node.id != null) {
+            return String.format("%s(id=%s)", node.name, node.id);
+        }
+
+        return node.name;
     }
 }

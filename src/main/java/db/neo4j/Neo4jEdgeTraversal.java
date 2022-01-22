@@ -80,9 +80,13 @@ public class Neo4jEdgeTraversal {
                 }
 
                 if (resultEdge != null) {
-                    edgeFound = true;
-                    resultEdge.properties.putAll(properties);
-                    resultNode.edges.put(resultEdge.id, resultEdge);
+                    if (QueryType.DELETE == queryEdge.type) {
+                        relationship.delete();
+                    } else {
+                        edgeFound = true;
+                        resultEdge.properties.putAll(properties);
+                        resultNode.edges.put(resultEdge.id, resultEdge);
+                    }
                 }
             } catch (InvalidNodeException | IdConstraintException exception) {
                 // Edge is not valid and should be discarded.
