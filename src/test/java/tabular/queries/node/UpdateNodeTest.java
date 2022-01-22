@@ -25,7 +25,7 @@ class UpdateNodeTest extends QueryBaseTest {
                 "| UPDATE | %s  | UPDATE \"Under the Dome\" |\n";
         var graph = execute(query, id);
 
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             var title = "Under the Dome";
             assertEquals(title, node.property("title"));
 
@@ -52,7 +52,7 @@ class UpdateNodeTest extends QueryBaseTest {
                 "| UPDATE |     | UPDATE 0  |\n";
         var graph = execute(query);
 
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             assertEquals(0, node.property("quantity"));
         });
         run(tx -> {
@@ -84,7 +84,7 @@ class UpdateNodeTest extends QueryBaseTest {
                 "| UPDATE | > 2030 | UPDATE false |\n";
         var graph = execute(query);
 
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             assertEquals(false, tx.getNodeById(node.longId()).getProperty("published"));
             assertEquals(false, node.property("published"));
         });

@@ -1,13 +1,10 @@
 package tabular.queries.node;
 
 import base.QueryBaseTest;
-import core.graphs.QbeNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
-
-import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,37 +12,42 @@ class NodeQueryTest extends QueryBaseTest {
     @Test
     void findById() throws Exception {
         // Find a book by its id
-        tx.createNode();
-        var n = tx.createNode(Label.label("Book"));
-        tx.commit();
+        var fx = new Object() { String id; };
+        run(tx -> {
+            var node = tx.createNode(Label.label("Book"));
+            tx.commit();
+            fx.id = String.valueOf(node.getId());
+        });
 
-        var id = String.valueOf(n.getId());
         var query = "" +
-                "| Book | id* |\n" +
-                "|------+-----|\n" +
-                String.format("| QUERY | %s |\n", id);
-        assertQuery(query, node -> assertEquals(id, node.id));
+                "| Book  | id* |\n" +
+                "|-------+-----|\n" +
+                "| QUERY | %s  |\n";
+        var graph = execute(query, fx.id);
+        assertNotNull(graph.get(fx.id));
     }
 
     @Test
     void filterByName() throws Exception {
         // Find all nodes with name "Course"
-        tx.createNode(Label.label("Book"));
-        tx.createNode(Label.label("Course"));
-        tx.commit();
+        run(tx -> {
+            tx.createNode(Label.label("Book"));
+            tx.createNode(Label.label("Course"));
+            tx.commit();
+        });
 
         var query = "" +
                 "| Course | id* |\n" +
                 "|--------+-----|\n" +
                 "| QUERY  |     |\n";
-        assertQuery(query, node -> assertEquals("Course", node.name));
+        eachNode(execute(query), (tx, node) -> assertEquals("Course", node.name));
     }
 
     @Nested
     class ByPropertyTest {
         @BeforeEach
-        void setup() {
-            try (var tx = db.beginTx()) {
+        void setup() throws Exception {
+            run(tx -> {
                 var label = Label.label("Book");
                 var n1 = tx.createNode(label);
                 n1.setProperty("title", "Logic");
@@ -65,7 +67,7 @@ class NodeQueryTest extends QueryBaseTest {
                 n3.setProperty("used", false);
                 n3.setProperty("price", 70.99);
                 tx.commit();
-            }
+            });
         }
 
         @Test
@@ -75,7 +77,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | used* |\n" +
                     "|-------+-------|\n" +
                     "| QUERY | false |\n";
-            assertQuery(query, node -> assertEquals(false, node.property("used")));
+            eachNode(execute(query), (tx, node) -> assertEquals(false, node.property("used")));
         }
 
         @Test
@@ -85,7 +87,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | price* |\n" +
                     "|-------+--------|\n" +
                     "| QUERY | 20.99  |\n";
-            assertQuery(query, node -> assertEquals(20.99, node.property("price")));
+            eachNode(execute(query), (tx, node) -> assertEquals(20.99, node.property("price")));
         }
 
         @Test
@@ -95,7 +97,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | year* |\n" +
                     "|-------+-------|\n" +
                     "| QUERY | 2022  |\n";
-            assertQuery(query, node -> assertEquals(2022, node.property("year")));
+            eachNode(execute(query), (tx, node) -> assertEquals(2022, node.property("year")));
         }
 
         @Test
@@ -105,7 +107,7 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | title*    |\n" +
                     "|-------+-----------|\n" +
                     "| QUERY | \"Alg.*\" |\n";
-            assertQuery(query, node -> assertEquals("Algebra", node.property("title")));
+            eachNode(execute(query), (tx, node) -> assertEquals("Algebra", node.property("title")));
         }
 
         @Test
@@ -115,20 +117,11 @@ class NodeQueryTest extends QueryBaseTest {
                     "| Book  | price* |\n" +
                     "|-------+--------|\n" +
                     "| QUERY | < 50.0 |\n";
-            assertQuery(query, node -> {
+            eachNode(execute(query), ((tx, node) -> {
                 var property = node.property("price");
                 assert property != null;
                 assertTrue((double) property < 50.0);
-            });
-        }
-    }
-
-    private void assertQuery(String query, Consumer<QbeNode> assertion) throws Exception {
-        var graph = execute(query);
-        assertFalse(graph.isEmpty(), "Graph is empty");
-
-        for (var node : graph.values()) {
-            assertion.accept(node);
+            }));
         }
     }
 }

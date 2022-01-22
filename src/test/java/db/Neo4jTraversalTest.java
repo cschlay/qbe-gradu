@@ -1,18 +1,24 @@
 package db;
 
+import base.QueryBaseTest;
 import core.graphs.QbeData;
 import core.graphs.QbeEdge;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
 import db.neo4j.Neo4jTraversal;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Neo4jTraversalTest extends QueryTest {
-    // tail only
-    // head only
+class Neo4jTraversalTest extends QueryBaseTest {
+    Neo4jTraversal traversal;
+
+    @BeforeEach
+    void setup() {
+        traversal = new Neo4jTraversal(db);
+    }
 
     @Test
     @DisplayName("should query edge with properties but nodes without")
@@ -29,7 +35,6 @@ class Neo4jTraversalTest extends QueryTest {
         queryGraph.put(head.name, head);
         queryGraph.put(edge);
 
-        var traversal = new Neo4jTraversal(getDatabase());
         var resultGraph = traversal.executeQueryGraph(queryGraph);
         System.out.println(resultGraph);
 
@@ -73,7 +78,6 @@ class Neo4jTraversalTest extends QueryTest {
         queryGraph.put(tail.name, tail);
         queryGraph.put(head.name, head);
 
-        var traversal = new Neo4jTraversal(getDatabase());
         var resultGraph = traversal.executeQueryGraph(queryGraph);
         assertTrue(resultGraph.order() > 0);
 

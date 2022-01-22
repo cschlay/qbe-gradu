@@ -5,13 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add condition to result writer to not include columns that are not selected">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cli/QueryExecutor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cli/CLICommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/CommandLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/QueryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/InsertEdgeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/InsertEdgeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/InsertNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/InsertNodeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +80,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="coverage" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -86,7 +94,20 @@
       <recent name="db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UpdateNodeTest">
+  <component name="RunManager" selected="JUnit.All">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cli.Main" />
+      <module name="qbe-graph-database" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -181,21 +202,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InsertEdgeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="qbe-graph-database" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tabular.queries.edge.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries.edge" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.edge.InsertEdgeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="UpdateNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -213,19 +219,19 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.All" />
-      <item itemvalue="JUnit.InsertEdgeTest" />
       <item itemvalue="JUnit.DeleteNodeTest" />
       <item itemvalue="JUnit.DeleteNodeTest.byId" />
       <item itemvalue="JUnit.DeleteEdgeTest" />
       <item itemvalue="JUnit.UpdateNodeTest" />
+      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.UpdateNodeTest" />
         <item itemvalue="JUnit.DeleteEdgeTest" />
         <item itemvalue="JUnit.DeleteNodeTest" />
         <item itemvalue="JUnit.DeleteNodeTest.byId" />
-        <item itemvalue="JUnit.InsertEdgeTest" />
       </list>
     </recent_temporary>
   </component>

@@ -1,77 +1,70 @@
 package cli;
 
-import core.exceptions.SyntaxError;
 import db.neo4j.Neo4jTraversal;
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
 import interfaces.QueryParser;
 import interfaces.ResultWriter;
 import demo.CourseGraphDemo;
+import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-import java.util.Scanner;
-
 /** Session for taking user input from CLI interface. */
 public class QuerySession {
+    private final CommandLine cli;
     private final GraphDatabaseService db;
-    private final QueryParser parser;
-    private final ResultWriter writer;
+    private final QueryExecutor queryExecutor;
 
-    public QuerySession(GraphDatabaseService db, QueryParser parser, ResultWriter writer) {
-        this.db = db;
-        this.parser = parser;
-        this.writer = writer;
+    public QuerySession(GraphDatabaseService databaseService, QueryParser parser, ResultWriter writer) {
+        db = databaseService;
+        cli = new CommandLine();
+        queryExecutor = new QueryExecutor(new Neo4jTraversal(databaseService), parser, writer);
     }
 
     /**
-     * Starts the query session.
+     * Starts the query session. Command is executed after two consecutive new line characters '\n'.
      */
     public void start() {
-        System.out.println("QBE for Graph Database Prototype");
-        printCommands();
+        cli.print("QBE for Graph Database Prototype\n");
+        cli.printHelp();
 
-        var scanner = new Scanner(System.in);
-        boolean run = true;
-
+        String input;
         do {
-            System.out.print("\nqbe> ");
-            String input = scanner.nextLine();
+            cli.print("\nqbe> ");
+            input = cli.read();
+            executeCommand(input);
+        } while (!CommandLine.QUIT.equals(input));
 
-            if (input.equals(CLICommands.QUIT)) {
-                run = false;
-            }  else {
-                executeCommand(input);
-            }
-        } while (run);
+        cli.close();
     }
 
-    public void executeCommand(String input) {
+    public void executeCommand(@NotNull String input) {
         // Do not use switch, it could contain multiple arguments.
-        if (input.equals(CLICommands.PRINT_DATABASE)) {
-            printDatabaseDetails();
-        } else if (input.equals(CLICommands.RESET_DATABASE)) {
-            resetDatabase();
-            printDatabaseDetails();
-        } else if (input.equals(CLICommands.SEED_DATABASE)) {
-            System.out.println("Seeding the database...");
-            CourseGraphDemo.seedEducationData(this.db);
-            printDatabaseDetails();
-        } else {
-            // Defaults to executing query
-            try {
-                System.out.println();
-                // TODO: Fix
-                //System.out.println(executeQuery(input));
-            } catch (Exception exception) {
-                System.out.println(exception.getMessage());
-            }
+        switch (input) {
+            case CommandLine.PRINT_DATABASE:
+                printDatabaseDetails();
+                break;
+            case CommandLine.RESET_DATABASE:
+                resetDatabase();
+                printDatabaseDetails();
+                break;
+            case CommandLine.SEED_DATABASE:
+                CourseGraphDemo.seedEducationData(this.db);
+                printDatabaseDetails();
+                break;
+            default:
+                // Defaults to executing query
+                try {
+                    queryExecutor.execute(input);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                break;
         }
     }
 
     private void resetDatabase() {
-        System.out.println("Resetting database...");
+        cli.println("Resetting database...");
         try (var tx = db.beginTx()) {
             tx.getAllNodes().forEach(Node::delete);
             tx.getAllRelationships().forEach(Relationship::delete);
@@ -79,62 +72,31 @@ public class QuerySession {
         }
     }
 
-    private void printCommands() {
-        System.out.println("Commands: ");
-        System.out.println(CLICommands.PRINT_DATABASE + " - prints the database");
-        System.out.println(CLICommands.RESET_DATABASE + " - reset the database");
-        System.out.println(CLICommands.SEED_DATABASE + " - seed the database with test data");
-        System.out.println(CLICommands.QUIT + " - quit the program");
-    }
-
     private void printDatabaseDetails() {
         try (var tx = db.beginTx()){
-            System.out.println("Node {");
+            cli.println("Node {");
             tx.getAllNodes().forEach(node -> {
-                System.out.printf("\t %s: ", node.getId());
-                node.getLabels().forEach(label -> System.out.print(label.name()));
-                System.out.print("( ");
-                node.getAllProperties().forEach((key, property) -> System.out.printf("%s: %s, ", key, property));
-                System.out.println(")");
+                cli.print("\t %s: ", node.getId());
+                node.getLabels().forEach(label -> cli.print(label.name()));
+                cli.print("( ");
+                node.getAllProperties().forEach((key, property) -> cli.print("%s: %s, ", key, property));
+                cli.println(")");
             });
-            System.out.println("}");
+            cli.println("}");
 
-            System.out.println("Edges {");
+            cli.println("Edges {");
             tx.getAllRelationships().forEach(relationship -> {
-                System.out.printf(
+                cli.print(
                         "\t %s: %s --> %s %s( ",
                         relationship.getId(),
                         relationship.getStartNodeId(),
                         relationship.getEndNodeId(),
                         relationship.getType()
                 );
-                relationship.getAllProperties().forEach((key, property) -> System.out.printf("%s: %s, ", key, property));
-                System.out.println(")");
+                relationship.getAllProperties().forEach((key, property) -> cli.print("%s: %s, ", key, property));
+                cli.println(")");
             });
-            System.out.println("}");
+            cli.print("}");
         }
-    }
-
-    public QueryGraph parseQuery(String query) throws SyntaxError {
-        return parser.parse(query);
-    }
-
-    public ResultGraph executeQuery(QueryGraph query) throws Exception {
-        return new Neo4jTraversal(db).executeQueryGraph(query);
-    }
-
-    public String toString(QueryGraph queryGraph, ResultGraph resultGraph) {
-        return writer.write(queryGraph, resultGraph);
-    }
-
-    public Object toResult(QueryGraph queryGraph, ResultGraph resultGraph) {
-        return writer.writeNative(queryGraph, resultGraph);
-    }
-
-    // TODO: Remove
-    public ResultGraph processQuery(String query) throws Exception {
-        // Can extend to support different query languages as long as they construct same QueryGraph.
-        QueryGraph queryGraph = parser.parse(query);
-        return new Neo4jTraversal(db).executeQueryGraph(queryGraph);
     }
 }

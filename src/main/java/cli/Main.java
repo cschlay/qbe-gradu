@@ -23,14 +23,14 @@ public class Main {
             var session = new QuerySession(db, new TabularParser(), new TabularResultWriter());
             session.start();
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            exception.printStackTrace();
         }
 
         dbManagement.shutdown();
         System.exit(0);
     }
 
-    // Community edition doesn't support multiple database names.
+    // Community edition doesn't support multiple database names
     // https://github.com/neo4j/neo4j/issues/12506
     public static GraphDatabaseService getDefaultDatabase(DatabaseManagementService management) {
         return management.database(DEFAULT_DATABASE_NAME);

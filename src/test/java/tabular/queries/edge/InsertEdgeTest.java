@@ -30,7 +30,7 @@ class InsertEdgeTest extends QueryBaseTest {
                 "|------------------+-------+----------+-------+----------|\n" +
                 "| INSERT Band.Song | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
-        assertEdge(graph, (tx, edge) -> {
+        eachEdge(graph, (tx, edge) -> {
             Relationship relation = Neo4j.relationById(tx, edge);
             assertTrue(relation.getStartNodeId() == band.getId() || relation.getEndNodeId() == song.getId());
         });
@@ -44,7 +44,7 @@ class InsertEdgeTest extends QueryBaseTest {
                 "|-------------------+----------------+-------+----------+-------+----------|\n" +
                 "| INSERT Band.Song  | true           | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
-        assertEdge(graph, (tx, edge) -> {
+        eachEdge(graph, (tx, edge) -> {
             assertEquals(true, edge.property("feat"));
             Relationship relation = Neo4j.relationById(tx, edge);
             assertEquals(true, relation.getProperty("feat"));
@@ -59,7 +59,7 @@ class InsertEdgeTest extends QueryBaseTest {
                 "|-------------------+----------------+---------------+-------+----------+-------+----------|\n" +
                 "| INSERT Band.Song  | true           | 20.0           | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
-        assertEdge(graph, (tx, edge) -> {
+        eachEdge(graph, (tx, edge) -> {
             assertEquals(true, edge.property("feat"));
             Relationship relation = Neo4j.relationById(tx, edge);
             assertEquals(true, relation.getProperty("feat"));

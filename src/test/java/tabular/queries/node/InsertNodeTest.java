@@ -16,7 +16,7 @@ class InsertNodeTest extends QueryBaseTest {
                 "|--------|\n" +
                 "| INSERT |\n";
         var graph = execute(query);
-        assertNode(graph, (tx, node) -> tx.getNodeById(Neo4j.id(node)));
+        eachNode(graph, (tx, node) -> tx.getNodeById(Neo4j.id(node)));
     }
 
     @Test
@@ -26,12 +26,12 @@ class InsertNodeTest extends QueryBaseTest {
                 "|--------+------------------------|\n" +
                 "| INSERT | \"Wizard Programmers\" |\n";
         var graph = execute(query);
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             Node neo4jNode = tx.getNodeById(Neo4j.id(node));
             Object property = neo4jNode.getProperty("title");
             assertEquals("Wizard Programmers", property);
         });
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             Node neo4jNode = tx.getNodeById(Neo4j.id(node));
             Object property = neo4jNode.getProperty("title");
             assertEquals("Wizard Programmers", property);
@@ -45,7 +45,7 @@ class InsertNodeTest extends QueryBaseTest {
                 "|--------+------------------------+-------------|\n" +
                 "| INSERT | \"Wizard Programmers\" | 2019        |\n";
         var graph = execute(query);
-        assertNode(graph, (tx, node) -> {
+        eachNode(graph, (tx, node) -> {
             Node neo4jNode = tx.getNodeById(Neo4j.id(node));
             assertEquals("Wizard Programmers", neo4jNode.getProperty("title"));
             assertEquals(2019, neo4jNode.getProperty("bestseller"));
