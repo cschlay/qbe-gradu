@@ -44,10 +44,10 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
 
         String[] parts = value.split("([ .])");
         if (parts.length != 3 || (parts[0].length() == 0) || (parts[1].length()) == 0) {
-            throw new SyntaxError("Edge entity column must include operation e.g. 'CREATE Topic.Song'.");
+            throw new SyntaxError("Edge entity column '%s' must include operation e.g. 'CREATE Topic.Song'.", header.name);
         }
 
-        QbeEdge edge = new QbeEdge(header.name);
+        var edge = new QbeEdge(header.name);
         edge.type = TabularTokens.getQueryType(parts[0]);
         // This is a problem, it creates empty relations if name cannot be parsed
         edge.tailNode = getOrCreateNode(parts[1]);

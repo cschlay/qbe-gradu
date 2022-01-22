@@ -37,7 +37,9 @@ public class QbeEdge extends GraphEntity {
 
         ret.line("%s: %s -> %s %s%n", name, tail, head, type);
         for (var property : properties.entrySet()) {
-            ret.line(indent + 2, "%s = %s%n", property.getKey(), property.getValue());
+            QbeData data = property.getValue();
+            var template = data.value instanceof String ?  "%s = \"%s\"%n" : "%s = %s%n";
+            ret.line(indent + 2, template, property.getKey(), property.getValue());
         }
         return ret.toString();
     }

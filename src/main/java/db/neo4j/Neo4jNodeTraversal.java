@@ -67,7 +67,11 @@ public class Neo4jNodeTraversal {
                 if (queryNode.type == QueryType.DELETE) {
                     neo4jNode.delete();
                 }
-                 else {
+                else if (QueryType.UPDATE == queryNode.type) {
+                    // The thing need to traverse it again!
+                    new Neo4jPropertyTraversal(queryNode).mutableUpdate(neo4jNode, resultNode);
+                    resultNodes.put(resultNode.id, resultNode);
+                } else {
                     resultNodes.put(resultNode.id, resultNode);
                 }
             } catch (InvalidNodeException exception) {

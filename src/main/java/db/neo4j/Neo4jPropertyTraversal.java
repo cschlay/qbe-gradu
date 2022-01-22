@@ -18,7 +18,7 @@ public class Neo4jPropertyTraversal {
     private final Map<String, QbeData> queryProperties;
 
     public Neo4jPropertyTraversal(GraphEntity queryEntity) {
-        this.queryProperties = queryEntity.properties;
+        queryProperties = queryEntity.properties;
     }
 
     /**
@@ -38,6 +38,18 @@ public class Neo4jPropertyTraversal {
         }
 
         resultEntity.properties.put("id", new QbeData(neo4jEntity.getId()));
+    }
+
+    public void mutableUpdate(Entity neo4jEntity, GraphEntity resultEntity) {
+        for (var property : queryProperties.entrySet()) {
+            String name = property.getKey();
+            QbeData data = property.getValue();
+
+            if (data.update != null) {
+                neo4jEntity.setProperty(name, data.update);
+                resultEntity.properties.put(name, new QbeData(data.update));
+            }
+        }
     }
 
     /**
@@ -78,6 +90,10 @@ public class Neo4jPropertyTraversal {
             }
 
             return new QbeData(neo4jEntity.getId());
+        }
+
+        if (queryData.update != null) {
+            return new QbeData(queryData.update);
         }
 
         try {

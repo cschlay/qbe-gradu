@@ -73,7 +73,7 @@ public class TabularParser implements QueryParser {
         if (Utils.startsWithUppercase(header.name)) {
             return TabularHeaderType.NODE;
         }
-        if (value.matches("(UPDATE|INSERT|DELETE|QUERY) [A-z]+.[A-z]+")) {
+        if (value.matches("(UPDATE|INSERT|DELETE|QUERY) [A-Za-z]+\\.[A-Za-z]+")) {
             return TabularHeaderType.EDGE;
         }
 

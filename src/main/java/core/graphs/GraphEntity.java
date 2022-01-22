@@ -1,7 +1,6 @@
 package core.graphs;
 
-
-import core.utilities.CustomStringBuilder;
+import core.exceptions.QbeException;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -33,6 +32,16 @@ public abstract class GraphEntity {
         properties.put("id", new QbeData(id));
     }
 
+    public long longId()  {
+        if (id == null) {
+            throw new NullPointerException(String.format("Cannot read null id of node '%s' as long", name));
+        }
+        try {
+            return Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException(String.format("Cannot parse id '%s' of node '%s' into long, maybe your ID is string or uuid", id, name));
+        }
+    }
     /**
      * Simplifies the access of entity.properties.get("name").value to just entity.getProperty("name")
      *

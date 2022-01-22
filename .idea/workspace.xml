@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add edge deletion and its tests">
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add condition to result writer to not include columns that are not selected">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/GraphEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jNodeTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jPropertyTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularEdgeParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +86,7 @@
       <recent name="db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All">
+  <component name="RunManager" selected="JUnit.UpdateNodeTest">
     <configuration name="All" type="JUnit" factoryName="JUnit">
       <module name="qbe-graph-database" />
       <extension name="coverage">
@@ -190,18 +196,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InsertEdgeTest.oneProperty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UpdateNodeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.queries.edge.*" />
+          <option name="PATTERN" value="tabular.queries.node.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries.edge" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.edge.InsertEdgeTest" />
-      <option name="METHOD_NAME" value="oneProperty" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="tabular.queries.node" />
+      <option name="MAIN_CLASS_NAME" value="tabular.queries.node.UpdateNodeTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -209,18 +214,18 @@
     <list>
       <item itemvalue="JUnit.All" />
       <item itemvalue="JUnit.InsertEdgeTest" />
-      <item itemvalue="JUnit.InsertEdgeTest.oneProperty" />
       <item itemvalue="JUnit.DeleteNodeTest" />
       <item itemvalue="JUnit.DeleteNodeTest.byId" />
       <item itemvalue="JUnit.DeleteEdgeTest" />
+      <item itemvalue="JUnit.UpdateNodeTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UpdateNodeTest" />
         <item itemvalue="JUnit.DeleteEdgeTest" />
         <item itemvalue="JUnit.DeleteNodeTest" />
         <item itemvalue="JUnit.DeleteNodeTest.byId" />
         <item itemvalue="JUnit.InsertEdgeTest" />
-        <item itemvalue="JUnit.InsertEdgeTest.oneProperty" />
       </list>
     </recent_temporary>
   </component>
@@ -261,7 +266,7 @@
       <workItem from="1642583960940" duration="20084000" />
       <workItem from="1642666480868" duration="15416000" />
       <workItem from="1642752363331" duration="9474000" />
-      <workItem from="1642849426057" duration="3301000" />
+      <workItem from="1642849426057" duration="11951000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -507,7 +512,13 @@
       <option name="presentableId" value="LOCAL−00037" />
       <updated>1642852273370</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL−00038" summary="Add condition to result writer to not include columns that are not selected">
+      <created>1642852859652</created>
+      <option name="number" value="LOCAL−00038" />
+      <option name="presentableId" value="LOCAL−00038" />
+      <updated>1642852859652</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,7 +536,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add test for TabularHeader parsing and improve implementation to support edge notations" />
     <MESSAGE value="Add edge parse and start writing tests for it" />
     <MESSAGE value="Split NodeParser test into to two parts" />
     <MESSAGE value="add more edge tests" />
@@ -550,7 +560,8 @@
     <MESSAGE value="Improve graph print" />
     <MESSAGE value="Add node delete" />
     <MESSAGE value="Add edge deletion and its tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add edge deletion and its tests" />
+    <MESSAGE value="Add condition to result writer to not include columns that are not selected" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add condition to result writer to not include columns that are not selected" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
