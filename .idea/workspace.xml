@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add node delete">
-      <change afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/DeleteEdgeTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add edge deletion and its tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Edges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Edges.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/graphs/QbeEdge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/Neo4jEdgeTraversal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/syntax/tabular/TabularResultWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -266,7 +261,7 @@
       <workItem from="1642583960940" duration="20084000" />
       <workItem from="1642666480868" duration="15416000" />
       <workItem from="1642752363331" duration="9474000" />
-      <workItem from="1642849426057" duration="2805000" />
+      <workItem from="1642849426057" duration="3301000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -506,7 +501,13 @@
       <option name="presentableId" value="LOCAL−00036" />
       <updated>1642772982241</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL−00037" summary="Add edge deletion and its tests">
+      <created>1642852273370</created>
+      <option name="number" value="LOCAL−00037" />
+      <option name="presentableId" value="LOCAL−00037" />
+      <updated>1642852273370</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +525,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add more tests to Neo4jPropertyTraversal and fix bugs found" />
     <MESSAGE value="Add test for TabularHeader parsing and improve implementation to support edge notations" />
     <MESSAGE value="Add edge parse and start writing tests for it" />
     <MESSAGE value="Split NodeParser test into to two parts" />
@@ -549,7 +549,8 @@
     <MESSAGE value="Add support for node INSERT" />
     <MESSAGE value="Improve graph print" />
     <MESSAGE value="Add node delete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add node delete" />
+    <MESSAGE value="Add edge deletion and its tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add edge deletion and its tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

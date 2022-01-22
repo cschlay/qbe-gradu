@@ -11,9 +11,9 @@ public class TabularResultWriter implements ResultWriter {
         int[] columnLengths = new int[meta.headers.length];
         var table = toTable(meta.headers, resultGraph, columnLengths);
 
-        return getHeaderRowAsString(table[0], columnLengths)
-                + getHeaderSeparator(columnLengths)
-                + getRowsAsString(table, columnLengths);
+        return getHeaderRowAsString(meta.headers, table[0], columnLengths)
+                + getHeaderSeparator(meta.headers, columnLengths)
+                + getRowsAsString(meta.headers, table, columnLengths);
     }
 
     public Object[][] writeNative(QueryGraph queryGraph, ResultGraph resultGraph) {
@@ -42,42 +42,48 @@ public class TabularResultWriter implements ResultWriter {
         return result;
     }
 
-    private String getHeaderRowAsString(Object[] headers, int[] columnLengths) {
+    private String getHeaderRowAsString(Headers th, Object[] headers, int[] columnLengths) {
         var result = new StringBuilder();
         for (int col = 0; col < headers.length; col++) {
-            String header = (String) headers[col];
-            String padding = " ".repeat(columnLengths[col] - header.length() + 1);
-            result.append("| ").append(header).append(padding);
-        }
-        result.append("|\n");
-        return result.toString();
-    }
-
-    private String getHeaderSeparator(int[] columnLengths) {
-        var result = new StringBuilder("|");
-        for (int col = 0; col < columnLengths.length; col++) {
-            String padding = "-".repeat(columnLengths[col] + 2);
-            result.append(padding);
-            if (col < columnLengths.length - 1) {
-                result.append("+");
+            TabularHeader header = th.get(col);
+            if (header.selected) {
+                String padding = " ".repeat(columnLengths[col] - header.displayName.length() + 1);
+                result.append("| ").append(header.displayName).append(padding);
             }
         }
         result.append("|\n");
         return result.toString();
     }
 
-    private String getRowsAsString(Object[][] table, int[] columnLengths) {
+    private String getHeaderSeparator(Headers headers, int[] columnLengths) {
+        var result = new StringBuilder("|");
+        for (int col = 0; col < columnLengths.length; col++) {
+            if (headers.get(col).selected) {
+                String padding = "-".repeat(columnLengths[col] + 2);
+                result.append(padding);
+                if (col < columnLengths.length - 1) {
+                    result.append("+");
+                }
+            }
+        }
+        result.append("|\n");
+        return result.toString();
+    }
+
+    private String getRowsAsString(Headers headers, Object[][] table, int[] columnLengths) {
         var result = new StringBuilder();
         int columnCount = table[0].length;
         int rowCount = table.length;
 
         for (int row = 1; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-                String valueString = castToString(table[row][col]);
-                int p = columnLengths[col] - valueString.length() + 1;
+                if (headers.get(col).selected) {
+                    String valueString = castToString(table[row][col]);
+                    int p = columnLengths[col] - valueString.length() + 1;
 
-                String padding = " ".repeat(Math.max(p, 1));
-                result.append("| ").append(valueString).append(padding);
+                    String padding = " ".repeat(Math.max(p, 1));
+                    result.append("| ").append(valueString).append(padding);
+                }
             }
             result.append("|\n");
         }
