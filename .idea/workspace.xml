@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add condition to result writer to not include columns that are not selected">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cli/QueryExecutor.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change">
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/QueryGraphTraversal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/db/neo4j/PathQueryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/db/neo4j/QueryGraphTraversalTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cli/CLICommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/CommandLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cli/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cli/QuerySession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/base/QueryBaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jPropertyTraversalTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/QueryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/EdgeQueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/InsertEdgeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/edge/InsertEdgeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/InsertNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/InsertNodeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/NodeQueryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tabular/queries/node/UpdateNodeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,11 +80,12 @@
       <recent name="C:\Home\Education\qbe-graph-database\src\test\java\tests" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="db.neo4j" />
       <recent name="core.graphs" />
       <recent name="db" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All">
+  <component name="RunManager" selected="JUnit.PathQueryTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cli.Main" />
       <module name="qbe-graph-database" />
@@ -186,18 +177,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeleteNodeTest.byId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PathQueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="qbe-graph-database" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tabular.queries.node.*" />
+          <option name="PATTERN" value="db.neo4j.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tabular.queries.node" />
-      <option name="MAIN_CLASS_NAME" value="tabular.queries.node.DeleteNodeTest" />
-      <option name="METHOD_NAME" value="byId" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="db.neo4j" />
+      <option name="MAIN_CLASS_NAME" value="db.neo4j.PathQueryTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -218,20 +208,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.All" />
       <item itemvalue="JUnit.DeleteNodeTest" />
-      <item itemvalue="JUnit.DeleteNodeTest.byId" />
       <item itemvalue="JUnit.DeleteEdgeTest" />
       <item itemvalue="JUnit.UpdateNodeTest" />
-      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.PathQueryTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PathQueryTest" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.UpdateNodeTest" />
         <item itemvalue="JUnit.DeleteEdgeTest" />
         <item itemvalue="JUnit.DeleteNodeTest" />
-        <item itemvalue="JUnit.DeleteNodeTest.byId" />
       </list>
     </recent_temporary>
   </component>
@@ -273,6 +263,9 @@
       <workItem from="1642666480868" duration="15416000" />
       <workItem from="1642752363331" duration="9474000" />
       <workItem from="1642849426057" duration="11951000" />
+      <workItem from="1643133920802" duration="5230000" />
+      <workItem from="1643281993119" duration="10055000" />
+      <workItem from="1643531017712" duration="8239000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -524,7 +517,13 @@
       <option name="presentableId" value="LOCAL−00038" />
       <updated>1642852859652</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL−00039" summary="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change">
+      <created>1642881406895</created>
+      <option name="number" value="LOCAL−00039" />
+      <option name="presentableId" value="LOCAL−00039" />
+      <updated>1642881406895</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +541,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add edge parse and start writing tests for it" />
     <MESSAGE value="Split NodeParser test into to two parts" />
     <MESSAGE value="add more edge tests" />
     <MESSAGE value="Refactor edge to use a container" />
@@ -567,7 +565,8 @@
     <MESSAGE value="Add node delete" />
     <MESSAGE value="Add edge deletion and its tests" />
     <MESSAGE value="Add condition to result writer to not include columns that are not selected" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add condition to result writer to not include columns that are not selected" />
+    <MESSAGE value="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -36,7 +36,6 @@ class Neo4jTraversalTest extends QueryBaseTest {
         queryGraph.put(edge);
 
         var resultGraph = traversal.executeQueryGraph(queryGraph);
-        System.out.println(resultGraph);
 
         var courseExists = false;
         var assistantExists = false;

@@ -20,7 +20,6 @@ class Neo4jNodeTraversalTest extends QueryBaseTest {
         traversal = new Neo4jNodeTraversal(db);
     }
 
-
     @Test
     @DisplayName("should filter nodes by name and properties")
     void filterByNameAndProperties() throws Exception {
