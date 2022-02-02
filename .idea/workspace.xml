@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change">
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/QueryGraphTraversal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/db/neo4j/PathQueryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/db/neo4j/QueryGraphTraversalTest.java" afterDir="false" />
+    <list default="true" id="c8fb077b-ee2d-41e0-9d71-aa13108e772b" name="Changes" comment="Add first version of a algorithm that somewhat handles the path query validation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jNodeTraversalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/Neo4jTraversalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/neo4j/QueryGraphTraversal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/neo4j/QueryGraphTraversal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/db/neo4j/PathQueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/db/neo4j/PathQueryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="refactor/clean" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -265,7 +262,8 @@
       <workItem from="1642849426057" duration="11951000" />
       <workItem from="1643133920802" duration="5230000" />
       <workItem from="1643281993119" duration="10055000" />
-      <workItem from="1643531017712" duration="8239000" />
+      <workItem from="1643531017712" duration="8938000" />
+      <workItem from="1643820920929" duration="4686000" />
     </task>
     <task id="LOCAL-00001" summary="Upgrade to JUnit 5">
       <created>1639506166093</created>
@@ -523,7 +521,13 @@
       <option name="presentableId" value="LOCAL−00039" />
       <updated>1642881406895</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL−00040" summary="Add first version of a algorithm that somewhat handles the path query validation">
+      <created>1643545458107</created>
+      <option name="number" value="LOCAL−00040" />
+      <option name="presentableId" value="LOCAL−00040" />
+      <updated>1643545458107</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -541,7 +545,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Split NodeParser test into to two parts" />
     <MESSAGE value="add more edge tests" />
     <MESSAGE value="Refactor edge to use a container" />
     <MESSAGE value="Refactor edges in node to use HashMap" />
@@ -566,7 +569,8 @@
     <MESSAGE value="Add edge deletion and its tests" />
     <MESSAGE value="Add condition to result writer to not include columns that are not selected" />
     <MESSAGE value="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change the structure of CLI application and shorten tests that broke with QueryBaseTest change" />
+    <MESSAGE value="Add first version of a algorithm that somewhat handles the path query validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add first version of a algorithm that somewhat handles the path query validation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
