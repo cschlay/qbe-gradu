@@ -4,6 +4,7 @@ import core.exceptions.SyntaxError;
 import core.graphs.QbeData;
 import core.graphs.QbeNode;
 import core.graphs.QueryGraph;
+import core.graphs.QueryType;
 import core.utilities.Utils;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +35,15 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
 
         QbeNode node = graph.getOrDefault(header.name, new QbeNode(header.name));
         node.type = TabularTokens.getQueryType(value);
+
+        if (node.type == QueryType.COUNT) {
+            header.name = "_agg-count";
+            header.selected = true;
+            header.entityName = node.name;
+            header.displayName = node.name + ".count";
+            // TODO: Support alias
+        }
+
         return node;
     }
 

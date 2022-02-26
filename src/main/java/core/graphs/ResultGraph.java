@@ -2,18 +2,8 @@ package core.graphs;
 
 import core.exceptions.QbeException;
 import org.jetbrains.annotations.NotNull;
-import syntax.graphml.GraphML;
-import syntax.graphml.GraphMLResultWriter;
-import core.utilities.XmlUtilities;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 
 public class ResultGraph extends Graph {
@@ -28,11 +18,10 @@ public class ResultGraph extends Graph {
     }
 
     public void put(QbeNode node) {
-        put(node.id, node);
+        String key = node.id == null ? node.name : node.id;
+        put(key, node);
     }
 
-    // TODO: Continue here, override put method so that it won't link by name.
-    // Result graphs are always by id!
     public void put(@NotNull QbeEdge edge) throws QbeException {
         if (edge.id == null) {
             throw new QbeException("Edge '%s' doesn't have id!", edge.name);

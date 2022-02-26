@@ -54,8 +54,8 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
 
             header.selected = true;
             header.entityName = edge.aggregationGroup;
-            header.name = edge.name + ".count";
-            header.displayName = header.name;
+            header.name = "_agg-count";
+            header.displayName = edge.name + ".count";
             // TODO: Support alias
         }
 

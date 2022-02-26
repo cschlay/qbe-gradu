@@ -7,22 +7,21 @@ import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class QueryGraphTraversal {
     private final Transaction tx;
+    private final HashMap<String, GraphEntity> aggregatedEntities;
     private final HashMap<Long, QbeNode> pendingNodes;
-    private final HashMap<Long, GraphEntity> aggregatedEntities;
-
+    private ResultGraph currentResultGraph;
 
     public QueryGraphTraversal(Transaction transaction) {
         tx = transaction;
-        pendingNodes = new HashMap<>();
         aggregatedEntities = new HashMap<>();
+        pendingNodes = new HashMap<>();
     }
 
     public ResultGraph traverse(QueryGraph queryGraph) {
-        var resultGraph = new ResultGraph();
+        currentResultGraph = new ResultGraph();
 
         for (QbeNode queryNode : queryGraph.values()) {
             ResourceIterator<Node> nodes = tx.findNodes(Label.label(queryNode.name));
@@ -30,90 +29,123 @@ public class QueryGraphTraversal {
             while (nodes.hasNext()) {
                 Node node = nodes.next();
                 try {
-                    QbeNode resultNode = traverseNode(node, queryNode, new QbePath());
-                    resultGraph.put(resultNode);
+                    @Nullable QbeNode resultNode = traverseNode(node, queryNode, new QbePath());
+                    if (resultNode != null) {
+                        currentResultGraph.put(resultNode);
+                    }
                 } catch (InvalidNodeException | IdConstraintException expected) {
                     // Node has invalid properties or edges, should be ignored.
                 }
             }
         }
 
-        return resultGraph;
+        return currentResultGraph;
     }
 
-    // TODO: Keep track of path and insert all non-transitive paths
-    // TODO: Also check if node already exists in result graph
-
-    private QbeNode traverseNode(Node node, QbeNode queryNode, QbePath path) throws InvalidNodeException, IdConstraintException {
+    private @Nullable QbeNode traverseNode(Node node, QbeNode queryNode, QbePath path) throws InvalidNodeException, IdConstraintException {
         var resultNode = new QbeNode(node.getId(), queryNode.name);
         resultNode.selected = queryNode.selected;
-
-        if (queryNode.type == QueryType.COUNT) {
-            System.out.println("DETECTED COUNT");
-        }
-
         resultNode.properties.putAll(new Neo4jPropertyTraversal(queryNode).getProperties(node));
         pendingNodes.put(node.getId(), resultNode);
         path.add(resultNode);
 
         for (var queryEdge : queryNode.edges.values()) {
-            var edges = node.getRelationships(RelationshipType.withName(queryEdge.name));
-            AtomicBoolean found = new AtomicBoolean(false);
-            edges.forEach(edge -> {
+            boolean found = false;
+            Iterable<Relationship> edges = node.getRelationships(RelationshipType.withName(queryEdge.name));
+
+            for (Relationship edge : edges) {
                 try {
-                    var resultEdge = new QbeEdge(edge.getId(), queryEdge.name);
-                    resultEdge.properties.putAll(new Neo4jPropertyTraversal(queryEdge).getProperties(edge));
-
-                    if (queryEdge.tailNode != null ) {
-                        if (queryEdge.tailNode.name.equals(resultNode.name)) {
-                            resultEdge.tailNode = resultNode;
-                        } else if (pendingNodes.containsKey(edge.getStartNodeId())) {
-                            resultEdge.tailNode = pendingNodes.get(edge.getStartNodeId());
-                        } else {
-                            resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
-                        }
-                    }
-                    if (queryEdge.headNode != null) {
-                        if (queryEdge.headNode.name.equals(resultNode.name)) {
-                            resultEdge.headNode = resultNode;
-                        } else if (pendingNodes.containsKey(edge.getEndNodeId())) {
-                            resultEdge.headNode = pendingNodes.get(edge.getEndNodeId());
-                        } else {
-                            resultEdge.headNode = traverseNode(edge.getEndNode(), queryEdge.headNode, path.copy());
-                        }
-                    }
-
-                    if (queryEdge.type == QueryType.COUNT) {
-                        @Nullable GraphEntity entity =  path.find(queryEdge.aggregationGroup);
-                        if (entity != null && !aggregatedEntities.containsKey(resultEdge.longId())) {
-                            aggregatedEntities.put(resultEdge.longId(), resultEdge);
-                            @Nullable QbeData p = entity.properties.get(queryEdge.name + ".count");
-                            if (p != null) {
-                                p.value = ((int) p.value) + 1;
-                            } else  {
-                                var data = new QbeData(1);
-                                data.selected = true;
-                                entity.properties.put(queryEdge.name + ".count", data);
-                            }
-                        }
-                        // Update the node in path
-                    } else {
-                        resultEdge.selected = queryEdge.selected;
+                    @Nullable QbeEdge resultEdge = traverseEdge(edge, queryEdge, resultNode, path);
+                    if (resultEdge != null) {
                         resultNode.edges.put(resultEdge.id, resultEdge);
                     }
-                    found.set(true);
+                    found = true;
                 } catch (InvalidNodeException | IdConstraintException expected) {
                     // Either tail or head node is invalid so the edge is discarded.
                 }
-            });
+            }
 
-            if (!found.get()) {
+            if (!found) {
                 pendingNodes.remove(resultNode.longId());
                 throw new InvalidNodeException("Node %s doesn't have any relations", node.getId());
             }
         }
 
         pendingNodes.remove(resultNode.longId());
+
+        if (queryNode.type == QueryType.COUNT) {
+            mutableAggregateCount(queryNode, resultNode, path);
+            return null;
+        }
+
         return resultNode;
+    }
+
+    private @Nullable QbeEdge traverseEdge(Relationship edge, QbeEdge queryEdge, QbeNode resultNode, QbePath path) throws InvalidNodeException, IdConstraintException {
+        var resultEdge = new QbeEdge(edge.getId(), queryEdge.name);
+        resultEdge.properties.putAll(new Neo4jPropertyTraversal(queryEdge).getProperties(edge));
+
+        if (queryEdge.tailNode != null) {
+            if (queryEdge.tailNode.name.equals(resultNode.name)) {
+                resultEdge.tailNode = resultNode;
+            } else if (pendingNodes.containsKey(edge.getStartNodeId())) {
+                resultEdge.tailNode = pendingNodes.get(edge.getStartNodeId());
+            } else {
+                resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
+            }
+        }
+
+        if (queryEdge.headNode != null) {
+            if (queryEdge.headNode.name.equals(resultNode.name)) {
+                resultEdge.headNode = resultNode;
+            } else if (pendingNodes.containsKey(edge.getEndNodeId())) {
+                resultEdge.headNode = pendingNodes.get(edge.getEndNodeId());
+            } else {
+                resultEdge.headNode = traverseNode(edge.getEndNode(), queryEdge.headNode, path.copy());
+            }
+        }
+
+        if (queryEdge.type == QueryType.COUNT) {
+            mutableAggregateCount(queryEdge, resultEdge, path);
+            return null;
+        } else {
+            resultEdge.selected = queryEdge.selected;
+        }
+
+        return resultEdge;
+    }
+
+
+
+    private void mutableAggregateCount(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
+        @Nullable GraphEntity aggregationEntity;
+
+        // Counts self
+        if (queryEntity.aggregationGroup == null) {
+            aggregationEntity = currentResultGraph.get(queryEntity.name);
+            if (aggregationEntity == null) {
+                // Even if the query entity is edge, it will still be used as node
+                aggregationEntity = new QbeNode(queryEntity.name);
+                aggregationEntity.selected = true;
+                currentResultGraph.put((QbeNode) aggregationEntity);
+            }
+        } else {
+            aggregationEntity = path.find(queryEntity.aggregationGroup);
+        }
+
+        if (aggregationEntity != null && !aggregatedEntities.containsKey(resultEntity.id)) {
+            aggregatedEntities.put(resultEntity.id, resultEntity);
+            String propertyName = "_agg-count";
+            @Nullable QbeData property = aggregationEntity.properties.get(propertyName);
+
+            if (property != null && property.value != null) {
+                int counter = (int) property.value;
+                property.value = counter + 1;
+            } else {
+                property = new QbeData(1);
+                property.selected = true;
+                aggregationEntity.properties.put(propertyName, property);
+            }
+        }
     }
 }

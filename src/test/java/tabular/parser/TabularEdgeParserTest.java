@@ -19,7 +19,7 @@ class TabularEdgeParserTest {
         TabularEdgeParser parser = setup();
         var header = new TabularHeader("writes");
 
-        var value = String.format("%s %s.%s", type.name(), "Artist", "Score");
+        var value = String.format("%s %s.%s %s", type.name(), "Artist", "Score", "");
         QbeEdge edge = parser.parseEntity(header, value);
         assertEquals("writes", edge.name);
         assertEquals(type, edge.type);
