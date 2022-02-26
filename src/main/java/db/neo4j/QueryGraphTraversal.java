@@ -28,7 +28,7 @@ public class QueryGraphTraversal {
             ResourceIterator<Node> nodes = tx.findNodes(Label.label(queryNode.name));
             nodes.forEachRemaining(node -> {
                 try {
-                    var resultNode = traverseNode(node, queryNode);
+                    QbeNode resultNode = traverseNode(node, queryNode);
                     resultGraph.put(resultNode);
                 } catch (InvalidNodeException | IdConstraintException expected) {
                     // Node has invalid properties or edges, should be ignored.
@@ -38,6 +38,9 @@ public class QueryGraphTraversal {
 
         return resultGraph;
     }
+
+    // TODO: Keep track of path and insert all non-transitive paths
+    // TODO: Also check if node already exists in result graph
 
     private QbeNode traverseNode(Node node, QbeNode queryNode) throws InvalidNodeException, IdConstraintException {
         var resultNode = new QbeNode(node.getId(), queryNode.name);

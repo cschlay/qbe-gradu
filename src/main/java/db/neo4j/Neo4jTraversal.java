@@ -7,7 +7,7 @@ import org.neo4j.graphdb.*;
  * Contains traversal operations
  */
 public class Neo4jTraversal {
-    private final Neo4jNodeTraversal nodeTraversal;
+    private final GraphDatabaseService databaseService;
 
     /**
      * The constructor should accept only database.
@@ -16,7 +16,7 @@ public class Neo4jTraversal {
      * @param database connection
      */
     public Neo4jTraversal(GraphDatabaseService database) {
-        nodeTraversal = new Neo4jNodeTraversal(database);
+        databaseService = database;
     }
 
     /**
@@ -25,6 +25,8 @@ public class Neo4jTraversal {
      * @return result graph of the traversal
      */
     public ResultGraph executeQueryGraph(QueryGraph queryGraph) {
-        return nodeTraversal.traverse(queryGraph);
+        Transaction tx = databaseService.beginTx();
+        var traversal = new QueryGraphTraversal(tx);
+        return traversal.traverse(queryGraph);
     }
 }

@@ -2,3 +2,7 @@ data/
 target/
 issuestore/
 index.pb/
+
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+*.drawio

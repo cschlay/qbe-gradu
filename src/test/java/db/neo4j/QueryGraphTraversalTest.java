@@ -23,7 +23,7 @@ class QueryGraphTraversalTest extends QueryBaseTest {
     }
 
     @Test
-    void simplePath() throws Exception {
+    void fullPath() throws Exception {
         // Database contains two path fragments and one full path.
         // The result should yield the full path.
         var fx = new Object() { Node book; Node course; Node topic; };
@@ -71,8 +71,28 @@ class QueryGraphTraversalTest extends QueryBaseTest {
     }
 
     @Test
-    void simpleCycle() throws Exception {
-        // Query graph has cycle
+    void loops() throws Exception {
+        // The reference to self should not cause infinite loops
+    }
+
+    @Test
+    void cycle() throws Exception {
+        // If query graph is a cycle, it should not cause infinite loops
+        run(tx -> {
+            var book = tx.createNode(Labels.book);
+            var course = tx.createNode(Labels.course);
+            var topic = tx.createNode(Labels.topic);
+
+            course.createRelationshipTo(book, Relations.uses);
+            book.createRelationshipTo(topic, Relations.contains);
+            topic.createRelationshipTo(book, RelationshipType.withName("is_described_in"));
+
+            tx.commit();
+        });
+
+        var book = new QbeNode("Book");
+        var course = new QbeNode("Course");
+        var topic = new QbeNode("Topic");
     }
 
     /**
