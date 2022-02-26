@@ -15,7 +15,7 @@ public class QbeData {
     @Nullable public Object value;
 
     public final boolean nullable;
-    public final boolean selected;
+    public boolean selected;
 
     /** Mark as delete, so the property gets deleted. */
     public boolean delete;

@@ -10,10 +10,10 @@ public class TabularHeader {
     /** Entity to associate header with */
     @Nullable public String entityName;
     /** Name used in database */
-    public final String name;
+    public String name;
     /** Name to return in final result */
-    public final String displayName;
-    public final boolean selected;
+    public String displayName;
+    public boolean selected;
 
     public TabularHeader(String header) {
         selected = header.lastIndexOf('*') != -1;

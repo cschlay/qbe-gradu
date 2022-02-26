@@ -1,15 +1,10 @@
 package syntax.tabular;
 
 import core.exceptions.SyntaxError;
-import core.graphs.QbeData;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.utilities.Debug;
+import core.graphs.*;
 import core.utilities.Utils;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,15 +38,27 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
         }
 
         String[] parts = value.split("([ .])");
-        if (parts.length != 3 || (parts[0].length() == 0) || (parts[1].length()) == 0) {
+        if (parts.length < 3 || (parts[0].length() == 0) || (parts[1].length()) == 0) {
             throw new SyntaxError("Edge entity column '%s' must include operation e.g. 'CREATE Topic.Song'.", header.name);
         }
 
         var edge = new QbeEdge(header.name);
         edge.type = TabularTokens.getQueryType(parts[0]);
+
         // This is a problem, it creates empty relations if name cannot be parsed
         edge.tailNode = getOrCreateNode(parts[1]);
         edge.headNode = getOrCreateNode(parts[2]);
+
+        if (edge.type == QueryType.COUNT) {
+            edge.aggregationGroup = parts[3];
+
+            header.selected = true;
+            header.entityName = edge.aggregationGroup;
+            header.name = edge.name + ".count";
+            header.displayName = header.name;
+            // TODO: Support alias
+        }
+
         edges.put(edge.name, edge);
         return edge;
     }

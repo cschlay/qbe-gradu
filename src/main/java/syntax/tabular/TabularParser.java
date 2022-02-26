@@ -58,9 +58,16 @@ public class TabularParser implements QueryParser {
                 }
                 if (Utils.startsWithUppercase(header.entityName)) {
                     QbeNode node = nodeParser.parseProperty(header, value);
+                    if (header.selected) {
+                        node.selected = true;
+                    }
                     graph.put(node);
+
                 } else {
                     QbeEdge edge = edgeParser.parseProperty(header, value);
+                    if (header.selected) {
+                        edge.selected = true;
+                    }
                     graph.put(edge);
                 }
             }
@@ -73,7 +80,7 @@ public class TabularParser implements QueryParser {
         if (Utils.startsWithUppercase(header.name)) {
             return TabularHeaderType.NODE;
         }
-        if (value.matches("(UPDATE|INSERT|DELETE|QUERY) [A-Za-z]+\\.[A-Za-z]+")) {
+        if (value.matches("(QUERY|UPDATE|INSERT|DELETE|SUM|COUNT|AVG) [A-Za-z]+\\.[A-Za-z]+.*")) {
             return TabularHeaderType.EDGE;
         }
 

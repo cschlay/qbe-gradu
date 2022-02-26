@@ -33,7 +33,7 @@ public class TabularRowWriter {
         rows.add(headerRow);
 
         for (var node : graph.values()) {
-            if (!node.visited) {
+            if (!node.visited && node.selected) {
                 var rowSet = writeNode(new Object[headers.length], node);
                 rows.addAll(rowSet);
             }

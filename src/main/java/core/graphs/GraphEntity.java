@@ -16,8 +16,10 @@ public abstract class GraphEntity {
     public final Map<String, QbeData> properties;
 
     public QueryType type = QueryType.QUERY;
+    @Nullable public String aggregationGroup;
 
     public boolean visited;
+    public boolean selected;
 
     protected GraphEntity(@Nullable String name) {
         this.name = constructName(name);

@@ -22,11 +22,11 @@ public class TabularTokens {
     public static List<String> LogicalOperators = Arrays.asList(
             And, Or, Not);
 
-    public static QueryType getQueryType(String type) throws SyntaxError  {
+    public static QueryType getQueryType(String type) throws SyntaxError {
         try {
             return QueryType.valueOf(type);
         } catch (IllegalArgumentException expected) {
-            String message = "Query type '%s' is not supported. Use one of 'QUERY', 'DELETE', 'INSERT' or 'UPDATE'";
+            String message = "Query type '%s' is not supported. Use one of QUERY, COUNT, SUM, DELETE, INSERT or UPDATE";
             throw new SyntaxError(message, type);
         }
     }
