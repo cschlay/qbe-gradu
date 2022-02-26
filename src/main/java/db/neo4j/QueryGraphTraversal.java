@@ -115,12 +115,9 @@ public class QueryGraphTraversal {
         return resultEdge;
     }
 
-
-
     private void mutableAggregateCount(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
         @Nullable GraphEntity aggregationEntity;
 
-        // Counts self
         if (queryEntity.aggregationGroup == null) {
             aggregationEntity = currentResultGraph.get(queryEntity.name);
             if (aggregationEntity == null) {

@@ -34,7 +34,8 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
         }
 
         QbeNode node = graph.getOrDefault(header.name, new QbeNode(header.name));
-        node.type = TabularTokens.getQueryType(value);
+        var parts = value.split(" ");
+        node.type = TabularTokens.getQueryType(parts[0]);
 
         if (node.type == QueryType.COUNT) {
             header.name = "_agg-count";
