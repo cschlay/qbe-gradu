@@ -69,9 +69,9 @@ class QueryEdgeTest extends QueryBaseTest {
         eachEdge(execute(q1), (tx, edge) -> assertEquals(fx.id1, edge.id));
 
         var q2 = "" +
-                "| contains          | id* |\n" +
-                "|-------------------------|\n" +
-                "|  QUERY Topic.Book |     |\n";
+                "| contains         | id* |\n" +
+                "|------------------+-----|\n" +
+                "| QUERY Topic.Book |     |\n";
         eachEdge(execute(q2), (tx, edge) -> assertEquals(fx.id2, edge.id));
     }
 

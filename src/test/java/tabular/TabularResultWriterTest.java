@@ -1,6 +1,5 @@
 package tabular;
 
-import exceptions.SyntaxError;
 import graphs.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,14 +14,14 @@ class TabularResultWriterTest {
     @Test
     void includeId() throws Exception {
         var queryGraph = new QueryGraph();
-        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.id" });
+        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.id*" });
 
         var resultGraph = new ResultGraph();
         var node = new QbeNode(1, "Course");
+        node.selected = true;
         node.properties.put("title", new QbeData("Algebra"));
         resultGraph.put(node.id, node);
 
-        System.out.println(node);
         var expected = "" +
                 "| Course.id |\n" +
                 "|-----------|\n" +
@@ -34,10 +33,11 @@ class TabularResultWriterTest {
     @DisplayName("Should write renamed header")
     void renameHeader() throws Exception {
         var queryGraph = new QueryGraph();
-        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title as Title" });
+        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title as Title*" });
 
         var resultGraph = new ResultGraph();
         var node = new QbeNode(1, "Course");
+        node.selected = true;
         node.properties.put("title", new QbeData("Introduction to Logic"));
         resultGraph.put(node.id, node);
 
@@ -54,10 +54,11 @@ class TabularResultWriterTest {
     @DisplayName("Should write multiple columns")
     void writeMultipleColumns() throws Exception {
         var queryGraph = new QueryGraph();
-        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title", "Course.difficulty" });
+        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title*", "Course.difficulty*" });
 
         var resultGraph = new ResultGraph();
         var node = new QbeNode(1, "Course");
+        node.selected = true;
         node.properties.put("title", new QbeData("Logic"));
         node.properties.put("difficulty", new QbeData(2));
         resultGraph.put(node.id, node);
@@ -75,15 +76,17 @@ class TabularResultWriterTest {
     @DisplayName("Should write multiple columns")
     void writeMultipleRows() throws Exception {
         var queryGraph = new QueryGraph();
-        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title" });
+        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.title*" });
 
         var resultGraph = new ResultGraph();
 
         var node1 = new QbeNode(1, "Course");
+        node1.selected = true;
         node1.properties.put("title", new QbeData("Logic"));
         resultGraph.put(node1.id, node1);
 
         var node2 = new QbeNode(2, "Course");
+        node2.selected = true;
         node2.properties.put("title", new QbeData("Graph"));
         resultGraph.put(node2.id, node2);
 
@@ -96,26 +99,4 @@ class TabularResultWriterTest {
         var writer = new TabularResultWriter();
         assertEquals(expected, writer.write(queryGraph, resultGraph));
     }
-
-    @Test
-    @DisplayName("should include edges")
-    void queryWithEdges() throws SyntaxError {
-        var queryGraph = new QueryGraph();
-        queryGraph.meta = new TabularQueryMeta(new String[] { "Course.id", "teaches.Assistant.Course.monday" });
-
-        var resultGraph = new ResultGraph();
-        var course = new QbeNode(1, "Course");
-        var teaches = new QbeEdge(2, "teaches");
-        teaches.tailNode = course;
-        teaches.properties.put("monday", new QbeData(true));
-        course.edges.put(teaches.id, teaches);
-
-        resultGraph.put(course.id, course);
-
-
-
-        var table = writer.write(queryGraph, resultGraph);
-        System.out.println(table);
-    }
-
 }

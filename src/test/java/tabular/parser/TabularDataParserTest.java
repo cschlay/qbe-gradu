@@ -25,7 +25,7 @@ class TabularDataParserTest {
         void sumExpression() {
             var token = parser.tokenize("SUM _");
             assertEquals(QueryType.SUM, token.type);
-            assertEquals("_", token.argument);
+            assertNull(token.argument);
             assertEquals("", token.queryValue);
         }
 
@@ -33,7 +33,7 @@ class TabularDataParserTest {
         void sumWithExampleValue() {
             var token = parser.tokenize("SUM _ example value");
             assertEquals(QueryType.SUM, token.type);
-            assertEquals("_", token.argument);
+            assertNull(token.argument);
             assertEquals("example value", token.queryValue);
         }
 
