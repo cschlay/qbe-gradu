@@ -12,13 +12,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Parser for node columns
  */
-public class TabularNodeParser implements TabularColumnParser<QbeNode> {
-    private final TabularDataParser dataParser;
+public class TabularNodeParser extends TabularEntityParser implements TabularColumnParser<QbeNode> {
     private final QueryGraph graph;
 
     public TabularNodeParser(QueryGraph graph) {
         this.graph = graph;
-        dataParser = new TabularDataParser();
     }
 
     /**
@@ -58,33 +56,15 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
      * @return node with property attached
      */
     public QbeNode parseProperty(TabularHeader header, String value) {
-        @Nullable QbeNode node = graph.get(header.entityName);
-        if (node == null) {
-            node = new QbeNode(header.entityName);
-        }
-
-        // TODO: Move to TabularTokens
-        if (value.startsWith("SUM")) {
-            node.type = QueryType.SUM;
-            var parts = value.split(" ");
-
-            if (parts.length > 1) {
-                node.aggregationGroup = parts[1];
-                header.entityName = node.aggregationGroup;
-            }
-            node.aggregationProperty = header.name;
-            node.properties.put(header.name, new QbeData(null));
-
-            return node;
-        }
-
-        QbeData data = dataParser.parse(value);
+        QbeNode node = getOrCreateNode(header.entityName);
+        QbeData data = super.parseData(header, node, value);
         node.properties.put(header.name, data);
 
-        if ("id".equals(header.name)) {
-            node.id = value;
-        }
-
         return node;
+    }
+
+    private QbeNode getOrCreateNode(String name) {
+        @Nullable QbeNode node = graph.get(name);
+        return node == null ? new QbeNode(name) : node;
     }
 }

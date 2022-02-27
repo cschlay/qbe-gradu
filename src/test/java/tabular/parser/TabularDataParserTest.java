@@ -1,7 +1,9 @@
 package tabular.parser;
 
+import enums.QueryType;
 import graphs.LogicalExpression;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularDataParser;
 
@@ -10,27 +12,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class TabularDataParserTest {
     TabularDataParser parser = new TabularDataParser();
 
-    @Test
-    @DisplayName("should tokenize delete expressions")
-    void tokenizeDelete() {
-        var t1 = parser.tokenize("DELETE");
-        assertTrue(t1.delete);
+    @Nested
+    class TokenizationTest {
+        @Test
+        void deleteExpression() {
+            var token = parser.tokenize("DELETE");
+            assertEquals(QueryType.DELETE, token.type);
+            assertEquals("", token.queryValue);
+        }
 
-        var t2 = parser.tokenize("DELETE any thing");
-        assertTrue(t2.delete);
-        assertEquals("any thing", t2.value);
+        @Test
+        void sumExpression() {
+            var token = parser.tokenize("SUM _");
+            assertEquals(QueryType.SUM, token.type);
+            assertEquals("_", token.argument);
+            assertEquals("", token.queryValue);
+        }
 
-        var t3 = parser.tokenize("DELETE \"DELETE\"");
-        assertTrue(t3.delete);
-        assertEquals("\"DELETE\"", t3.value);
-    }
+        @Test
+        void sumWithExampleValue() {
+            var token = parser.tokenize("SUM _ example value");
+            assertEquals(QueryType.SUM, token.type);
+            assertEquals("_", token.argument);
+            assertEquals("example value", token.queryValue);
+        }
 
-    @Test
-    @DisplayName("should tokenize update expressions")
-    void tokenizeUpdate() {
-        var token = parser.tokenize("UPDATE any thing");
-        assertEquals("", token.value);
-        assertEquals("any thing", token.update);
+        @Test
+        void updateExpression() {
+            var token = parser.tokenize("UPDATE any thing");
+            assertEquals(QueryType.UPDATE, token.type);
+            assertEquals("", token.queryValue);
+            assertEquals("any thing", token.argument);
+        }
     }
 
     @Test
@@ -66,6 +79,4 @@ class TabularDataParserTest {
     void parseLogicalExpression() {
         assertInstanceOf(LogicalExpression.class, parser.parse("> 3").value);
     }
-
-    // The tests for syntax errors could be implemented.
 }

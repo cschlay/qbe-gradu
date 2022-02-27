@@ -1,40 +1,43 @@
 package syntax.tabular;
 
-import exceptions.SyntaxError;
 import graphs.GraphEntity;
 
 import org.jetbrains.annotations.Nullable;
 
+
+/**
+ * Container class for headers, provides simplified access to headers
+ */
 public class Headers {
     public final int length;
-    private final TabularHeader[] headers;
+    private final TabularHeader[] headerList;
 
-    public Headers(String[] headers) throws SyntaxError {
+    public Headers(String[] headers) {
+        headerList = new TabularHeader[headers.length];
         length = headers.length;
-        this.headers = new TabularHeader[length];
 
         for (int i = 0; i < length; i++) {
             var header = new TabularHeader(headers[i]);
-            this.headers[i] = header;
+            headerList[i] = header;
         }
     }
 
     public TabularHeader get(int index) {
-        return headers[index];
+        return headerList[index];
     }
 
-    @Nullable public Integer getIndex(GraphEntity entity, String property) {
-        for (int i = 0; i < headers.length; i++) {
-            TabularHeader header = headers[i];
+    public String getDisplayName(int index) {
+        return headerList[index].toString();
+    }
+
+    public @Nullable Integer getIndex(GraphEntity entity, String property) {
+        for (int i = 0; i < headerList.length; i++) {
+            TabularHeader header = headerList[i];
             if (entity.name.equals(header.entityName) && header.name.equals(property)) {
                 return i;
             }
         }
 
         return null;
-    }
-
-    public String getDisplayName(int index) {
-        return headers[index].toString();
     }
 }

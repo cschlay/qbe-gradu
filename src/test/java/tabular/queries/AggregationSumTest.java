@@ -43,7 +43,7 @@ class AggregationSumTest extends QueryBaseTest {
         var query = "" +
                 "| Book  | price* |\n" +
                 "|-------+--------|\n" +
-                "| QUERY | SUM    |\n";
+                "| QUERY | SUM _  |\n";
         ResultGraph result = execute(query);
         assertEquals(65.0, result.get("Book").property("price"));
     }
@@ -53,7 +53,7 @@ class AggregationSumTest extends QueryBaseTest {
         var query = "" +
                 "| uses              | votes* |\n" +
                 "|-------------------+--------|\n" +
-                "| QUERY Course.Book | SUM    |\n";
+                "| QUERY Course.Book | SUM _  |\n";
         ResultGraph result = execute(query);
         assertEquals(30, result.get("uses").property("votes"));
     }

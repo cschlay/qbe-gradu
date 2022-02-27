@@ -7,11 +7,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TabularTokens {
+    private TabularTokens() {}
+
     public static String Equality = "=";
     public static String GreaterThan = ">";
     public static String GreaterThanOrEqual = ">=";
     public static String LessThan = "<";
     public static String LessThanOrEqual = "<=";
+
+    public static final String NO_NAME = "_";
+    public static final String COUNT = "COUNT";
+    public static final String SUM = "SUM";
+    public static final String DELETE = "DELETE";
+    public static final String UPDATE = "UPDATE";
 
     public static String And = "and";
     public static String Or = "or";

@@ -16,8 +16,7 @@ import java.util.Map;
 /**
  * Parser for the edge columns
  */
-public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
-    private final TabularDataParser dataParser;
+public class TabularEdgeParser extends TabularEntityParser implements TabularColumnParser<QbeEdge> {
     private final QueryGraph graph;
 
     // Cache the parsed edges, so that lookup is faster
@@ -26,7 +25,6 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
     public TabularEdgeParser(QueryGraph graph) {
         this.graph = graph;
         edges = new HashMap<>();
-        dataParser = new TabularDataParser();
     }
 
     /**
@@ -81,25 +79,8 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
      */
     public QbeEdge parseProperty(TabularHeader header, String value) {
         QbeEdge edge = getOrCreateEdge(header.entityName);
-        QbeData data = dataParser.parse(value);
+        QbeData data = super.parseData(header, edge, value);
         edge.properties.put(header.name, data);
-
-        // TODO: Duplicate
-        if (value.startsWith("SUM")) {
-            edge.type = QueryType.SUM;
-            var parts = value.split(" ");
-            if (parts.length > 1) {
-                edge.aggregationGroup = parts[1];
-            }
-            edge.aggregationProperty = header.name;
-            edge.properties.put(header.name, new QbeData(null));
-
-            return edge;
-        }
-
-        if ("id".equals(header.name)) {
-            edge.id = value;
-        }
 
         return edge;
     }

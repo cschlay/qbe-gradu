@@ -1,22 +1,19 @@
 package graphs;
 
+import enums.QueryType;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Data node which is a container for property values.
  * It is also used to verify constraints.
  */
 public class QbeData {
-    @Nullable public Object value;
+    public @Nullable QueryType type;
+    public @Nullable Object operationArgument;
+    public @Nullable Object value;
 
     public final boolean nullable;
     public boolean selected;
-
-    /** Mark as delete, so the property gets deleted. */
-    public boolean delete;
     /** Value to update node */
     public @Nullable Object update;
 
