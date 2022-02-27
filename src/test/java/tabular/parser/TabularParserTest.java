@@ -1,6 +1,6 @@
 package tabular.parser;
 
-import core.graphs.QueryType;
+import enums.QueryType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -113,7 +113,7 @@ class TabularParserTest {
                     "|-------------------+--------|\n" +
                     "| QUERY Artist.Song | >= 80  |\n";
             var graph = parser.parse(query);
-            var edge = graph.edge("Artist", "composed");
+            var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.QUERY, edge.type);
             assertNotNull(edge.property("hours"));
         }
@@ -126,7 +126,7 @@ class TabularParserTest {
                     "|--------------------+--------|\n" +
                     "| DELETE Artist.Song | false  |\n";
             var graph = parser.parse(query);
-            var edge = graph.edge("Artist", "composed");
+            var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.DELETE, edge.type);
             assertEquals(false, edge.property("active"));
         }
@@ -157,7 +157,7 @@ class TabularParserTest {
                     "|--------------------+------------|\n" +
                     "| UPDATE Artist.Song | UPDATE 124 |\n";
             var graph = parser.parse(query);
-            var composed = graph.edge("Artist", "composed");
+            var composed = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.UPDATE, composed.type);
 
             var hours = composed.properties.get("hours");

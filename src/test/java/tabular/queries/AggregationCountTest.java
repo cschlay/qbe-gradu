@@ -1,8 +1,8 @@
 package tabular.queries;
 
 import base.QueryBaseTest;
-import core.graphs.QbeNode;
-import core.graphs.ResultGraph;
+import graphs.QbeNode;
+import graphs.ResultGraph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;

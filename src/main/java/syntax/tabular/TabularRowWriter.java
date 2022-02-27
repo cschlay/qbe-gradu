@@ -1,9 +1,9 @@
 package syntax.tabular;
 
-import core.graphs.GraphEntity;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.ResultGraph;
+import graphs.GraphEntity;
+import graphs.QbeEdge;
+import graphs.QbeNode;
+import graphs.ResultGraph;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

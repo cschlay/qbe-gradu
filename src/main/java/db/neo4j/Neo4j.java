@@ -1,9 +1,9 @@
 package db.neo4j;
 
-import core.exceptions.QueryException;
-import core.graphs.GraphEntity;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
+import exceptions.QueryException;
+import graphs.GraphEntity;
+import graphs.QbeEdge;
+import graphs.QbeNode;
 import org.neo4j.graphdb.*;
 
 import java.util.Iterator;
@@ -50,5 +50,13 @@ public class Neo4j {
         }
 
         return tx.getAllNodes().stream().iterator();
+    }
+
+    public static void resetDatabase(GraphDatabaseService databaseService) {
+        try (Transaction transaction = databaseService.beginTx()) {
+            transaction.getAllNodes().forEach(Node::delete);
+            transaction.getAllRelationships().forEach(Relationship::delete);
+            transaction.commit();
+        }
     }
 }

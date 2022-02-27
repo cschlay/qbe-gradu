@@ -1,6 +1,6 @@
 package syntax.tabular;
 
-import core.exceptions.SyntaxError;
+import exceptions.SyntaxError;
 
 public class TabularQueryMeta {
     public final Headers headers;

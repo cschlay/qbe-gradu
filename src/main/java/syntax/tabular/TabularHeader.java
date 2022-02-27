@@ -1,6 +1,7 @@
 package syntax.tabular;
 
-import core.utilities.Utils;
+import enums.TabularHeaderType;
+import utilities.Utils;
 import org.jetbrains.annotations.Nullable;
 
 /** A container for header notation, it includes parsing into entity name and display names. */

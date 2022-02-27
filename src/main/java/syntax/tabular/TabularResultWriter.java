@@ -1,7 +1,7 @@
 package syntax.tabular;
 
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
+import graphs.QueryGraph;
+import graphs.ResultGraph;
 import interfaces.ResultWriter;
 import org.jetbrains.annotations.Nullable;
 

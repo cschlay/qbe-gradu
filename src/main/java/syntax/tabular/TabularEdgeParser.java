@@ -1,8 +1,13 @@
 package syntax.tabular;
 
-import core.exceptions.SyntaxError;
-import core.graphs.*;
-import core.utilities.Utils;
+import enums.QueryType;
+import exceptions.SyntaxError;
+import graphs.QbeData;
+import graphs.QbeEdge;
+import graphs.QbeNode;
+import graphs.QueryGraph;
+import interfaces.TabularColumnParser;
+import utilities.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

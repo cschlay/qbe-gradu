@@ -1,6 +1,7 @@
 package db.neo4j;
 
-import core.graphs.*;
+import graphs.QueryGraph;
+import graphs.ResultGraph;
 import org.neo4j.graphdb.*;
 
 /**
@@ -26,7 +27,7 @@ public class Neo4jTraversal {
      */
     public ResultGraph executeQueryGraph(QueryGraph queryGraph) {
         Transaction tx = databaseService.beginTx();
-        var traversal = new QueryGraphTraversal(tx);
+        var traversal = new Neo4jQueryGraphTraversal(tx);
         return traversal.traverse(queryGraph);
     }
 }

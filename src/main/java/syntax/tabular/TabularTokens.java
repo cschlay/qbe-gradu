@@ -1,7 +1,7 @@
 package syntax.tabular;
 
-import core.exceptions.SyntaxError;
-import core.graphs.QueryType;
+import exceptions.SyntaxError;
+import enums.QueryType;
 
 import java.util.Arrays;
 import java.util.List;

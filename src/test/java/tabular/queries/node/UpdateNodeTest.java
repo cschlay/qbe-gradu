@@ -1,12 +1,14 @@
 package tabular.queries.node;
 
 import base.QueryBaseTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Disabled
 class UpdateNodeTest extends QueryBaseTest {
     @Test
     void byId() throws Exception {

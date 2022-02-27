@@ -1,6 +1,6 @@
 package tabular.parser;
 
-import core.graphs.LogicalExpression;
+import graphs.LogicalExpression;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularDataParser;

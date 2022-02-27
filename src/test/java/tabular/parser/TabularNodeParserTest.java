@@ -1,9 +1,9 @@
 package tabular.parser;
 
-import core.exceptions.SyntaxError;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.graphs.QueryType;
+import exceptions.SyntaxError;
+import graphs.QbeNode;
+import graphs.QueryGraph;
+import enums.QueryType;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import syntax.tabular.TabularHeader;

@@ -1,7 +1,7 @@
 package syntax.tabular;
 
-import core.graphs.LogicalExpression;
-import core.graphs.QbeData;
+import graphs.LogicalExpression;
+import graphs.QbeData;
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -1,7 +1,7 @@
 package interfaces;
 
-import core.exceptions.SyntaxError;
-import core.graphs.QueryGraph;
+import exceptions.SyntaxError;
+import graphs.QueryGraph;
 
 public interface QueryParser {
     QueryGraph parse(String query) throws SyntaxError;

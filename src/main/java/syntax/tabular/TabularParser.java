@@ -1,10 +1,11 @@
 package syntax.tabular;
 
-import core.exceptions.SyntaxError;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.QueryGraph;
-import core.utilities.Utils;
+import enums.TabularHeaderType;
+import exceptions.SyntaxError;
+import graphs.QbeEdge;
+import graphs.QbeNode;
+import graphs.QueryGraph;
+import utilities.Utils;
 import interfaces.QueryParser;
 import org.jetbrains.annotations.Nullable;
 

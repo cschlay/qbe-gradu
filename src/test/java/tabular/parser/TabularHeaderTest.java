@@ -1,6 +1,6 @@
 package tabular.parser;
 
-import core.exceptions.SyntaxError;
+import exceptions.SyntaxError;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularHeader;

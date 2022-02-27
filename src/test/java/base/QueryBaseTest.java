@@ -2,11 +2,11 @@ package base;
 
 import cli.Main;
 import cli.QueryExecutor;
-import core.graphs.Graph;
-import core.graphs.QbeEdge;
-import core.graphs.QbeNode;
-import core.graphs.ResultGraph;
-import db.neo4j.Neo4jActions;
+import db.neo4j.Neo4j;
+import graphs.Graph;
+import graphs.QbeEdge;
+import graphs.QbeNode;
+import graphs.ResultGraph;
 import db.neo4j.Neo4jTraversal;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public abstract class QueryBaseTest {
     protected static GraphDatabaseService db;
-    protected static Neo4jActions dbOperations;
     private static DatabaseManagementService dbManagement;
     private static QueryExecutor queryExecutor;
 
@@ -29,7 +28,6 @@ public abstract class QueryBaseTest {
     public static void beforeAll() {
         dbManagement = Main.setupDatabase("data/test");
         db = Main.getDefaultDatabase(dbManagement);
-        dbOperations = new Neo4jActions(db);
         queryExecutor = new QueryExecutor(new Neo4jTraversal(db), new TabularParser(), new TabularResultWriter());
     }
 
@@ -40,7 +38,7 @@ public abstract class QueryBaseTest {
 
     @BeforeEach
     public void beforeEach() {
-        dbOperations.reset();
+        Neo4j.resetDatabase(db);
     }
 
     protected void run(FnTransaction action) throws Exception {

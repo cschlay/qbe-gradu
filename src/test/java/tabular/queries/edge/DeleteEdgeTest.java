@@ -1,11 +1,13 @@
 package tabular.queries.edge;
 
 import base.QueryBaseTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class DeleteEdgeTest extends QueryBaseTest {
     @Test
     void byId() throws Exception {

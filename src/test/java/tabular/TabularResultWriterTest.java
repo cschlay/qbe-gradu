@@ -1,7 +1,7 @@
 package tabular;
 
-import core.exceptions.SyntaxError;
-import core.graphs.*;
+import exceptions.SyntaxError;
+import graphs.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularQueryMeta;

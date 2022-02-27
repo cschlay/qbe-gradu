@@ -3,12 +3,14 @@ package tabular.queries.edge;
 import base.QueryBaseTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled
 class InsertEdgeTest extends QueryBaseTest {
     Node band;
     Node song;

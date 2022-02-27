@@ -1,9 +1,9 @@
 package db.neo4j;
 
-import core.exceptions.IdConstraintException;
-import core.exceptions.InvalidNodeException;
-import core.graphs.GraphEntity;
-import core.graphs.QbeData;
+import exceptions.IdConstraintException;
+import exceptions.InvalidNodeException;
+import graphs.GraphEntity;
+import graphs.QbeData;
 import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.Entity;
 import org.neo4j.graphdb.NotFoundException;

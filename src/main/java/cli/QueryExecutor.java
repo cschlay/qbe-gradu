@@ -1,8 +1,8 @@
 package cli;
 
-import core.exceptions.QbeException;
-import core.graphs.QueryGraph;
-import core.graphs.ResultGraph;
+import exceptions.QbeException;
+import graphs.QueryGraph;
+import graphs.ResultGraph;
 import db.neo4j.Neo4jTraversal;
 import interfaces.QueryParser;
 import interfaces.ResultWriter;

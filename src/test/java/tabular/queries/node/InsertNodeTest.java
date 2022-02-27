@@ -2,12 +2,13 @@ package tabular.queries.node;
 
 import base.QueryBaseTest;
 import db.neo4j.Neo4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Disabled
 class InsertNodeTest extends QueryBaseTest {
     @Test
     void withoutProperties() throws Exception {

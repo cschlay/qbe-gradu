@@ -1,7 +1,7 @@
 package syntax.tabular;
 
-import core.exceptions.SyntaxError;
-import core.graphs.GraphEntity;
+import exceptions.SyntaxError;
+import graphs.GraphEntity;
 
 import org.jetbrains.annotations.Nullable;
 
