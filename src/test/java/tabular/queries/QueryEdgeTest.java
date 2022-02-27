@@ -18,8 +18,8 @@ class QueryEdgeTest extends QueryBaseTest {
         run(tx -> {
             var tail = tx.createNode(Label.label("Book"));
             var head = tx.createNode(Label.label("Topic"));
-            tail.createRelationshipTo(head, RelationshipType.withName("contains"));
-            var edge = head.createRelationshipTo(tail, RelationshipType.withName("contains"));
+            var edge = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
+            head.createRelationshipTo(tail, RelationshipType.withName("contains"));
             tx.commit();
             fx.id = String.valueOf(edge.getId());
         });

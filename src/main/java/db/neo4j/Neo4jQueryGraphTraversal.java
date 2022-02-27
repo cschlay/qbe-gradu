@@ -72,6 +72,7 @@ public class Neo4jQueryGraphTraversal {
                     found = true;
                 } catch (InvalidNodeException | IdConstraintException expected) {
                     // Either tail or head node is invalid so the edge is discarded.
+                    expected.printStackTrace();
                 }
             }
 
