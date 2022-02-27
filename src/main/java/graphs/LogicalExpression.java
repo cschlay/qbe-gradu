@@ -45,11 +45,11 @@ public class LogicalExpression {
         reverseIteration(tokens, token -> {
             var lowerCaseToken = token.toLowerCase();
 
-            if (TabularTokens.Comparators.contains(lowerCaseToken)) {
+            if (TabularTokens.isComparator(lowerCaseToken)) {
                 boolean result = evaluateComparator(token, value, stack.pop());
                 stack.push(result);
-            } else if (TabularTokens.LogicalOperators.contains(lowerCaseToken)) {
-                if (TabularTokens.Not.equals(lowerCaseToken)) {
+            } else if (TabularTokens.isLogicalOperator(lowerCaseToken)) {
+                if (TabularTokens.NOT.equals(lowerCaseToken)) {
                     stack.push(!(boolean) stack.pop());
                 } else {
                     var result = evaluateLogicalExpression(token, (boolean) stack.pop(), (boolean) stack.pop());
@@ -77,24 +77,24 @@ public class LogicalExpression {
     }
 
     private static <T> boolean evaluateComparator(String operator, T a, Object b) {
-        if (TabularTokens.GreaterThan.equals(operator)) {
+        if (TabularTokens.GREATER_THAN.equals(operator)) {
             return Comparison.greaterThan(a, b);
-        } else if (TabularTokens.GreaterThanOrEqual.equals(operator)) {
+        } else if (TabularTokens.GREATER_THAN_OR_EQUAL.equals(operator)) {
             return Comparison.greaterThanOrEqualTo(a, b);
-        } else if (TabularTokens.LessThan.equals(operator)) {
+        } else if (TabularTokens.LESS_THAN.equals(operator)) {
             return Comparison.lessThan(a, b);
-        } else if (TabularTokens.LessThanOrEqual.equals(operator)) {
+        } else if (TabularTokens.LESS_THAN_OR_EQUAL.equals(operator)) {
             return Comparison.lessThanOrEqualTo(a, b);
-        } else if (operator.equals(TabularTokens.Equality)) {
+        } else if (operator.equals(TabularTokens.EQUALITY)) {
             return a.equals(b);
         }
         return false;
     }
 
     private static boolean evaluateLogicalExpression(String operator, boolean a, boolean b) {
-        if (TabularTokens.And.equals(operator.toLowerCase())) {
+        if (TabularTokens.AND.equalsIgnoreCase(operator)) {
             return a && b;
-        } else if (TabularTokens.Or.equals(operator.toLowerCase())) {
+        } else if (TabularTokens.OR.equalsIgnoreCase(operator)) {
             return a || b;
         }
         return false;

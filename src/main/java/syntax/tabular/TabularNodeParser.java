@@ -7,7 +7,6 @@ import graphs.QueryGraph;
 import enums.QueryType;
 import interfaces.TabularColumnParser;
 import utilities.Utils;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Parser for node columns
@@ -33,15 +32,11 @@ public class TabularNodeParser extends TabularEntityParser implements TabularCol
         }
 
         QbeNode node = graph.getOrDefault(header.name, new QbeNode(header.name));
-        var parts = value.split(" ");
-        node.type = TabularTokens.getQueryType(parts[0]);
+        String[] tokens = value.split(" ");
+        node.type = TabularTokens.getQueryType(tokens[0]);
 
         if (node.type == QueryType.COUNT) {
-            header.name = "_agg-count";
-            header.selected = true;
-            header.entityName = node.name;
-            header.displayName = node.name + ".count";
-            // TODO: Support alias
+            parseCountAggregation(header, node, tokens);
         }
 
         return node;
@@ -56,15 +51,10 @@ public class TabularNodeParser extends TabularEntityParser implements TabularCol
      * @return node with property attached
      */
     public QbeNode parseProperty(TabularHeader header, String value) {
-        QbeNode node = getOrCreateNode(header.entityName);
+        QbeNode node = graph.getOrDefault(header.entityName, new QbeNode(header.entityName));
         QbeData data = super.parseData(header, node, value);
         node.properties.put(header.name, data);
 
         return node;
-    }
-
-    private QbeNode getOrCreateNode(String name) {
-        @Nullable QbeNode node = graph.get(name);
-        return node == null ? new QbeNode(name) : node;
     }
 }

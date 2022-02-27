@@ -40,30 +40,20 @@ public class TabularEdgeParser extends TabularEntityParser implements TabularCol
             throw new SyntaxError("Entity name for edges must start with lowercase letter e.g. 'sells'.");
         }
 
-        String[] parts = value.split("([ .])");
-        if (parts.length < 3 || (parts[0].length() == 0) || (parts[1].length()) == 0) {
+        String[] tokens = value.split("([ .])");
+        if (tokens.length < 3 || (tokens[0].length() == 0) || (tokens[1].length()) == 0) {
             throw new SyntaxError("Edge entity column '%s' must include operation e.g. 'CREATE Topic.Song'.", header.name);
         }
 
         var edge = new QbeEdge(header.name);
-        edge.type = TabularTokens.getQueryType(parts[0]);
+        edge.type = TabularTokens.getQueryType(tokens[0]);
 
         // This is a problem, it creates empty relations if name cannot be parsed
-        edge.tailNode = getOrCreateNode(parts[1]);
-        edge.headNode = getOrCreateNode(parts[2]);
+        edge.tailNode = getOrCreateNode(tokens[1]);
+        edge.headNode = getOrCreateNode(tokens[2]);
 
         if (edge.type == QueryType.COUNT) {
-            if (parts.length == 4) {
-                edge.aggregationGroup = parts[3];
-                header.entityName = edge.aggregationGroup;
-            } else {
-                header.entityName = edge.name;
-            }
-
-            header.selected = true;
-            header.name = "_agg-count";
-            header.displayName = edge.name + ".count";
-            // TODO: Support alias
+            parseCountAggregation(header, edge, tokens);
         }
 
         edges.put(edge.name, edge);
