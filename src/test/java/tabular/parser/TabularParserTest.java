@@ -1,6 +1,7 @@
 package tabular.parser;
 
 import enums.QueryType;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,7 @@ class TabularParserTest {
         }
 
         @Test
+        @Disabled
         void parseUpdate() throws Exception {
             var query = "" +
                     "| Song   | price       |\n" +
@@ -150,6 +152,7 @@ class TabularParserTest {
         }
 
         @Test
+        @Disabled
         void parseUpdate() throws Exception {
             // Update artist hours spent
             var query = "" +

@@ -33,6 +33,7 @@ public class Neo4jQueryGraphTraversal {
                 try {
                     @Nullable QbeNode resultNode = traverseNode(node, queryNode, new QbePath());
                     if (resultNode != null) {
+                        resultNode.selected = true;
                         currentResultGraph.put(resultNode);
                     }
                 } catch (InvalidNodeException | IdConstraintException expected) {
@@ -45,8 +46,15 @@ public class Neo4jQueryGraphTraversal {
     }
 
     private @Nullable QbeNode traverseNode(Node node, QbeNode queryNode, QbePath path) throws InvalidNodeException, IdConstraintException {
+        if (currentResultGraph.containsKey(String.valueOf(node.getId()))) {
+            return currentResultGraph.get(String.valueOf(node.getId()));
+        }
+
+        if (pendingNodes.containsKey(node.getId())) {
+            return pendingNodes.get(node.getId());
+        }
+
         var resultNode = new QbeNode(node.getId(), queryNode.name);
-        resultNode.selected = queryNode.selected;
         resultNode.properties.putAll(new Neo4jPropertyTraversal(queryNode).getProperties(node));
         pendingNodes.put(node.getId(), resultNode);
         path.add(resultNode);
@@ -92,23 +100,24 @@ public class Neo4jQueryGraphTraversal {
         var resultEdge = new QbeEdge(edge.getId(), queryEdge.name);
         resultEdge.properties.putAll(new Neo4jPropertyTraversal(queryEdge).getProperties(edge));
 
+        // The Neo4j always returns the edges (tail) -> (head)
         if (queryEdge.tailNode != null) {
             if (queryEdge.tailNode.name.equals(resultNode.name)) {
                 resultEdge.tailNode = resultNode;
-            } else if (pendingNodes.containsKey(edge.getStartNodeId())) {
-                resultEdge.tailNode = pendingNodes.get(edge.getStartNodeId());
-            } else {
+            } else if (edge.getStartNode().hasLabel(Label.label(queryEdge.tailNode.name))) {
                 resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
+            } else {
+                throw new InvalidNodeException("The edge has invalid tail node.");
             }
         }
 
         if (queryEdge.headNode != null) {
             if (queryEdge.headNode.name.equals(resultNode.name)) {
                 resultEdge.headNode = resultNode;
-            } else if (pendingNodes.containsKey(edge.getEndNodeId())) {
-                resultEdge.headNode = pendingNodes.get(edge.getEndNodeId());
-            } else {
+            } else if (edge.getEndNode().hasLabel(Label.label(queryEdge.headNode.name))) {
                 resultEdge.headNode = traverseNode(edge.getEndNode(), queryEdge.headNode, path.copy());
+            } else {
+                throw new InvalidNodeException("The edge has invalid head node.");
             }
         }
 

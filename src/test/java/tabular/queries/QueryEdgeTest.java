@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,14 +54,14 @@ class QueryEdgeTest extends QueryBaseTest {
     void ensureDirection() throws Exception {
         var fx = new Object() { String id1; String id2; };
         run(tx -> {
-            var n1 = tx.createNode(Label.label("Book"));
-            var n2 = tx.createNode(Label.label("Topic"));
-            var e1 = n1.createRelationshipTo(n2, RelationshipType.withName("contains"));
-            var e2 = n2.createRelationshipTo(n1, RelationshipType.withName("contains"));
+            Node n1 = tx.createNode(Label.label("Book"));
+            Node n2 = tx.createNode(Label.label("Topic"));
+            Relationship e1 = n1.createRelationshipTo(n2, RelationshipType.withName("contains"));
+            Relationship e2 = n2.createRelationshipTo(n1, RelationshipType.withName("contains"));
             tx.commit();
 
-            fx.id1 = String.valueOf(e1);
-            fx.id2 = String.valueOf(e2);
+            fx.id1 = String.valueOf(e1.getId());
+            fx.id2 = String.valueOf(e2.getId());
         });
 
         var q1 = "" +

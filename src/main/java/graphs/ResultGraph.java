@@ -33,7 +33,7 @@ public class ResultGraph extends Graph {
         }
         if (edge.tailNode != null) {
             edge.tailNode.edges.put(edge.id, edge);
-            put(edge.tailNode.id, edge.headNode);
+            put(edge.tailNode.id, edge.tailNode);
         }
     }
 }
