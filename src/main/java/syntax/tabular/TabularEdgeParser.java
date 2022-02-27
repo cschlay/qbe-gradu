@@ -79,6 +79,19 @@ public class TabularEdgeParser implements TabularColumnParser<QbeEdge> {
         QbeData data = dataParser.parse(value);
         edge.properties.put(header.name, data);
 
+        // TODO: Duplicate
+        if (value.startsWith("SUM")) {
+            edge.type = QueryType.SUM;
+            var parts = value.split(" ");
+            if (parts.length > 1) {
+                edge.aggregationGroup = parts[1];
+            }
+            edge.aggregationProperty = header.name;
+            edge.properties.put(header.name, new QbeData(null));
+
+            return edge;
+        }
+
         if ("id".equals(header.name)) {
             edge.id = value;
         }

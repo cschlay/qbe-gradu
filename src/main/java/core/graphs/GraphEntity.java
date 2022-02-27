@@ -2,7 +2,9 @@ package core.graphs;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +17,10 @@ public abstract class GraphEntity {
     public final Map<String, QbeData> properties;
 
     public QueryType type = QueryType.QUERY;
+
+    @Nullable public String aggregationProperty;
     @Nullable public String aggregationGroup;
+    public List<String> aggregatedIds;
 
     public boolean visited;
     public boolean selected;
@@ -24,6 +29,8 @@ public abstract class GraphEntity {
         this.name = constructName(name);
         id = null;
         properties = new HashMap<>();
+
+        aggregatedIds = new ArrayList<>();
     }
 
     protected GraphEntity(long id, @Nullable String name) {
@@ -49,7 +56,8 @@ public abstract class GraphEntity {
      * @return the value of property
      */
     public @Nullable Object property(String property) {
-        return properties.get(property).value;
+        @Nullable QbeData data = properties.get(property);
+        return data != null ? data.value : null;
     }
 
     /**

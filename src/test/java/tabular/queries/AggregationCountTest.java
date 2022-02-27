@@ -28,17 +28,6 @@ class AggregationCountTest extends QueryBaseTest {
         bookId = String.valueOf(fx.book.getId());
     }
 
-    @Test
-    void countEdgesInPath() throws Exception {
-        var query = "" +
-                "| Book  | id* | contains              |\n" +
-                "|-------+-----+-----------------------|\n" +
-                "| QUERY |     | COUNT Book.Topic Book |\n";
-        ResultGraph result = execute(query);
-
-        QbeNode node = result.get(bookId);
-        assertEquals(2, node.property("_agg-count"));
-    }
 
     @Test
     void countEdges() throws Exception {
@@ -62,7 +51,19 @@ class AggregationCountTest extends QueryBaseTest {
         assertEquals(2, node.property("_agg-count"));
     }
 
-    // Count anonymous edges
+    @Test
+    void countEdgesInPath() throws Exception {
+        var query = "" +
+                "| Book  | id* | contains              |\n" +
+                "|-------+-----+-----------------------|\n" +
+                "| QUERY |     | COUNT Book.Topic Book |\n";
+        ResultGraph result = execute(query);
 
-    // Count anonymous nodes
+        QbeNode node = result.get(bookId);
+        assertEquals(2, node.property("_agg-count"));
+    }
+
+    // Extra: Count anonymous edges
+
+    // Extra: Count anonymous nodes
 }

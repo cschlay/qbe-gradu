@@ -3,6 +3,7 @@ package db.neo4j;
 import core.exceptions.IdConstraintException;
 import core.exceptions.InvalidNodeException;
 import core.graphs.*;
+import core.utilities.Numbers;
 import org.jetbrains.annotations.Nullable;
 import org.neo4j.graphdb.*;
 
@@ -78,6 +79,11 @@ public class QueryGraphTraversal {
             return null;
         }
 
+        if (queryNode.type == QueryType.SUM) {
+            mutableAggregateSum(queryNode, resultNode, path);
+            return null;
+        }
+
         return resultNode;
     }
 
@@ -107,6 +113,9 @@ public class QueryGraphTraversal {
 
         if (queryEdge.type == QueryType.COUNT) {
             mutableAggregateCount(queryEdge, resultEdge, path);
+            return null;
+        } else if (queryEdge.type == QueryType.SUM) {
+            mutableAggregateSum(queryEdge, resultEdge, path);
             return null;
         } else {
             resultEdge.selected = queryEdge.selected;
@@ -142,6 +151,42 @@ public class QueryGraphTraversal {
                 property = new QbeData(1);
                 property.selected = true;
                 aggregationEntity.properties.put(propertyName, property);
+            }
+        }
+    }
+
+    // TODO: What if we use queue in GraphEntity to aggregate and not here to prevent duplicate queries?
+    private void mutableAggregateSum(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
+        @Nullable GraphEntity aggregationEntity;
+
+        if (queryEntity.aggregationGroup == null) {
+            aggregationEntity = currentResultGraph.get(queryEntity.name);
+            if (aggregationEntity == null) {
+                // Even if the query entity is edge, it will still be used as node
+                aggregationEntity = new QbeNode(queryEntity.name);
+                aggregationEntity.selected = true;
+                currentResultGraph.put((QbeNode) aggregationEntity);
+            }
+        }
+        else {
+            aggregationEntity = path.find(queryEntity.aggregationGroup);
+        }
+
+        if (aggregationEntity != null && !aggregationEntity.aggregatedIds.contains(resultEntity.id)) {
+            aggregationEntity.aggregatedIds.add(resultEntity.id);
+            @Nullable QbeData property = aggregationEntity.properties.get(queryEntity.aggregationProperty);
+
+            if (property != null && property.value != null) {
+                Object a = property.value;
+                Object b = resultEntity.property(queryEntity.aggregationProperty);
+                if (b != null) {
+                    property.value = Numbers.plus(a, b);
+                }
+            } else {
+                Object initialCount = resultEntity.property(queryEntity.aggregationProperty);
+                property = new QbeData(initialCount instanceof Number ? initialCount : 0);
+                property.selected = true;
+                aggregationEntity.properties.put(queryEntity.aggregationProperty, property);
             }
         }
     }

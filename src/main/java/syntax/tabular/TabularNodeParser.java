@@ -61,6 +61,22 @@ public class TabularNodeParser implements TabularColumnParser<QbeNode> {
         if (node == null) {
             node = new QbeNode(header.entityName);
         }
+
+        // TODO: Move to TabularTokens
+        if (value.startsWith("SUM")) {
+            node.type = QueryType.SUM;
+            var parts = value.split(" ");
+
+            if (parts.length > 1) {
+                node.aggregationGroup = parts[1];
+                header.entityName = node.aggregationGroup;
+            }
+            node.aggregationProperty = header.name;
+            node.properties.put(header.name, new QbeData(null));
+
+            return node;
+        }
+
         QbeData data = dataParser.parse(value);
         node.properties.put(header.name, data);
 
