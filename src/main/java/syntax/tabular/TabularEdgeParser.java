@@ -8,7 +8,6 @@ import graphs.QbeNode;
 import graphs.QueryGraph;
 import interfaces.TabularColumnParser;
 import utilities.Utils;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,18 +75,12 @@ public class TabularEdgeParser extends TabularEntityParser implements TabularCol
     }
 
     private QbeEdge getOrCreateEdge(String name) {
-        @Nullable QbeEdge edge = edges.get(name);
-        if (edge != null) {
-            return edge;
-        }
-
-        edge = new QbeEdge(name);
+        QbeEdge edge = edges.getOrDefault(name, new QbeEdge(name));
         edges.put(edge.name, edge);
         return edge;
     }
 
     private QbeNode getOrCreateNode(String name) {
-        @Nullable QbeNode node = graph.get(name);
-        return node != null ? node : new QbeNode(name);
+        return graph.getOrDefault(name, new QbeNode(name));
     }
 }

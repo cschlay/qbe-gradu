@@ -8,7 +8,7 @@ import graphs.QbeEdge;
 public class TabularEntityParser {
     private static final TabularDataParser dataParser = new TabularDataParser();
 
-    protected void parseCountAggregation(TabularHeader header, GraphEntity entity, String[] tokens)  {
+    public void parseCountAggregation(TabularHeader header, GraphEntity entity, String[] tokens)  {
         header.name = "_agg-count";
         header.selected = true;
         header.displayName = String.format("%s.count", entity.name);
@@ -32,7 +32,7 @@ public class TabularEntityParser {
         }
     }
 
-    protected QbeData parseData(TabularHeader header, GraphEntity entity, String value) {
+    public QbeData parseData(TabularHeader header, GraphEntity entity, String value) {
         QbeData data = dataParser.parse(value);
 
         if ("id".equals(header.name)) {
