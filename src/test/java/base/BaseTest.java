@@ -3,10 +3,7 @@ package base;
 import cli.Main;
 import cli.QueryExecutor;
 import db.neo4j.Neo4jTraversal;
-import graphs.Graph;
-import graphs.QbeEdge;
-import graphs.QbeNode;
-import graphs.ResultGraph;
+import graphs.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -28,7 +25,7 @@ public abstract class BaseTest {
         queryExecutor = new QueryExecutor(new Neo4jTraversal(db), new TabularParser(), new TabularResultWriter());
     }
 
-    protected void run(FnTransaction action) throws Exception {
+    protected static void run(FnTransaction action) throws Exception {
         try (Transaction tx = db.beginTx()) {
             action.accept(tx);
         }
@@ -37,6 +34,11 @@ public abstract class BaseTest {
     protected ResultGraph execute(String query, Object ...arguments) throws Exception {
         String formattedQuery = String.format(query, arguments);
         return queryExecutor.executeVerbose(formattedQuery);
+    }
+
+    protected ResultGraph execute(QueryGraph queryGraph) throws Exception {
+        var traversal = new Neo4jTraversal(db);
+        return traversal.executeQueryGraph(queryGraph);
     }
 
     protected void eachEdge(Graph graph, FnAssert<QbeEdge> assertion) throws Exception {

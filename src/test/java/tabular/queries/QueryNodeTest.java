@@ -9,40 +9,6 @@ import org.neo4j.graphdb.Label;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QueryNodeTest extends QueryBaseResetEachTest {
-    @Test
-    void findById() throws Exception {
-        // Find a book by its id
-        var fx = new Object() { String id; };
-        run(tx -> {
-            var node = tx.createNode(Label.label("Book"));
-            tx.commit();
-            fx.id = String.valueOf(node.getId());
-        });
-
-        var query = "" +
-                "| Book  | id* |\n" +
-                "|-------+-----|\n" +
-                "| QUERY | %s  |\n";
-        var graph = execute(query, fx.id);
-        assertNotNull(graph.get(fx.id));
-    }
-
-    @Test
-    void filterByName() throws Exception {
-        // Find all nodes with name "Course"
-        run(tx -> {
-            tx.createNode(Label.label("Book"));
-            tx.createNode(Label.label("Course"));
-            tx.commit();
-        });
-
-        var query = "" +
-                "| Course | id* |\n" +
-                "|--------+-----|\n" +
-                "| QUERY  |     |\n";
-        eachNode(execute(query), (tx, node) -> assertEquals("Course", node.name));
-    }
-
     @Nested
     class ByPropertyTest {
         @BeforeEach
