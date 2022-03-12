@@ -1,6 +1,6 @@
 package tabular.queries;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import graphs.QbeNode;
 import graphs.ResultGraph;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AggregationCountTest extends QueryBaseTest {
+class AggregationCountTest extends QueryBaseResetEachTest {
     private String bookId;
 
     @BeforeEach

@@ -1,18 +1,17 @@
 package db.neo4j;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import graphs.QbeData;
 import graphs.QbeEdge;
 import graphs.QbeNode;
 import graphs.QueryGraph;
-import db.neo4j.Neo4jTraversal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Neo4jTraversalTest extends QueryBaseTest {
+class Neo4jTraversalTest extends QueryBaseResetEachTest {
     Neo4jTraversal traversal;
 
     @BeforeEach

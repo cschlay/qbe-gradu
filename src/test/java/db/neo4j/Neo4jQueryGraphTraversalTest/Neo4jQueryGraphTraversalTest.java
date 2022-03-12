@@ -1,6 +1,6 @@
 package db.neo4j.Neo4jQueryGraphTraversalTest;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import db.neo4j.Neo4jQueryGraphTraversal;
 import graphs.QbeEdge;
 import graphs.QbeNode;
@@ -12,7 +12,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Neo4jQueryGraphTraversalTest extends QueryBaseTest {
+class Neo4jQueryGraphTraversalTest extends QueryBaseResetEachTest {
     static class Labels {
         public static Label book = Label.label("Book");
         public static Label course = Label.label("Course");

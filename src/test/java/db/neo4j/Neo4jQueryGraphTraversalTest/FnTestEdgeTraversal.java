@@ -1,8 +1,8 @@
 package db.neo4j.Neo4jQueryGraphTraversalTest;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 
-class FnTestEdgeTraversal extends QueryBaseTest {
+class FnTestEdgeTraversal extends QueryBaseResetEachTest {
     /*@Nested
     @DisplayName("using head nodes")
     class HeadNodeTest {

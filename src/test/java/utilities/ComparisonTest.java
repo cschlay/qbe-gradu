@@ -37,7 +37,7 @@ class ComparisonTest {
     }
 
     @Test
-    void lestThanOrEqualToTest() {
+    void lessThanOrEqualToTest() {
         assertTrue(lessThanOrEqualTo(0, 1));
         assertTrue(lessThanOrEqualTo(1, 1));
         assertFalse(lessThanOrEqualTo(2, 1));

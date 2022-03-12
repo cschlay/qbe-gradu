@@ -1,6 +1,6 @@
 package tabular.queries.node;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import org.neo4j.graphdb.Node;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
-class InsertNodeTest extends QueryBaseTest {
+class InsertNodeTest extends QueryBaseResetEachTest {
     @Test
     void withoutProperties() throws Exception {
         var query = "" +

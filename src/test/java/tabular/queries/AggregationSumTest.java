@@ -1,6 +1,6 @@
 package tabular.queries;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import graphs.ResultGraph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,9 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-class AggregationSumTest extends QueryBaseTest {
+class AggregationSumTest extends QueryBaseResetEachTest {
     private String courseId;
 
     @BeforeEach
@@ -60,6 +61,11 @@ class AggregationSumTest extends QueryBaseTest {
 
     @Test
     void sumEdgesInPath() throws Exception {
+        fail("Not implemented!");
+    }
+
+    @Test
+    void sumNodesInPath() throws Exception {
         var query = "" +
                 "| Course | id* | uses              | Book  | price*     |\n" +
                 "|--------+-----+-------------------+-------+------------|\n" +

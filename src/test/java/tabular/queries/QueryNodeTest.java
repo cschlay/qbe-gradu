@@ -1,6 +1,6 @@
 package tabular.queries;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.neo4j.graphdb.Label;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QueryNodeTest extends QueryBaseTest {
+class QueryNodeTest extends QueryBaseResetEachTest {
     @Test
     void findById() throws Exception {
         // Find a book by its id

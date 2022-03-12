@@ -1,6 +1,6 @@
 package tabular.queries.edge;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.*;
@@ -8,7 +8,7 @@ import org.neo4j.graphdb.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
-class DeleteEdgeTest extends QueryBaseTest {
+class DeleteEdgeTest extends QueryBaseResetEachTest {
     @Test
     void byId() throws Exception {
         var fx = new Object() { Relationship relation; };

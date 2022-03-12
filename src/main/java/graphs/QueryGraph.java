@@ -2,13 +2,13 @@ package graphs;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 
-public class QueryGraph extends Graph {
-    public @Nullable Object meta;
 
-    public QueryGraph() {
+public class QueryGraph extends Graph  {
+    public transient @Nullable Object meta;
 
-    }
+    public QueryGraph() {}
 
     public QueryGraph(@Nullable Object meta) {
         this.meta = meta;
@@ -34,5 +34,19 @@ public class QueryGraph extends Graph {
      */
     public int order() {
         return super.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        QueryGraph that = (QueryGraph) o;
+        return Objects.equals(meta, that.meta);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), meta);
     }
 }

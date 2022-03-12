@@ -1,11 +1,10 @@
 package db.neo4j;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import exceptions.InvalidNodeException;
 import graphs.QbeData;
 import graphs.QbeEdge;
 import graphs.QbeNode;
-import db.neo4j.Neo4jPropertyTraversal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
@@ -14,7 +13,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Neo4jPropertyTraversalTest extends QueryBaseTest {
+class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
     @Nested
     class QueryTest {
         @Test

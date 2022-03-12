@@ -1,6 +1,6 @@
 package tabular.queries.edge;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,7 +11,7 @@ import org.neo4j.graphdb.Relationship;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
-class InsertEdgeTest extends QueryBaseTest {
+class InsertEdgeTest extends QueryBaseResetEachTest {
     Node band;
     Node song;
 

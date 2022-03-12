@@ -1,6 +1,6 @@
 package tabular.queries;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QueryEdgeTest extends QueryBaseTest {
+class QueryEdgeTest extends QueryBaseResetEachTest {
     @Test
     void findById() throws Exception {
         var fx = new Object() { String id; };

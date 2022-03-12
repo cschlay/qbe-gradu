@@ -2,16 +2,13 @@ package base;
 
 import cli.Main;
 import cli.QueryExecutor;
-import db.neo4j.Neo4j;
+import db.neo4j.Neo4jTraversal;
 import graphs.Graph;
 import graphs.QbeEdge;
 import graphs.QbeNode;
 import graphs.ResultGraph;
-import db.neo4j.Neo4jTraversal;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.neo4j.dbms.api.DatabaseManagementService;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import syntax.tabular.TabularParser;
@@ -19,26 +16,16 @@ import syntax.tabular.TabularResultWriter;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public abstract class QueryBaseTest {
+
+@ExtendWith({ DatabaseTestExtension.class })
+public abstract class BaseTest {
     protected static GraphDatabaseService db;
-    private static DatabaseManagementService dbManagement;
-    private static QueryExecutor queryExecutor;
+    protected static QueryExecutor queryExecutor;
 
     @BeforeAll
     public static void beforeAll() {
-        dbManagement = Main.setupDatabase("data/test");
-        db = Main.getDefaultDatabase(dbManagement);
+        db = DatabaseTestExtension.db;
         queryExecutor = new QueryExecutor(new Neo4jTraversal(db), new TabularParser(), new TabularResultWriter());
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        dbManagement.shutdown();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        Neo4j.resetDatabase(db);
     }
 
     protected void run(FnTransaction action) throws Exception {

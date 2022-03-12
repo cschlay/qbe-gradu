@@ -1,8 +1,8 @@
 package db.neo4j.Neo4jQueryGraphTraversalTest;
 
-import base.QueryBaseTest;
+import base.QueryBaseResetEachTest;
 
-class FnTestNodeTraversalT extends QueryBaseTest {
+class FnTestNodeTraversalT extends QueryBaseResetEachTest {
     /*Neo4jNodeTraversal traversal;
 
     @BeforeEach
