@@ -58,7 +58,7 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
         queryGraph.put(queryNode);
     }
 
-    @ParameterizedTest()
+    @ParameterizedTest
     @ArgumentsSource(PropertyProvider.class)
     void fixedValues(PropertyArg arg) throws Exception {
         queryNode.properties.put(arg.property, new QbeData(arg.value));
@@ -71,7 +71,6 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
         Object value = arg.value instanceof String ? String.format("\"%s\"", arg.value): arg.value;
         eachNode(execute(query, arg.property, value), (tx, node) -> assertEquals(arg.value, node.property(arg.property)));
     }
-
 
     @Test
     void logicalExpression() throws Exception {
