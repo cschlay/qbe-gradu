@@ -41,17 +41,6 @@ class AggregationCountTest extends QueryBaseResetEachTest {
     }
 
     @Test
-    void countNodes() throws Exception {
-        var query = "" +
-                "| Topic |\n" +
-                "|-------|\n" +
-                "| COUNT |\n";
-        ResultGraph result = execute(query);
-        QbeNode node = result.get("Topic");
-        assertEquals(2, node.property("_agg-count"));
-    }
-
-    @Test
     void countEdgesInPath() throws Exception {
         var query = "" +
                 "| Book  | id* | contains              |\n" +
@@ -64,6 +53,4 @@ class AggregationCountTest extends QueryBaseResetEachTest {
     }
 
     // Extra: Count anonymous edges
-
-    // Extra: Count anonymous nodes
 }
