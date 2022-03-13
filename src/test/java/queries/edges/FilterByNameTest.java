@@ -15,7 +15,7 @@ import org.neo4j.graphdb.RelationshipType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Edge - Find by Name")
-class FindByNameTest extends QueryBaseStaticTest {
+class FilterByNameTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {
         run(tx -> {
