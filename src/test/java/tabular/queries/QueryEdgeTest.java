@@ -13,44 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QueryEdgeTest extends QueryBaseResetEachTest {
     @Test
-    void findById() throws Exception {
-        var fx = new Object() { String id; };
-        run(tx -> {
-            var tail = tx.createNode(Label.label("Book"));
-            var head = tx.createNode(Label.label("Topic"));
-            var edge = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
-            head.createRelationshipTo(tail, RelationshipType.withName("contains"));
-            tx.commit();
-            fx.id = String.valueOf(edge.getId());
-        });
-
-        var query = "" +
-                "| contains         | id* |\n" +
-                "|------------------+-----|\n" +
-                "| QUERY Book.Topic | %s  |\n";
-        var graph = execute(query, fx.id);
-        eachEdge(graph, (tx, edge) -> assertEquals(fx.id, edge.id));
-    }
-
-    @Test
-    void filterByName() throws Exception {
-        run(tx -> {
-            var n1 = tx.createNode(Label.label("Book"));
-            var n2 = tx.createNode(Label.label("Topic"));
-            var n3 = tx.createNode(Label.label("Store"));
-            n1.createRelationshipTo(n2, RelationshipType.withName("contains"));
-            n1.createRelationshipTo(n3, RelationshipType.withName("sold_by"));
-            tx.commit();
-        });
-
-        var query = "" +
-                "| sold_by          | id* |\n" +
-                "|------------------+-----|\n" +
-                "| QUERY Book.Store |     |\n";
-        eachEdge(execute(query), (tx, edge) -> assertEquals("sold_by", edge.name));
-    }
-
-    @Test
     void ensureDirection() throws Exception {
         var fx = new Object() { String id1; String id2; };
         run(tx -> {
