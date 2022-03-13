@@ -39,20 +39,6 @@ class AggregationSumTest extends QueryBaseResetEachTest {
         courseId = String.valueOf(fx.course.getId());
     }
 
-    @Test
-    void sumEdges() throws Exception {
-        var query = "" +
-                "| uses              | votes* |\n" +
-                "|-------------------+--------|\n" +
-                "| QUERY Course.Book | SUM _  |\n";
-        ResultGraph result = execute(query);
-        assertEquals(30, result.get("uses").property("votes"));
-    }
-
-    @Test
-    void sumEdgesInPath() {
-        fail("Not implemented!");
-    }
 
     @Test
     void sumNodesInPath() throws Exception {

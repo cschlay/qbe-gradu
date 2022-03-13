@@ -26,6 +26,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
     }
 
     @Test
+    @DisplayName("Count by Name Query Graph")
     void asQueryGraph() throws Exception {
         var queryGraph = new QueryGraph();
         var queryNode = new QbeNode("Book");
@@ -35,6 +36,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
     }
 
     @Test
+    @DisplayName("Count by Name Tabular")
     void asQbeTable() throws Exception {
         var query = "" +
                 "| Book  |\n" +
