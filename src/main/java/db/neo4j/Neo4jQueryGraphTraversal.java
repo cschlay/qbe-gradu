@@ -134,20 +134,25 @@ public class Neo4jQueryGraphTraversal {
         return resultEdge;
     }
 
-    private void mutableAggregateCount(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
-        @Nullable GraphEntity aggregationEntity;
-
+    private @Nullable GraphEntity findAggregationEntity(GraphEntity queryEntity, QbePath path) {
         if (queryEntity.aggregationGroup == null) {
-            aggregationEntity = currentResultGraph.get(queryEntity.name);
+            @Nullable GraphEntity aggregationEntity = currentResultGraph.get(queryEntity.name);
             if (aggregationEntity == null) {
                 // Even if the query entity is edge, it will still be used as node
-                aggregationEntity = new QbeNode(queryEntity.name);
-                aggregationEntity.selected = true;
-                currentResultGraph.put((QbeNode) aggregationEntity);
+                var aggregationNode = new QbeNode(queryEntity.name);
+                aggregationNode.selected = true;
+                currentResultGraph.put(aggregationNode);
+                return aggregationNode;
             }
-        } else {
-            aggregationEntity = path.find(queryEntity.aggregationGroup);
+            return aggregationEntity;
         }
+        else {
+            return path.find(queryEntity.aggregationGroup);
+        }
+    }
+
+    private void mutableAggregateCount(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
+        @Nullable GraphEntity aggregationEntity = findAggregationEntity(queryEntity, path);
 
         if (aggregationEntity != null && !aggregatedEntities.containsKey(resultEntity.id)) {
             aggregatedEntities.put(resultEntity.id, resultEntity);
@@ -165,22 +170,8 @@ public class Neo4jQueryGraphTraversal {
         }
     }
 
-    // TODO: What if we use queue in GraphEntity to aggregate and not here to prevent duplicate queries?
     private void mutableAggregateSum(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
-        @Nullable GraphEntity aggregationEntity;
-
-        if (queryEntity.aggregationGroup == null) {
-            aggregationEntity = currentResultGraph.get(queryEntity.name);
-            if (aggregationEntity == null) {
-                // Even if the query entity is edge, it will still be used as node
-                aggregationEntity = new QbeNode(queryEntity.name);
-                aggregationEntity.selected = true;
-                currentResultGraph.put((QbeNode) aggregationEntity);
-            }
-        }
-        else {
-            aggregationEntity = path.find(queryEntity.aggregationGroup);
-        }
+        @Nullable GraphEntity aggregationEntity = findAggregationEntity(queryEntity, path);
 
         if (aggregationEntity != null && !aggregationEntity.aggregatedIds.contains(resultEntity.id)) {
             aggregationEntity.aggregatedIds.add(resultEntity.id);
