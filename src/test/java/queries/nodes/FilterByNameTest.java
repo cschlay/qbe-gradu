@@ -5,11 +5,13 @@ import graphs.QbeNode;
 import graphs.QueryGraph;
 import graphs.ResultGraph;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("Node - Filter by Name")
 class FilterByNameTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {
