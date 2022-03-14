@@ -77,7 +77,7 @@ public class Neo4jQueryGraphTraversal {
 
             if (!found) {
                 pendingNodes.remove(resultNode.longId());
-                throw new InvalidNodeException("Node %s doesn't have any relations", node.getId());
+                throw new InvalidNodeException("Node \"%s\" doesn't have any edges named \"%s\"", node.getLabels(), queryEdge.name);
             }
         }
 
@@ -107,7 +107,7 @@ public class Neo4jQueryGraphTraversal {
             } else if (edge.getStartNode().hasLabel(Label.label(queryEdge.tailNode.name))) {
                 resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
             } else {
-                throw new InvalidNodeException("The edge has invalid tail node.");
+                throw new InvalidNodeException("The edge \"%s\" has invalid tail node \"%s\".", queryEdge.name, queryEdge.tailNode.name);
             }
         }
 
@@ -117,7 +117,7 @@ public class Neo4jQueryGraphTraversal {
             } else if (edge.getEndNode().hasLabel(Label.label(queryEdge.headNode.name))) {
                 resultEdge.headNode = traverseNode(edge.getEndNode(), queryEdge.headNode, path.copy());
             } else {
-                throw new InvalidNodeException("The edge has invalid head node.");
+                throw new InvalidNodeException("The edge \"%s\" has invalid head node \"%s\".", queryEdge.name, queryEdge.headNode.name);
             }
         }
 

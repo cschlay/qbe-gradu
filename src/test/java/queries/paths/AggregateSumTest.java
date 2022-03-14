@@ -11,7 +11,6 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Path - Aggregate Sum")
 class AggregateSumTest extends QueryBaseStaticTest {
