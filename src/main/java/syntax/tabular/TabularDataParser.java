@@ -4,6 +4,9 @@ import enums.QueryType;
 import graphs.LogicalExpression;
 import graphs.QbeData;
 import org.jetbrains.annotations.Nullable;
+import utilities.Utils;
+
+import java.util.regex.Pattern;
 
 /**
  * Parser for values used in tabular queries.
@@ -75,10 +78,12 @@ public class TabularDataParser {
             return null;
         }
 
-        if ("false".equals(value) || "true".equals(value)) {
+        if (TabularTokens.isBoolean(value)) {
             return Boolean.parseBoolean(value);
-        } else if (value.charAt(0) == '"' && value.charAt(value.length()-1) == '"') {
-            return value.substring(1, value.length()-1);
+        } else if (TabularTokens.isRegularExpression(value)) {
+            return Pattern.compile(value.substring(1, value.length()-1));
+        } else if (TabularTokens.isString(value)) {
+            return Utils.removeQuotes(value);
         }
 
         try {

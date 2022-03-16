@@ -2,6 +2,10 @@ package graphs;
 
 import enums.QueryType;
 import org.jetbrains.annotations.Nullable;
+import syntax.tabular.TabularTokens;
+import utilities.Utils;
+
+import java.util.regex.Pattern;
 
 /**
  * Data node which is a container for property values.
@@ -20,13 +24,13 @@ public class QbeData {
     public QbeData(@Nullable Object value) {
         this.nullable = false;
         this.selected = true;
-        this.value = value;
+        this.value = parseValue(value);
     }
 
     public QbeData (@Nullable Object value, boolean selected, boolean nullable) {
         this.nullable = nullable;
         this.selected = selected;
-        this.value = value;
+        this.value = parseValue(value);
     }
 
     /**
@@ -56,6 +60,10 @@ public class QbeData {
             return true;
         }
 
+        if (value instanceof Pattern && valueToCheck instanceof String) {
+            return ((Pattern) value).matcher((String) valueToCheck).matches();
+        }
+
         if (value instanceof String && valueToCheck instanceof String) {
             return ((String) valueToCheck).matches((String) value);
         }
@@ -65,5 +73,13 @@ public class QbeData {
         } catch (ClassCastException exception) {
             return false;
         }
+    }
+
+    private @Nullable Object parseValue(@Nullable Object value) {
+        if (value instanceof String && TabularTokens.isRegularExpression((String) value)) {
+            return Pattern.compile(Utils.removeQuotes((String) value));
+        }
+
+        return value;
     }
 }

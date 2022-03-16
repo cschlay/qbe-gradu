@@ -2,6 +2,7 @@ package syntax.tabular;
 
 import exceptions.SyntaxError;
 import enums.QueryType;
+import utilities.Utils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,12 @@ public class TabularTokens {
     public static final String AND = "and";
     public static final String OR = "or";
     public static final String NOT = "not";
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
+
+    public static final char STRING = '"';
+    public static final char REGEX = '/';
+
 
     protected static final List<String> COMPARATORS = Arrays.asList(
             EQUALITY, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL);
@@ -39,11 +46,23 @@ public class TabularTokens {
         }
     }
 
+    public static boolean isBoolean(String token) {
+        return FALSE.equals(token) || TRUE.equals(token);
+    }
+
     public static boolean isComparator(String token) {
         return COMPARATORS.contains(token);
     }
 
     public static boolean isLogicalOperator(String token) {
         return LOGICAL_OPERATORS.contains(token);
+    }
+
+    public static boolean isRegularExpression(String value) {
+        return Utils.isEnclosedWith(value, TabularTokens.REGEX);
+    }
+
+    public static boolean isString(String value) {
+        return Utils.isEnclosedWith(value, TabularTokens.STRING);
     }
 }

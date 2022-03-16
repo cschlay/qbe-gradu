@@ -27,4 +27,17 @@ public class Utils {
         }
         return false;
     }
+
+    public static boolean isEnclosedWith(String value, char character) {
+        if (value.length() >= 2) {
+            boolean startOk = value.charAt(0) == character;
+            boolean endOk = value.charAt(value.length() - 1) == character;
+            return startOk && endOk;
+        }
+        return false;
+    }
+
+    public static String removeQuotes(String value) {
+        return value.substring(1, value.length()-1);
+    }
 }
