@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Node - Filter by Property")
+@DisplayName("[Query] Node - Filter by Property")
 class FilterByPropertyTest extends QueryBaseStaticTest {
     private QueryGraph queryGraph;
     private QbeNode queryNode;

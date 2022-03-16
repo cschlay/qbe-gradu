@@ -11,7 +11,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Paths - Multiple Path")
+@DisplayName("[Query] Paths - Multiple Path")
 class MultiplePathTest extends QueryBaseStaticTest {
     private static String idA;
     private static String idB;

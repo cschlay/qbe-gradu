@@ -3,12 +3,14 @@ package tabular.parser;
 import graphs.QbeNode;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.Headers;
 import syntax.tabular.TabularHeader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("[Parser] Header Class")
 class HeaderTest {
     private static Headers headers;
 

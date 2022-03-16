@@ -2,6 +2,7 @@ package tabular.parser;
 
 import graphs.QbeEdge;
 import graphs.QbeNode;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularEntityParser;
 import syntax.tabular.TabularHeader;
@@ -9,6 +10,7 @@ import syntax.tabular.TabularHeader;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@DisplayName("[Parser] TabularEntityParser Class")
 class TabularEntityParserTest {
     private final TabularEntityParser parser = new TabularEntityParser();
 

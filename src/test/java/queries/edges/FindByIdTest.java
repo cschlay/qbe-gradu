@@ -15,7 +15,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Edge - Find by Id")
+@DisplayName("[Query] Edge - Find by Id")
 class FindByIdTest extends QueryBaseStaticTest {
     private static long id;
 

@@ -12,7 +12,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Path - Aggregate Sum")
+@DisplayName("[Query] Path - Aggregate Sum")
 class AggregateSumTest extends QueryBaseStaticTest {
     private static String idA;
     private static String idB;

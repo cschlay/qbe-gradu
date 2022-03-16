@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@DisplayName("[Traversal] QbeNode Class")
 class QbeNodeTest {
     @Test
     @DisplayName("should convert long id to String")

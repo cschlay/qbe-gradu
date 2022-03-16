@@ -13,6 +13,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Traversal] Preoprty Validation")
 class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
     @Nested
     class QueryTest {

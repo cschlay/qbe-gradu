@@ -9,6 +9,7 @@ import syntax.tabular.TabularParser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Parser] Parse Queries")
 class TabularParserTest {
     TabularParser parser = new TabularParser();
 

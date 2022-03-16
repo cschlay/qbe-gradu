@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Edge - Filter by Property")
+@DisplayName("[Query] Edge - Filter by Property")
 class FilterByPropertyTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {

@@ -11,7 +11,7 @@ import org.neo4j.graphdb.Label;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Node - Filter by Name")
+@DisplayName("[Query] Node - Filter by Name")
 class FilterByNameTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {

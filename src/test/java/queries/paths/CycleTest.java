@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@DisplayName("Paths - Cycles")
+@DisplayName("[Query] Paths - Cycles")
 class CycleTest extends QueryBaseStaticTest {
     private static String bookIdA;
     private static String bookIdB;

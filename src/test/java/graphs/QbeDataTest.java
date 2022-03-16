@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+@DisplayName("[Traversal] QbeData Class")
 class QbeDataTest {
     @Test
     @DisplayName("should accept nulls if enabled")

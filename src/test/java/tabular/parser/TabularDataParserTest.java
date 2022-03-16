@@ -9,6 +9,7 @@ import syntax.tabular.TabularDataParser;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Parser] TabularDataParser Class")
 class TabularDataParserTest {
     TabularDataParser parser = new TabularDataParser();
 

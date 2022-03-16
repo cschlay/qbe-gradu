@@ -3,11 +3,13 @@ package tabular.queries.node;
 import base.QueryBaseResetEachTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Extra] Insert Node")
 @Disabled
 class InsertNodeTest extends QueryBaseResetEachTest {
     @Test

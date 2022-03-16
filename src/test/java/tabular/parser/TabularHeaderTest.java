@@ -1,12 +1,14 @@
 package tabular.parser;
 
 import exceptions.SyntaxError;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularHeader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Parser] TabularHeader Class")
 class TabularHeaderTest {
     @Nested
     class UnknownNameTest {

@@ -12,7 +12,7 @@ import org.neo4j.graphdb.RelationshipType;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Edge - Same Name")
+@DisplayName("[Query] Edge - Same Name")
 class SameNameTest extends QueryBaseStaticTest {
     private static String idA;
     private static String idB;

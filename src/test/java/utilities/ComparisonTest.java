@@ -1,11 +1,13 @@
 package utilities;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static utilities.Comparison.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DisplayName("[Utils] Generic Comparison ")
 class ComparisonTest {
     @Test
     void greaterThanTest() {

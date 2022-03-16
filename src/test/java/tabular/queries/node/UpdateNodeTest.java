@@ -2,12 +2,14 @@ package tabular.queries.node;
 
 import base.QueryBaseResetEachTest;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("[Extra] Update Node")
 @Disabled
 class UpdateNodeTest extends QueryBaseResetEachTest {
     @Test

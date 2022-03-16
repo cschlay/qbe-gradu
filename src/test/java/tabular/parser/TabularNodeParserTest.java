@@ -4,6 +4,7 @@ import exceptions.SyntaxError;
 import graphs.QbeNode;
 import graphs.QueryGraph;
 import enums.QueryType;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import syntax.tabular.TabularHeader;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("[Parser] TabularNodeParser Class")
 class TabularNodeParserTest {
     @ParameterizedTest
     @EnumSource(QueryType.class)

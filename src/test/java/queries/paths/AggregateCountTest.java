@@ -11,7 +11,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Path - Aggregate Count")
+@DisplayName("[Query] Path - Aggregate Count")
 class AggregateCountTest extends QueryBaseStaticTest {
     private static String idA;
     private static String idB;

@@ -14,7 +14,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Edge - Aggregate Count")
+@DisplayName("[Query] Edge - Aggregate Count")
 class AggregateCountTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {

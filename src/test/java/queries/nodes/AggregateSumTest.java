@@ -15,7 +15,7 @@ import org.neo4j.graphdb.Node;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Node - Aggregation Sum")
+@DisplayName("[Query] Node - Aggregation Sum")
 class AggregateSumTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {

@@ -17,7 +17,7 @@ import org.neo4j.graphdb.RelationshipType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DisplayName("Edge - Loops")
+@DisplayName("[Query] Edge - Loops")
 class LoopTest extends QueryBaseStaticTest {
     private static String loopId;
     private static String edgeId;

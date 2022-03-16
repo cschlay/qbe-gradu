@@ -14,7 +14,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Edge - Filter by Direction")
+@DisplayName("[Query] Edge - Filter by Direction")
 class FilterByDirectionTest extends QueryBaseStaticTest {
     private static String edgeOut;
     private static String edgeIn;

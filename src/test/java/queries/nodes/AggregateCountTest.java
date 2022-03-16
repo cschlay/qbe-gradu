@@ -13,7 +13,7 @@ import org.neo4j.graphdb.Label;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Node - Aggregation Count")
+@DisplayName("[Query] Node - Aggregation Count")
 class AggregateCountTest extends QueryBaseStaticTest {
     @BeforeAll
     static void setup() throws Exception {

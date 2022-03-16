@@ -11,7 +11,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Paths - Simple")
+@DisplayName("[Query] Paths - Simple")
 class SimplePathTest extends QueryBaseStaticTest {
     private static String idA;
     private static String idB;

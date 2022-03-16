@@ -12,7 +12,7 @@ import org.neo4j.graphdb.Node;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DisplayName("Node - Find by Id")
+@DisplayName("[Query] Node - Find by Id")
 class FindByIdTest extends QueryBaseStaticTest {
     private static long id;
 

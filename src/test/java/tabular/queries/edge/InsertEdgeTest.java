@@ -4,12 +4,14 @@ import base.QueryBaseResetEachTest;
 import db.neo4j.Neo4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Extra] Insert Edge")
 @Disabled
 class InsertEdgeTest extends QueryBaseResetEachTest {
     Node band;

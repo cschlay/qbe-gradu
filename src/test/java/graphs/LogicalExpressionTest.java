@@ -8,6 +8,7 @@ import static graphs.LogicalExpression.evaluate;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@DisplayName("[Traversal] Logical Expression Evaluation")
 class LogicalExpressionTest {
     @Nested
     @DisplayName("comparison")

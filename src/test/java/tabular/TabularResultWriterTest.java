@@ -8,6 +8,7 @@ import syntax.tabular.TabularResultWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@DisplayName("[Writer] TabularResultWriter Class")
 class TabularResultWriterTest {
     TabularResultWriter writer = new TabularResultWriter();
 

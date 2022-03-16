@@ -2,11 +2,13 @@ package tabular.queries.node;
 
 import base.QueryBaseResetEachTest;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("[Extra] Delete Node")
 @Disabled
 class DeleteNodeTest extends QueryBaseResetEachTest {
     @Test
