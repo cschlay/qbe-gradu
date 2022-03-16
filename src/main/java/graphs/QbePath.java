@@ -9,16 +9,17 @@ import java.util.List;
  * Represents a path to perform aggregations and validate elements in the path.
  */
 public class QbePath {
-    private final List<GraphEntity> elements;
+    private final List<GraphEntity> entities;
 
     public QbePath()
     {
-        elements = new ArrayList<>();
+        entities = new ArrayList<>();
     }
 
     public QbePath(List<GraphEntity> initialPath)
     {
-        elements = initialPath;
+        entities = new ArrayList<>();
+        entities.addAll(initialPath);
     }
 
     /**
@@ -27,7 +28,7 @@ public class QbePath {
      * @param entity to add
      */
     public void add(GraphEntity entity) {
-        elements.add(entity);
+        entities.add(entity);
     }
 
     /**
@@ -37,8 +38,10 @@ public class QbePath {
      * @return the entity found or null
      */
     public @Nullable GraphEntity find(String name) {
-        for (GraphEntity entity: elements) {
-            if (name.equals(entity.name)) {
+        // NOTE: There may could exist multiple nodes with same name. In that case, the last one is probably the choice.
+        for (int i = entities.size() - 1; i >= 0; i--) {
+            GraphEntity entity = entities.get(i);
+            if (name.equals(entities.get(i).name)) {
                 return entity;
             }
         }
@@ -52,6 +55,14 @@ public class QbePath {
      * @return the new path independent of the previous one
      */
     public QbePath copy() {
-        return new QbePath(elements);
+        return new QbePath(entities);
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (GraphEntity entity : entities) {
+            stringBuilder.append(String.format("%s(%s)", entity.name, entity.id));
+        }
+        return stringBuilder.toString();
     }
 }

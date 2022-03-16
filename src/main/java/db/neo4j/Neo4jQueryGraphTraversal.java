@@ -12,13 +12,11 @@ import java.util.HashMap;
 
 public class Neo4jQueryGraphTraversal {
     private final Transaction tx;
-    private final HashMap<String, GraphEntity> aggregatedEntities;
     private final HashMap<Long, QbeNode> pendingNodes;
     private ResultGraph currentResultGraph;
 
     public Neo4jQueryGraphTraversal(Transaction transaction) {
         tx = transaction;
-        aggregatedEntities = new HashMap<>();
         pendingNodes = new HashMap<>();
     }
 
@@ -65,7 +63,7 @@ public class Neo4jQueryGraphTraversal {
 
             for (Relationship edge : edges) {
                 try {
-                    @Nullable QbeEdge resultEdge = traverseEdge(edge, queryEdge, resultNode, path);
+                    @Nullable QbeEdge resultEdge = traverseEdge(edge, queryEdge, resultNode, path.copy());
                     if (resultEdge != null) {
                         resultNode.edges.put(resultEdge.id, resultEdge);
                     }
@@ -100,9 +98,11 @@ public class Neo4jQueryGraphTraversal {
         var resultEdge = new QbeEdge(edge.getId(), queryEdge.name);
         resultEdge.properties.putAll(new Neo4jPropertyTraversal(queryEdge).getProperties(edge));
 
+        boolean correctDirection = false;
         // The Neo4j always returns the edges (tail) -> (head)
         if (queryEdge.tailNode != null) {
             if (queryEdge.tailNode.name.equals(resultNode.name)) {
+                correctDirection = true;
                 resultEdge.tailNode = resultNode;
             } else if (edge.getStartNode().hasLabel(Label.label(queryEdge.tailNode.name))) {
                 resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
@@ -121,7 +121,7 @@ public class Neo4jQueryGraphTraversal {
             }
         }
 
-        if (queryEdge.type == QueryType.COUNT) {
+        if (correctDirection && queryEdge.type == QueryType.COUNT) {
             mutableAggregateCount(queryEdge, resultEdge, path);
             return null;
         } else if (queryEdge.type == QueryType.SUM) {
@@ -154,12 +154,12 @@ public class Neo4jQueryGraphTraversal {
     private void mutableAggregateCount(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
         @Nullable GraphEntity aggregationEntity = findAggregationEntity(queryEntity, path);
 
-        if (aggregationEntity != null && !aggregatedEntities.containsKey(resultEntity.id)) {
-            aggregatedEntities.put(resultEntity.id, resultEntity);
+        if (aggregationEntity != null && aggregationEntity.isNotAggregated(resultEntity)) {
+            aggregationEntity.addAggregated(resultEntity);
             String propertyName = "_agg-count";
             @Nullable QbeData property = aggregationEntity.properties.get(propertyName);
 
-            if (property != null && property.value != null) {
+            if (property != null && property.value instanceof Integer) {
                 int counter = (int) property.value;
                 property.value = counter + 1;
             } else {
@@ -173,8 +173,8 @@ public class Neo4jQueryGraphTraversal {
     private void mutableAggregateSum(GraphEntity queryEntity, GraphEntity resultEntity, QbePath path) {
         @Nullable GraphEntity aggregationEntity = findAggregationEntity(queryEntity, path);
 
-        if (aggregationEntity != null && !aggregationEntity.aggregatedIds.contains(resultEntity.id)) {
-            aggregationEntity.aggregatedIds.add(resultEntity.id);
+        if (aggregationEntity != null && aggregationEntity.isNotAggregated(resultEntity)) {
+            aggregationEntity.addAggregated(resultEntity);
             @Nullable QbeData property = aggregationEntity.properties.get(queryEntity.aggregationProperty);
 
             if (property != null && property.value != null) {

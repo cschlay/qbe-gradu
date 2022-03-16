@@ -21,7 +21,7 @@ public abstract class GraphEntity {
 
     @Nullable public String aggregationProperty;
     @Nullable public String aggregationGroup;
-    public List<String> aggregatedIds;
+    @Nullable private List<String> aggregatedIds;
 
     public boolean visited;
     public boolean selected;
@@ -73,6 +73,17 @@ public abstract class GraphEntity {
         } else {
             properties.put(property, new QbeData(value));
         }
+    }
+
+    public void addAggregated(GraphEntity entity) {
+        if (aggregatedIds == null) {
+            aggregatedIds = new ArrayList<>();
+        }
+        aggregatedIds.add(entity.id);
+    }
+
+    public boolean isNotAggregated(GraphEntity entity) {
+        return aggregatedIds == null || !aggregatedIds.contains(entity.id);
     }
 
     public String toString() {
