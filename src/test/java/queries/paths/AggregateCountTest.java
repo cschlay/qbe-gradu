@@ -41,7 +41,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
         var query = "" +
                 "| Book  | id* | contains              |\n" +
                 "|-------+-----+-----------------------|\n" +
-                "| QUERY |     | COUNT Book.Topic Book |";
+                "| QUERY |     | COUNT Book.Topic Book |\n";
 
         ResultGraph resultGraph = execute(query);
         assertEquals(2, resultGraph.get(idA).property("_agg-count"));

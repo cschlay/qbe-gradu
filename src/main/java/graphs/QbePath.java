@@ -1,6 +1,7 @@
 package graphs;
 
 import org.jetbrains.annotations.Nullable;
+import utilities.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  */
 public class QbePath {
     private final List<GraphEntity> entities;
+    // The direction is always outgoing (v1 -> v2 -> v3 -> v4)
+    private boolean valid = true;
 
     public QbePath()
     {
@@ -28,6 +31,9 @@ public class QbePath {
      * @param entity to add
      */
     public void add(GraphEntity entity) {
+        if (entity instanceof QbeEdge && ((QbeEdge) entity).headNode == Utils.last(entities)) {
+            valid = false;
+        }
         entities.add(entity);
     }
 
@@ -56,6 +62,10 @@ public class QbePath {
      */
     public QbePath copy() {
         return new QbePath(entities);
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 
     public String toString() {

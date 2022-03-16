@@ -97,12 +97,9 @@ public class Neo4jQueryGraphTraversal {
     private @Nullable QbeEdge traverseEdge(Relationship edge, QbeEdge queryEdge, QbeNode resultNode, QbePath path) throws InvalidNodeException, IdConstraintException {
         var resultEdge = new QbeEdge(edge.getId(), queryEdge.name);
         resultEdge.properties.putAll(new Neo4jPropertyTraversal(queryEdge).getProperties(edge));
-
-        boolean correctDirection = false;
         // The Neo4j always returns the edges (tail) -> (head)
         if (queryEdge.tailNode != null) {
             if (queryEdge.tailNode.name.equals(resultNode.name)) {
-                correctDirection = true;
                 resultEdge.tailNode = resultNode;
             } else if (edge.getStartNode().hasLabel(Label.label(queryEdge.tailNode.name))) {
                 resultEdge.tailNode = traverseNode(edge.getStartNode(), queryEdge.tailNode, path.copy());
@@ -121,7 +118,8 @@ public class Neo4jQueryGraphTraversal {
             }
         }
 
-        if (correctDirection && queryEdge.type == QueryType.COUNT) {
+        path.add(resultEdge);
+        if (path.isValid() && queryEdge.type == QueryType.COUNT) {
             mutableAggregateCount(queryEdge, resultEdge, path);
             return null;
         } else if (queryEdge.type == QueryType.SUM) {
