@@ -37,6 +37,13 @@ public class QbePath {
         entities.add(entity);
     }
 
+    public void add(QbeEdge queryEdge, QbeEdge resultEdge) {
+        if (queryEdge.headNode != null && queryEdge.headNode.name.equals(Utils.last(entities).name)) {
+            valid = false;
+        }
+        entities.add(resultEdge);
+    }
+
     /**
      * Find the entity stored in the path by its name.
      *
