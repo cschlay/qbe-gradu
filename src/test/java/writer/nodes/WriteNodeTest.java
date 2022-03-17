@@ -31,6 +31,21 @@ class WriteNodeTest extends WriterBaseTest {
     }
 
     @Test
+    @DisplayName("Print Null")
+    void printNull() throws SyntaxError {
+        var course = new TabularHeader("Course");
+        var id = new TabularHeader("Course", "title*");
+        QueryGraph query = setupQuery(course, id);
+
+        var result = new ResultGraph().put(createNode(1));
+        var expected = "" +
+                "| title |\n" +
+                "|-------|\n" +
+                "| null  |\n";
+        assertEquals(expected, execute(query, result));
+    }
+
+    @Test
     @DisplayName("Print Property")
     void printProperty() throws SyntaxError {
         var course = new TabularHeader("Course");

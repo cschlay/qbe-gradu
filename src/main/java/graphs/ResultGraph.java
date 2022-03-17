@@ -18,9 +18,11 @@ public class ResultGraph extends Graph {
         return super.size();
     }
 
-    public void put(QbeNode node) {
+    public ResultGraph put(QbeNode node) {
         String key = node.id == null ? node.name : node.id;
         put(key, node);
+
+        return this;
     }
 
     public void put(@NotNull QbeEdge edge) throws QbeException {
