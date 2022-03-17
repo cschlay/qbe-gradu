@@ -1,4 +1,4 @@
-package writer.nodes;
+package writer;
 
 import base.WriterBaseTest;
 import graphs.QbeEdge;

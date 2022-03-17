@@ -31,8 +31,6 @@ public class TabularResultWriter implements ResultWriter {
         var rowWriter = new TabularRowWriter(headers, columnLengths);
         var rows = rowWriter.getRows(graph);
 
-        // TODO: The rows need some kind of post processing so that duplicates don't exist and fields that are null do not get returned
-
         var result = new Object[rows.size()][headers.length];
 
         for (int i = 0; i < rows.size(); i++) {
@@ -56,14 +54,12 @@ public class TabularResultWriter implements ResultWriter {
     }
 
     private String getHeaderSeparator(Headers headers, int[] columnLengths) {
-        var result = new StringBuilder("|");
+        var result = new StringBuilder();
         for (int col = 0; col < columnLengths.length; col++) {
             if (headers.get(col).selected) {
+                result.append(result.length() > 0 ? "+" : "|");
                 String padding = "-".repeat(columnLengths[col] + 2);
                 result.append(padding);
-                if (col < columnLengths.length - 1) {
-                    result.append("+");
-                }
             }
         }
         result.append("|\n");

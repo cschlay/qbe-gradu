@@ -68,7 +68,10 @@ public class TabularRowWriter {
         writeProperties(template, node);
 
         for (QbeEdge edge : node.edges.values()) {
-            rows.addAll(writeEdge(template.clone(), edge));
+            if (edge.tailNode == node && !edge.visited) {
+                // Only traverse correct directions to avoid duplicate rows.
+                rows.addAll(writeEdge(template.clone(), edge));
+            }
         }
 
         if (rows.isEmpty()) {
