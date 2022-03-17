@@ -25,7 +25,7 @@ class TabularParserTest {
             var graph = parser.parse(query);
             var node = graph.get("Song");
 
-            assertEquals(2, node.property("id"));
+            assertEquals(2, node.addProperty("id"));
             assertEquals("2", node.id);
         }
 
@@ -39,7 +39,7 @@ class TabularParserTest {
             var node = graph.get("Song");
 
             assertEquals(QueryType.QUERY, node.type);
-            assertNotNull(node.property("length"));
+            assertNotNull(node.addProperty("length"));
         }
 
         @Test
@@ -52,7 +52,7 @@ class TabularParserTest {
             var node = graph.get("Song");
 
             assertEquals(QueryType.DELETE, node.type);
-            assertEquals("Coin", node.property("title"));
+            assertEquals("Coin", node.addProperty("title"));
         }
 
         @Test
@@ -65,8 +65,8 @@ class TabularParserTest {
             var node = graph.get("Song");
 
             assertEquals(QueryType.INSERT, node.type);
-            assertEquals("How to Solve It", node.property("title"));
-            assertEquals(20.3, node.property("length"));
+            assertEquals("How to Solve It", node.addProperty("title"));
+            assertEquals(20.3, node.addProperty("length"));
         }
 
         @Test
@@ -103,7 +103,7 @@ class TabularParserTest {
             var artist = graph.get("Artist");
             var artistComposed = artist.edges.get("composed");
 
-            assertEquals(9, artistComposed.property("id"));
+            assertEquals(9, artistComposed.addProperty("id"));
             assertEquals("9", artistComposed.id);
 
             assertEquals(songComposed, artistComposed);
@@ -118,7 +118,7 @@ class TabularParserTest {
             var graph = parser.parse(query);
             var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.QUERY, edge.type);
-            assertNotNull(edge.property("hours"));
+            assertNotNull(edge.addProperty("hours"));
         }
 
         @Test
@@ -131,7 +131,7 @@ class TabularParserTest {
             var graph = parser.parse(query);
             var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.DELETE, edge.type);
-            assertEquals(false, edge.property("active"));
+            assertEquals(false, edge.addProperty("active"));
         }
 
         @Test
@@ -149,7 +149,7 @@ class TabularParserTest {
 
             var edge = artist.edges.get("composed");
             assertEquals(QueryType.INSERT, edge.type);
-            assertEquals(true, edge.property("active"));
+            assertEquals(true, edge.addProperty("active"));
         }
 
         @Test
@@ -183,12 +183,12 @@ class TabularParserTest {
 
         var book = graph.get("Book");
         var bookUses = book.edges.get("uses");
-        assertEquals("Logic", book.property("title"));
-        assertEquals(3, bookUses.property("edition"));
+        assertEquals("Logic", book.addProperty("title"));
+        assertEquals(3, bookUses.addProperty("edition"));
 
         var course = graph.get("Course");
         var courseUses = course.edges.get("uses");
-        assertEquals(3, courseUses.property("edition"));
+        assertEquals(3, courseUses.addProperty("edition"));
 
         assertEquals(bookUses, courseUses);
     }

@@ -5,7 +5,6 @@ import enums.QueryType;
 import graphs.QbeNode;
 import graphs.QueryGraph;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
@@ -32,7 +31,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
         var queryNode = new QbeNode("Book");
         queryNode.type = QueryType.COUNT;
         queryGraph.put(queryNode);
-        assertEquals(2, execute(queryGraph).get("Book").property("_agg-count"));
+        assertEquals(2, execute(queryGraph).get("Book").addProperty("_agg-count"));
     }
 
     @Test
@@ -42,7 +41,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| Book  |\n" +
                 "|-------|\n" +
                 "| COUNT |\n";
-        assertEquals(2, execute(query).get("Book").property("_agg-count"));
+        assertEquals(2, execute(query).get("Book").addProperty("_agg-count"));
     }
 
     @Test
@@ -51,7 +50,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| Book  | year* |\n" +
                 "|-------+-------|\n" +
                 "| COUNT | 2022  |\n";
-        assertEquals(1, execute(query).get("Book").property("_agg-count"));
+        assertEquals(1, execute(query).get("Book").addProperty("_agg-count"));
     }
 
     // Extra: Group and Count by Property

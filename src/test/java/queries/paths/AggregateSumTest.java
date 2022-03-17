@@ -52,8 +52,8 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "|--------+-----+-------------------+------------|\n" +
                 "| QUERY  |     | QUERY Course.Book | SUM Course |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(30, resultGraph.get(idA).property("likes"));
-        assertEquals(2, resultGraph.get(idB).property("likes"));
+        assertEquals(30, resultGraph.get(idA).addProperty("likes"));
+        assertEquals(2, resultGraph.get(idB).addProperty("likes"));
     }
 
     @Test
@@ -65,8 +65,8 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| QUERY  |     | QUERY Course.Book | QUERY | SUM Course |\n";
 
         ResultGraph resultGraph = execute(query);
-        assertEquals(65.00, resultGraph.get(idA).property("price"));
-        assertEquals(5.00, resultGraph.get(idB).property("price"));
+        assertEquals(65.00, resultGraph.get(idA).addProperty("price"));
+        assertEquals(5.00, resultGraph.get(idB).addProperty("price"));
     }
 
     @Test
@@ -77,8 +77,8 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "|--------+-----+-------------------+------------+--------------|\n" +
                 "| QUERY  |     | QUERY Course.Book | SUM Course | true         |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(20, resultGraph.get(idA).property("likes"));
-        assertEquals(2, resultGraph.get(idB).property("likes"));
+        assertEquals(20, resultGraph.get(idA).addProperty("likes"));
+        assertEquals(2, resultGraph.get(idB).addProperty("likes"));
     }
 
     @Test
@@ -89,6 +89,6 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "|--------+-----+--------|-------------------+--------|\n" +
                 "| QUERY  |     | SUM _  | QUERY Course.Book | > 10   |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(60.0, resultGraph.get("Book").property("price"));
+        assertEquals(60.0, resultGraph.get("Book").addProperty("price"));
     }
 }

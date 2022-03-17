@@ -12,6 +12,11 @@ public class Headers {
     public final int length;
     private final TabularHeader[] headerList;
 
+    public Headers(TabularHeader[] headers) {
+        headerList = headers;
+        length = headers.length;
+    }
+
     public Headers(String[] headers) {
         headerList = new TabularHeader[headers.length];
         length = headers.length;

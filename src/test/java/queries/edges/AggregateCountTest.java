@@ -36,7 +36,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
         QbeEdge queryEdge = TestUtils.createTestEdge("contains", "Book", "Topic");
         queryEdge.type = QueryType.COUNT;
         queryGraph.put(queryEdge);
-        assertEquals(2, execute(queryGraph).get("contains").property("_agg-count"));
+        assertEquals(2, execute(queryGraph).get("contains").addProperty("_agg-count"));
     }
 
     @Test
@@ -46,7 +46,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| contains         |\n" +
                 "|------------------|\n" +
                 "| COUNT Book.Topic |\n";
-        assertEquals(2, execute(query).get("contains").property("_agg-count"));
+        assertEquals(2, execute(query).get("contains").addProperty("_agg-count"));
     }
 
     @Test
@@ -56,7 +56,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| contains         | theory* |\n" +
                 "|------------------+---------|\n" +
                 "| COUNT Book.Topic | true    |\n";
-        assertEquals(1, execute(query).get("contains").property("_agg-count"));
+        assertEquals(1, execute(query).get("contains").addProperty("_agg-count"));
     }
 
     // Extra: Group and Count by Property

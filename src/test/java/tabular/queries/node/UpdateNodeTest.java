@@ -31,7 +31,7 @@ class UpdateNodeTest extends QueryBaseResetEachTest {
 
         eachNode(graph, (tx, node) -> {
             var title = "Under the Dome";
-            assertEquals(title, node.property("title"));
+            assertEquals(title, node.addProperty("title"));
 
             var neo4jNode = tx.getNodeById(node.longId());
             assertEquals(title, neo4jNode.getProperty("title"));
@@ -57,7 +57,7 @@ class UpdateNodeTest extends QueryBaseResetEachTest {
         var graph = execute(query);
 
         eachNode(graph, (tx, node) -> {
-            assertEquals(0, node.property("quantity"));
+            assertEquals(0, node.addProperty("quantity"));
         });
         run(tx -> {
             var node = tx.getNodeById(courseId);
@@ -90,7 +90,7 @@ class UpdateNodeTest extends QueryBaseResetEachTest {
 
         eachNode(graph, (tx, node) -> {
             assertEquals(false, tx.getNodeById(node.longId()).getProperty("published"));
-            assertEquals(false, node.property("published"));
+            assertEquals(false, node.addProperty("published"));
         });
         // Ensure the other node is not changed.
         run(tx -> assertEquals(true, tx.getNodeById(fx.id).getProperty("published")));

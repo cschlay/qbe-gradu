@@ -56,7 +56,7 @@ public abstract class GraphEntity {
      *
      * @return the value of property
      */
-    public @Nullable Object property(String property) {
+    public @Nullable Object addProperty(String property) {
         @Nullable QbeData data = properties.get(property);
         return data != null ? data.value : null;
     }
@@ -67,12 +67,14 @@ public abstract class GraphEntity {
      * @param property name
      * @param value of the property
      */
-    public void property(String property, Object value) {
+    public GraphEntity addProperty(String property, Object value) {
         if (value instanceof QbeData) {
             properties.put(property, (QbeData) value);
         } else {
             properties.put(property, new QbeData(value));
         }
+
+        return this;
     }
 
     public void addAggregated(GraphEntity entity) {

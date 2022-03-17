@@ -51,7 +51,7 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
                 "|-------------------+-----|\n" +
                 "| QUERY Author.Book | %s  |\n";
         Object value = arg.value instanceof String ? String.format("\"%s\"", arg.value): arg.value;
-        eachEdge(execute(query, arg.property, value), (tx, edge) -> assertEquals(arg.value, edge.property(arg.property)));
+        eachEdge(execute(query, arg.property, value), (tx, edge) -> assertEquals(arg.value, edge.addProperty(arg.property)));
     }
 
     @Test
@@ -61,7 +61,7 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
                 "|-------------------+----------|\n" +
                 "| QUERY Author.Book | >= 2019  |\n";
         eachEdge(execute(query), (tx, edge) -> {
-            Object property = edge.property("started");
+            Object property = edge.addProperty("started");
             assert property != null;
             assertTrue((int) property >= 2019);
         });
@@ -73,7 +73,7 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
                 "| writes            | code*   |\n" +
                 "|-------------------+---------|\n" +
                 "| QUERY Author.Book | /b.*/   |\n";
-        eachEdge(execute(query), (tx, edge) -> assertEquals("box", edge.property("code")));
+        eachEdge(execute(query), (tx, edge) -> assertEquals("box", edge.addProperty("code")));
     }
 }
 

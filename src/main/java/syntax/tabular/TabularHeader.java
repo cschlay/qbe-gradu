@@ -16,6 +16,11 @@ public class TabularHeader {
     public String displayName;
     public boolean selected;
 
+    public TabularHeader(String entity, String header) {
+        this(header);
+        entityName = entity;
+    }
+
     public TabularHeader(String header) {
         selected = header.lastIndexOf('*') != -1;
 

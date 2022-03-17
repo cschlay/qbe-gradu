@@ -178,12 +178,12 @@ public class Neo4jQueryGraphTraversal {
 
             if (property != null && property.value != null) {
                 Object a = property.value;
-                Object b = resultEntity.property(queryEntity.aggregationProperty);
+                Object b = resultEntity.addProperty(queryEntity.aggregationProperty);
                 if (b != null) {
                     property.value = Numbers.plus(a, b);
                 }
             } else {
-                Object initialCount = resultEntity.property(queryEntity.aggregationProperty);
+                Object initialCount = resultEntity.addProperty(queryEntity.aggregationProperty);
                 property = new QbeData(initialCount instanceof Number ? initialCount : 0);
                 property.selected = true;
                 aggregationEntity.properties.put(queryEntity.aggregationProperty, property);

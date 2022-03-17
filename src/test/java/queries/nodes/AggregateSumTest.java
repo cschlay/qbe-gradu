@@ -6,7 +6,6 @@ import graphs.QbeData;
 import graphs.QbeNode;
 import graphs.QueryGraph;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.neo4j.graphdb.Label;
@@ -37,7 +36,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
         queryNode.aggregationProperty = "price";
         queryNode.properties.put("price", new QbeData(null));
         queryGraph.put(queryNode);
-        assertEquals(65.0, execute(queryGraph).get("Book").property("price"));
+        assertEquals(65.0, execute(queryGraph).get("Book").addProperty("price"));
     }
 
     @Test
@@ -46,7 +45,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| Book  | price* |\n" +
                 "|-------+--------|\n" +
                 "| QUERY | SUM _  |\n";
-        assertEquals(65.0, execute(query).get("Book").property("price"));
+        assertEquals(65.0, execute(query).get("Book").addProperty("price"));
     }
 
     @Test
@@ -55,7 +54,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| Book  | year* | price* |\n" +
                 "|-------+-------+--------|\n" +
                 "| QUERY | 1990  | SUM _  |\n";
-        assertEquals(5.00, execute(query).get("Book").property("price"));
+        assertEquals(5.00, execute(query).get("Book").addProperty("price"));
     }
 
     // Extra: Group and Sum by Property

@@ -49,7 +49,7 @@ class InsertEdgeTest extends QueryBaseResetEachTest {
                 "| INSERT Band.Song  | true           | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
         eachEdge(graph, (tx, edge) -> {
-            assertEquals(true, edge.property("feat"));
+            assertEquals(true, edge.addProperty("feat"));
             Relationship relation = Neo4j.relationById(tx, edge);
             assertEquals(true, relation.getProperty("feat"));
         });
@@ -64,7 +64,7 @@ class InsertEdgeTest extends QueryBaseResetEachTest {
                 "| INSERT Band.Song  | true           | 20.0           | QUERY | %s       | QUERY | %s       |\n";
         var graph = execute(query, band.getId(), song.getId());
         eachEdge(graph, (tx, edge) -> {
-            assertEquals(true, edge.property("feat"));
+            assertEquals(true, edge.addProperty("feat"));
             Relationship relation = Neo4j.relationById(tx, edge);
             assertEquals(true, relation.getProperty("feat"));
             assertEquals(20.0, relation.getProperty("time"));
