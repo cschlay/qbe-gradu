@@ -1,7 +1,6 @@
 package writer.nodes;
 
 import base.WriterBaseTest;
-import exceptions.SyntaxError;
 import graphs.QbeNode;
 import graphs.QueryGraph;
 import graphs.ResultGraph;
@@ -13,15 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("[Writer] - Node")
 class WriteNodeTest extends WriterBaseTest {
+    private static final String entity = "Course";
+
     @Test
     @DisplayName("Print Id")
-    void printId() throws SyntaxError {
-        var course = new TabularHeader("Course");
-        var id = new TabularHeader("Course", "id*");
+    void printId() {
+        var course = new TabularHeader(entity);
+        var id = new TabularHeader(entity, "id*");
         QueryGraph query = setupQuery(course, id);
 
         var result = new ResultGraph();
-        result.put(createNode(1));
+        result.put(node(1, entity));
 
         var expected = "" +
                 "| id |\n" +
@@ -32,12 +33,12 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print Null")
-    void printNull() throws SyntaxError {
+    void printNull() {
         var course = new TabularHeader("Course");
-        var id = new TabularHeader("Course", "title*");
-        QueryGraph query = setupQuery(course, id);
+        var title = new TabularHeader("Course", "title*");
+        QueryGraph query = setupQuery(course, title);
 
-        var result = new ResultGraph().put(createNode(1));
+        var result = new ResultGraph().put(node(1, entity));
         var expected = "" +
                 "| title |\n" +
                 "|-------|\n" +
@@ -47,13 +48,13 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print Property")
-    void printProperty() throws SyntaxError {
+    void printProperty() {
         var course = new TabularHeader("Course");
         var name = new TabularHeader("Course", "name*");
         QueryGraph query = setupQuery(course, name);
 
         var result = new ResultGraph();
-        result.put((QbeNode) createNode(1).addProperty("name", "Algebra"));
+        result.put((QbeNode) node(1, entity).addProperty("name", "Algebra"));
 
         var expected = "" +
                 "| name      |\n" +
@@ -64,13 +65,13 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print property using Alias")
-    void printPropertyUsingAlias() throws SyntaxError {
+    void printPropertyUsingAlias() {
         var course = new TabularHeader("Course");
         var name = new TabularHeader("Course", "name as title*");
         QueryGraph query = setupQuery(course, name);
 
         var result = new ResultGraph();
-        result.put((QbeNode) createNode(1).addProperty("name", "Algebra"));
+        result.put((QbeNode) node(1, entity).addProperty("name", "Algebra"));
 
         var expected = "" +
                 "| title     |\n" +
@@ -81,13 +82,13 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print multiple columns")
-    void printMultipleColumns() throws Exception {
+    void printMultipleColumns() {
         var title = new TabularHeader("Course", "title*");
         var difficulty = new TabularHeader("Course", "difficulty*");
         QueryGraph query = setupQuery(title, difficulty);
 
         var result = new ResultGraph();
-        var node = (QbeNode) createNode(1)
+        var node = (QbeNode) node(1, entity)
                 .addProperty("title", "Logic")
                 .addProperty("difficulty", 2);
         result.put(node);
@@ -101,13 +102,13 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print selected columns")
-    void printSelectedColumns() throws Exception {
+    void printSelectedColumns() {
         var title = new TabularHeader("Course", "title*");
         var difficulty = new TabularHeader("Course", "difficulty");
         QueryGraph query = setupQuery(title, difficulty);
 
         var result = new ResultGraph();
-        var node = (QbeNode) createNode(1)
+        var node = (QbeNode) node(1, entity)
                 .addProperty("title", "Logic")
                 .addProperty("difficulty", 2);
         result.put(node);
@@ -121,13 +122,13 @@ class WriteNodeTest extends WriterBaseTest {
 
     @Test
     @DisplayName("Print multiple rows")
-    void printMultipleRows() throws Exception {
+    void printMultipleRows() {
         var title = new TabularHeader("Course", "title*");
         QueryGraph query = setupQuery(title);
 
         var result = new ResultGraph();
-        result.put((QbeNode) createNode(1).addProperty("title", "Logic"));
-        result.put((QbeNode) createNode(2).addProperty("title", "Graph"));
+        result.put((QbeNode) node(1, entity).addProperty("title", "Logic"));
+        result.put((QbeNode) node(2, entity).addProperty("title", "Graph"));
 
         var expected = "" +
                 "| title   |\n" +
