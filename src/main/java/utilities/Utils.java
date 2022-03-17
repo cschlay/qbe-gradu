@@ -13,6 +13,10 @@ public class Utils {
         return array[0];
     }
 
+    public static <T> T first(List<T> list) {
+        return list.get(0);
+    }
+
     public static <T> T last(T[] array) {
         return array[array.length - 1];
     }

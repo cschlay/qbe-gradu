@@ -10,23 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Recursive operations for writing tabular rows. */
-public class TabularRowWriter {
+public class TabularRowFinder {
     private final Headers headers;
     private final int[] columnLengths;
 
-    public TabularRowWriter(Headers headers, int[] columnLengths) {
+    public TabularRowFinder(Headers headers, int[] columnLengths) {
         this.headers = headers;
         this.columnLengths = columnLengths;
     }
 
     /** Returns a list of rows, there may exist multiple ones because of relations. */
-    public List<Object[]> getRows(ResultGraph graph) {
+    public List<Object[]> find(ResultGraph graph) {
         var rows = new ArrayList<Object[]>();
 
         // Add the headers.
         var headerRow = new Object[headers.length];
         for (int col = 0; col < headers.length; col++) {
-            var headerName = headers.getDisplayName(col);
+            String headerName = headers.getDisplayName(col);
             headerRow[col] = headerName;
             columnLengths[col] = headerName.length();
         }
@@ -66,7 +66,6 @@ public class TabularRowWriter {
 
         var rows = new ArrayList<Object[]>();
         writeProperties(template, node);
-
         for (QbeEdge edge : node.edges.values()) {
             if (edge.tailNode == node && !edge.visited) {
                 // Only traverse correct directions to avoid duplicate rows.

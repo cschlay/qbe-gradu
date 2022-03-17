@@ -4,43 +4,24 @@ import graphs.QueryGraph;
 import graphs.ResultGraph;
 import interfaces.ResultWriter;
 import org.jetbrains.annotations.Nullable;
+import utilities.Utils;
+
+import java.util.List;
 
 public class TabularResultWriter implements ResultWriter {
     public String write(QueryGraph queryGraph, ResultGraph resultGraph) {
-        var meta = (TabularQueryMeta) queryGraph.meta;
-        int[] columnLengths = new int[meta.headers.length];
-        var table = toTable(meta.headers, resultGraph, columnLengths);
-
-        return getHeaderRowAsString(meta.headers, table[0], columnLengths)
-                + getHeaderSeparator(meta.headers, columnLengths)
-                + getRowsAsString(meta.headers, table, columnLengths);
-    }
-
-    public Object[][] writeNative(QueryGraph queryGraph, ResultGraph resultGraph) {
-        var meta = (TabularQueryMeta) queryGraph.meta;
-
-        return toTable(meta.headers, resultGraph, new int[meta.headers.length]);
-    }
-
-    /**
-     * Writes the graph into tabular result including the header.
-     *
-     * @return table of property values
-     */
-    public Object[][] toTable(Headers headers, ResultGraph graph, int[] columnLengths) {
-        var rowWriter = new TabularRowWriter(headers, columnLengths);
-        var rows = rowWriter.getRows(graph);
-
-        var result = new Object[rows.size()][headers.length];
-
-        for (int i = 0; i < rows.size(); i++) {
-            result[i] = rows.get(i);
+        @Nullable Object meta = queryGraph.meta;
+        if (meta == null) {
+            throw new IllegalStateException("The code has bug with meta attribute. It should be defined by parser.");
         }
 
-        return result;
+        Headers headers = ((TabularQueryMeta) meta).headers;
+        int[] widths = new int[headers.length];
+        List<Object[]> rows = new TabularRowFinder(headers, widths).find(resultGraph);
+        return writeHeader(headers, Utils.first(rows), widths) + writeSeparator(headers, widths) + writeRows(headers, rows, widths);
     }
 
-    private String getHeaderRowAsString(Headers th, Object[] headers, int[] columnLengths) {
+    private String writeHeader(Headers th, Object[] headers, int[] columnLengths) {
         var result = new StringBuilder();
         for (int col = 0; col < headers.length; col++) {
             TabularHeader header = th.get(col);
@@ -53,7 +34,7 @@ public class TabularResultWriter implements ResultWriter {
         return result.toString();
     }
 
-    private String getHeaderSeparator(Headers headers, int[] columnLengths) {
+    private String writeSeparator(Headers headers, int[] columnLengths) {
         var result = new StringBuilder();
         for (int col = 0; col < columnLengths.length; col++) {
             if (headers.get(col).selected) {
@@ -66,19 +47,17 @@ public class TabularResultWriter implements ResultWriter {
         return result.toString();
     }
 
-    private String getRowsAsString(Headers headers, Object[][] table, int[] columnLengths) {
+    private String writeRows(Headers headers, List<Object[]> rows, int[] widths) {
         var result = new StringBuilder();
-        int columnCount = table[0].length;
-        int rowCount = table.length;
+        int columnCount = Utils.first(rows).length;
 
-        for (int row = 1; row < rowCount; row++) {
-            for (int col = 0; col < columnCount; col++) {
-                if (headers.get(col).selected) {
-                    String valueString = castToString(table[row][col]);
-                    int p = columnLengths[col] - valueString.length() + 1;
-
-                    String padding = " ".repeat(Math.max(p, 1));
-                    result.append("| ").append(valueString).append(padding);
+        for (int i = 1; i < rows.size(); i++) {
+            for (int j = 0; j < columnCount; j++) {
+                if (headers.get(j).selected) {
+                    String valueString = castToString(rows.get(i)[j]);
+                    int padding = widths[j] - valueString.length() + 1;
+                    String whitespaces = " ".repeat(Math.max(padding, 1));
+                    result.append("| ").append(valueString).append(whitespaces);
                 }
             }
             result.append("|\n");
