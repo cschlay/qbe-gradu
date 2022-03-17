@@ -69,7 +69,6 @@ class AggregateSumTest extends QueryBaseStaticTest {
         assertEquals(5.00, resultGraph.get(idB).property("price"));
     }
 
-
     @Test
     @DisplayName("[Table] Sum Edges Filtered by Properties")
     void sumFilteredEdges() throws Exception {
@@ -86,11 +85,10 @@ class AggregateSumTest extends QueryBaseStaticTest {
     @DisplayName("[Table] Sum Nodes Filtered by Edges")
     void sumNodesFilteredByEdges() throws Exception {
         var query = "" +
-                "| Course | id* | price* | uses              | likes* |\n" +
+                "| Book   | id* | price* | uses              | likes* |\n" +
                 "|--------+-----+--------|-------------------+--------|\n" +
                 "| QUERY  |     | SUM _  | QUERY Course.Book | > 10   |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(1, resultGraph.order());
-        assertEquals(60.0, resultGraph.get(idA).property("price"));
+        assertEquals(60.0, resultGraph.get("Book").property("price"));
     }
 }

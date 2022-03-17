@@ -107,7 +107,7 @@ public class Neo4jPropertyTraversal {
             }
         }
 
-        throw new InvalidNodeException("Entity %s doesn't have property %s", neo4jEntity.getId(), propertyName);
+        throw new InvalidNodeException("Entity %s doesn't have property %s", neo4jEntity, propertyName);
     }
 
     // Helper to check id's whether int or long.

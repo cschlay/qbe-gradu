@@ -62,12 +62,8 @@ public class Neo4jQueryGraphTraversal {
             Iterable<Relationship> edges = node.getRelationships(RelationshipType.withName(queryEdge.name));
 
             for (Relationship edge : edges) {
-                System.out.println(resultNode.id);
-
                 try {
-                    var x = path.copy();
-                    @Nullable QbeEdge resultEdge = traverseEdge(edge, queryEdge, resultNode, x);
-                    System.out.println(x);
+                    @Nullable QbeEdge resultEdge = traverseEdge(edge, queryEdge, resultNode, path.copy());
                     if (resultEdge != null) {
                         resultNode.edges.put(resultEdge.id, resultEdge);
                     }
