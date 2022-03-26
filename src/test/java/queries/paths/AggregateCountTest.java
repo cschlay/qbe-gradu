@@ -44,8 +44,8 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| QUERY |     | COUNT Book.Topic Book |\n";
 
         ResultGraph resultGraph = execute(query);
-        assertEquals(2, resultGraph.get(idA).addProperty("_agg-count"));
-        assertEquals(1, resultGraph.get(idB).addProperty("_agg-count"));
+        assertEquals(2, resultGraph.get(idA).getProperty("_agg-count"));
+        assertEquals(1, resultGraph.get(idB).getProperty("_agg-count"));
     }
 
     @Test
@@ -55,7 +55,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| Book  | id* | contains              | theory* |\n" +
                 "|-------+-----+-----------------------+---------|\n" +
                 "| QUERY |     | COUNT Book.Topic Book | true    |";
-        assertEquals(1, execute(query).get(idA).addProperty("_agg-count"));
+        assertEquals(1, execute(query).get(idA).getProperty("_agg-count"));
     }
 
     @Test
@@ -65,6 +65,6 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "| Book  | contains         | theory* |\n" +
                 "|-------+------------------+---------|\n" +
                 "| COUNT | QUERY Book.Topic | false    |";
-        assertEquals(2, execute(query).get("Book").addProperty("_agg-count") );
+        assertEquals(2, execute(query).get("Book").getProperty("_agg-count") );
     }
 }

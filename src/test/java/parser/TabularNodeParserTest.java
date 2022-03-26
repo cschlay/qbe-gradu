@@ -38,7 +38,7 @@ class TabularNodeParserTest {
         TabularNodeParser parser = setup();
         var header = new TabularHeader("Movie.name");
         QbeNode node = parser.parseProperty(header, "\"Spider-Man\"");
-        assertEquals("Spider-Man", node.addProperty("name"));
+        assertEquals("Spider-Man", node.getProperty("name"));
     }
 
     @Test
@@ -52,7 +52,7 @@ class TabularNodeParserTest {
 
         QbeNode node = parser.parseProperty(header, "\"Spider-Man 2\"");
         assertEquals(node0, node);
-        assertEquals("Spider-Man 2", node0.addProperty("name"));
+        assertEquals("Spider-Man 2", node0.getProperty("name"));
     }
 
     @Test
@@ -60,7 +60,7 @@ class TabularNodeParserTest {
         TabularNodeParser parser = setup();
         var header = new TabularHeader("Movie.id");
         QbeNode node = parser.parseProperty(header, "1");
-        assertEquals(1, node.addProperty("id"));
+        assertEquals(1, node.getProperty("id"));
         assertEquals("1", node.id);
     }
 

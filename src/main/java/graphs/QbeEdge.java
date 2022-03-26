@@ -37,7 +37,7 @@ public class QbeEdge extends GraphEntity {
         String tail = toStringNodeName(tailNode);
         String head = toStringNodeName(headNode);
 
-        ret.line("%s: %s -> %s %s%n", name, tail, head, type);
+        ret.line("%s: %s -> %s %s%s%n", name, tail, head, type, selected ? "*" : "");
         for (var property : properties.entrySet()) {
             QbeData data = property.getValue();
             var template = data.value instanceof String ?  "%s = \"%s\"%n" : "%s = %s%n";

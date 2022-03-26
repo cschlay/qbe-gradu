@@ -5,9 +5,9 @@ import graphs.QbeEdge;
 import graphs.QbeNode;
 import graphs.ResultGraph;
 import org.jetbrains.annotations.Nullable;
+import utilities.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /** Recursive operations for writing tabular rows. */
 public class TabularRowFinder {
@@ -21,6 +21,7 @@ public class TabularRowFinder {
 
     /** Returns a list of rows, there may exist multiple ones because of relations. */
     public List<Object[]> find(ResultGraph graph) {
+        var hashes = new HashSet<Integer>();
         var rows = new ArrayList<Object[]>();
 
         // Add the headers.
@@ -34,8 +35,15 @@ public class TabularRowFinder {
 
         for (var node : graph.values()) {
             if (!node.visited && node.selected) {
-                var rowSet = writeNode(new Object[headers.length], node);
-                rows.addAll(rowSet);
+                List<Object[]> rowSet = writeNode(new Object[headers.length], node);
+
+                for (Object[] row : rowSet) {
+                    int hash = Arrays.hashCode(row);
+                    if (!Utils.isNullArray(row) && !hashes.contains(hash)) {
+                        hashes.add(hash);
+                        rows.add(row);
+                    }
+                }
             }
         }
 
@@ -87,7 +95,8 @@ public class TabularRowFinder {
 
             if (columnIndex != null) {
                 @Nullable Object value = property.getValue().value;
-                template[columnIndex] = value;
+                // The values will be null if they are not selected to ensure accuracy of null check.
+                template[columnIndex] = headers.get(columnIndex).selected ? value : null;
                 columnLengths[columnIndex] = getColumnLength(columnLengths, columnIndex, value);
             }
         }

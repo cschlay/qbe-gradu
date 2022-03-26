@@ -9,6 +9,8 @@ import utilities.Utils;
 import java.util.List;
 
 public class TabularResultWriter implements ResultWriter {
+
+
     public String write(QueryGraph queryGraph, ResultGraph resultGraph) {
         @Nullable Object meta = queryGraph.meta;
         if (meta == null) {

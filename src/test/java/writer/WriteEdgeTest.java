@@ -37,16 +37,17 @@ class WriteEdgeTest extends WriterBaseTest {
     @DisplayName("Print Null")
     void printNull() throws Exception {
         var uses = new TabularHeader(USES);
+        var id = new TabularHeader(USES, "id*");
         var title = new TabularHeader(USES, "title*");
-        QueryGraph query = setupQuery(uses, title);
+        QueryGraph query = setupQuery(uses, id, title);
 
         var result = new ResultGraph();
         result.put(edge(3, USES, node(1, COURSE), node(2, BOOK)));
 
         var expected = "" +
-                "| title |\n" +
-                "|-------|\n" +
-                "| null  |\n";
+                "| id | title |\n" +
+                "|----+-------|\n" +
+                "| 3  | null  |\n";
         assertEquals(expected, execute(query, result));
     }
 

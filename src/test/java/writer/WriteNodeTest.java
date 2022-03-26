@@ -35,14 +35,15 @@ class WriteNodeTest extends WriterBaseTest {
     @DisplayName("Print Null")
     void printNull() {
         var course = new TabularHeader(COURSE);
+        var id = new TabularHeader(COURSE, "id*");
         var title = new TabularHeader(COURSE, "title*");
-        QueryGraph query = setupQuery(course, title);
+        QueryGraph query = setupQuery(course, id, title);
 
-        var result = new ResultGraph().put(node(1, COURSE));
+        ResultGraph result = new ResultGraph().put(node(1, COURSE));
         var expected = "" +
-                "| title |\n" +
-                "|-------|\n" +
-                "| null  |\n";
+                "| id | title |\n" +
+                "|----+-------|\n" +
+                "| 1  | null  |\n";
         assertEquals(expected, execute(query, result));
     }
 

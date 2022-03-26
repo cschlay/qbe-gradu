@@ -1,5 +1,7 @@
 package utilities;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,16 @@ public class Utils {
 
     public static <T> T last(List<T> list) {
         return list.get(list.size()-1);
+    }
+
+    public static <T> boolean isNullArray(T[] array) {
+        for (@Nullable T item : array) {
+            if (item != null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static boolean startsWithUppercase(String value) {

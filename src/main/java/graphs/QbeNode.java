@@ -53,9 +53,9 @@ public class QbeNode extends GraphEntity {
 
     public String toString(int indent) {
         var ret = new CustomStringBuilder();
-        ret.line(indent, "%s %s\n", name, type);
+        ret.line(indent, "%s %s%s\n", name, type, selected ? "*" : "");
         for (var property : properties.entrySet()) {
-            ret.line(indent + 2, "%s = %s\n", property.getKey(), property.getValue());
+            ret.line(indent + 2, "%s = %s%s\n", property.getKey(), property.getValue(), property.getValue().selected ? "*" : "");
         }
         ret.line(edges.toString(indent + 2));
         return ret.toString();

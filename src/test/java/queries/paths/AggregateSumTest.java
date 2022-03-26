@@ -52,8 +52,8 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "|--------+-----+-------------------+------------|\n" +
                 "| QUERY  |     | QUERY Course.Book | SUM Course |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(30, resultGraph.get(idA).addProperty("likes"));
-        assertEquals(2, resultGraph.get(idB).addProperty("likes"));
+        assertEquals(30, resultGraph.get(idA).getProperty("likes"));
+        assertEquals(2, resultGraph.get(idB).getProperty("likes"));
     }
 
     @Test
@@ -65,30 +65,30 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| QUERY  |     | QUERY Course.Book | QUERY | SUM Course |\n";
 
         ResultGraph resultGraph = execute(query);
-        assertEquals(65.00, resultGraph.get(idA).addProperty("price"));
-        assertEquals(5.00, resultGraph.get(idB).addProperty("price"));
+        assertEquals(65.00, resultGraph.get(idA).getProperty("price"));
+        assertEquals(5.00, resultGraph.get(idB).getProperty("price"));
     }
 
     @Test
     @DisplayName("[Table] Sum Edges Filtered by Properties")
     void sumFilteredEdges() throws Exception {
         var query = "" +
-                "| Course | id* | uses              | likes*     | recommended* |\n" +
-                "|--------+-----+-------------------+------------+--------------|\n" +
-                "| QUERY  |     | QUERY Course.Book | SUM Course | true         |\n";
+                "| Course | id* | uses              | likes*     | recommended |\n" +
+                "|--------+-----+-------------------+------------+-------------|\n" +
+                "| QUERY  |     | QUERY Course.Book | SUM Course | true        |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(20, resultGraph.get(idA).addProperty("likes"));
-        assertEquals(2, resultGraph.get(idB).addProperty("likes"));
+        assertEquals(20, resultGraph.get(idA).getProperty("likes"));
+        assertEquals(2, resultGraph.get(idB).getProperty("likes"));
     }
 
     @Test
     @DisplayName("[Table] Sum Nodes Filtered by Edges")
     void sumNodesFilteredByEdges() throws Exception {
         var query = "" +
-                "| Book  | price* | uses              | likes* |\n" +
+                "| Book  | price* | uses              | likes  |\n" +
                 "|-------+--------+-------------------+--------|\n" +
                 "| QUERY | SUM _  | QUERY Course.Book | > 10   |\n";
         ResultGraph resultGraph = execute(query);
-        assertEquals(60.0, resultGraph.get("Book").addProperty("price"));
+        assertEquals(60.0, resultGraph.get("Book").getProperty("price"));
     }
 }

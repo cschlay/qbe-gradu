@@ -57,4 +57,6 @@ class WritePathTest extends WriterBaseTest {
                 "| false        | 1                | \"Algorithms\" | \"Graph Theory\" |\n";
         assertEquals(expected, execute(query, result));
     }
+
+    // TODO: multipath situation
 }

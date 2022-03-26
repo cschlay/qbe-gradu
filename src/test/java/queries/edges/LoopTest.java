@@ -55,9 +55,9 @@ class LoopTest extends QueryBaseStaticTest {
         @Test
         void asQbeTable() throws Exception {
             var query = "" +
-                    "| reviews         | id* | Book  | new* |\n" +
-                    "|-----------------+-----+-------+------|\n" +
-                    "| QUERY Book.Book |     | QUERY |      |\n";
+                    "| reviews         | reviews.id* | Book  | Book.id* | new* |\n" +
+                    "|-----------------+-------------+-------+----------+------|\n" +
+                    "| QUERY Book.Book |             | QUERY |          |      |\n";
             assertResult(execute(query));
         }
 
@@ -100,8 +100,8 @@ class LoopTest extends QueryBaseStaticTest {
         void asQueryGraph() throws Exception {
             var queryGraph = new QueryGraph();
             var queryEdge = new QbeEdge("reviews");
-            queryEdge.tailNode = new QbeNode("Book:1");;
-            queryEdge.headNode = new QbeNode("Book:2");;
+            queryEdge.tailNode = new QbeNode("Book:1");
+            queryEdge.headNode = new QbeNode("Book:2");
             queryGraph.put(queryEdge);
             assertResult(execute(queryGraph));
         }

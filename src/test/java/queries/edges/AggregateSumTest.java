@@ -46,7 +46,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
         queryEdge.properties.put("likes", new QbeData(null));
         queryGraph.put(queryEdge);
 
-        assertEquals(30, execute(queryGraph).get("uses").addProperty("likes"));
+        assertEquals(30, execute(queryGraph).get("uses").getProperty("likes"));
     }
 
     @Test
@@ -56,7 +56,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| uses              | likes* |\n" +
                 "|-------------------+--------|\n" +
                 "| QUERY Course.Book | SUM _  |\n";
-        assertEquals(30, execute(query).get("uses").addProperty("likes"));
+        assertEquals(30, execute(query).get("uses").getProperty("likes"));
     }
 
     @Test
@@ -66,7 +66,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| uses              | likes* | expired* |\n" +
                 "|-------------------+--------+----------|\n" +
                 "| QUERY Course.Book | SUM _  | false    |\n";
-        assertEquals(10, execute(query).get("uses").addProperty("likes"));
+        assertEquals(10, execute(query).get("uses").getProperty("likes"));
     }
 
     // Extra: Group and Sum by Property

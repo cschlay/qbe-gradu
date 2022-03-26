@@ -52,7 +52,7 @@ class TabularEdgeParserTest {
         var header = new TabularHeader("writes.hours");
         QbeEdge edge = parser.parseProperty(header, "500");
         assertEquals("writes", edge.name);
-        assertEquals(500, edge.addProperty("hours"));
+        assertEquals(500, edge.getProperty("hours"));
     }
 
     @Test
@@ -63,7 +63,7 @@ class TabularEdgeParserTest {
         QbeEdge edge0 = parser.parseEntity(new TabularHeader("writes"), "QUERY Author.Story");
         QbeEdge edge = parser.parseProperty(new TabularHeader("writes.hours"), "500");
         assertEquals(edge0, edge);
-        assertEquals(500, edge0.addProperty("hours"));
+        assertEquals(500, edge0.getProperty("hours"));
     }
 
     @Test
@@ -71,7 +71,7 @@ class TabularEdgeParserTest {
         TabularEdgeParser parser = setup();
         var header = new TabularHeader("teaches.id");
         QbeEdge edge = parser.parseProperty(header, "1");
-        assertEquals(1, edge.addProperty("id"));
+        assertEquals(1, edge.getProperty("id"));
         assertEquals("1", edge.id);
     }
 

@@ -36,7 +36,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
         queryNode.aggregationProperty = "price";
         queryNode.properties.put("price", new QbeData(null));
         queryGraph.put(queryNode);
-        assertEquals(65.0, execute(queryGraph).get("Book").addProperty("price"));
+        assertEquals(65.0, execute(queryGraph).get("Book").getProperty("price"));
     }
 
     @Test
@@ -45,7 +45,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| Book  | price* |\n" +
                 "|-------+--------|\n" +
                 "| QUERY | SUM _  |\n";
-        assertEquals(65.0, execute(query).get("Book").addProperty("price"));
+        assertEquals(65.0, execute(query).get("Book").getProperty("price"));
     }
 
     @Test
@@ -54,7 +54,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
                 "| Book  | year* | price* |\n" +
                 "|-------+-------+--------|\n" +
                 "| QUERY | 1990  | SUM _  |\n";
-        assertEquals(5.00, execute(query).get("Book").addProperty("price"));
+        assertEquals(5.00, execute(query).get("Book").getProperty("price"));
     }
 
     // Extra: Group and Sum by Property

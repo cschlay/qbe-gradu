@@ -56,7 +56,7 @@ public abstract class GraphEntity {
      *
      * @return the value of property
      */
-    public @Nullable Object addProperty(String property) {
+    public @Nullable Object getProperty(String property) {
         @Nullable QbeData data = properties.get(property);
         return data != null ? data.value : null;
     }

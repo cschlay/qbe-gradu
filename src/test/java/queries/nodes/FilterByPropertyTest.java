@@ -62,21 +62,21 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
     @ArgumentsSource(PropertyProvider.class)
     void fixedValues(PropertyArg arg) throws Exception {
         queryNode.properties.put(arg.property, new QbeData(arg.value));
-        eachNode(execute(queryGraph), (tx, node) -> assertEquals(arg.value, node.addProperty(arg.property)));
+        eachNode(execute(queryGraph), (tx, node) -> assertEquals(arg.value, node.getProperty(arg.property)));
 
         var query = "" +
                 "| Book  | %s* |\n" +
                 "|-------+----|\n" +
                 "| QUERY | %s |\n";
         Object value = arg.value instanceof String ? String.format("\"%s\"", arg.value): arg.value;
-        eachNode(execute(query, arg.property, value), (tx, node) -> assertEquals(arg.value, node.addProperty(arg.property)));
+        eachNode(execute(query, arg.property, value), (tx, node) -> assertEquals(arg.value, node.getProperty(arg.property)));
     }
 
     @Test
     void logicalExpression() throws Exception {
         queryNode.properties.put("price", new QbeData(new LogicalExpression("< 50.0")));
         eachNode(execute(queryGraph), ((tx, node) -> {
-            Object property = node.addProperty("price");
+            Object property = node.getProperty("price");
             assert property != null;
             assertTrue((double) property < 50.0);
         }));
@@ -86,7 +86,7 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
                 "|-------+--------|\n" +
                 "| QUERY | < 50.0 |\n";
         eachNode(execute(query), ((tx, node) -> {
-            Object property = node.addProperty("price");
+            Object property = node.getProperty("price");
             assert property != null;
             assertTrue((double) property < 50.0);
         }));
@@ -95,13 +95,13 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
     @Test
     void regularExpression() throws Exception {
         queryNode.properties.put("title", new QbeData("/Alg.*/"));
-        eachNode(execute(queryGraph), ((tx, node) -> assertEquals(node.addProperty("title"), "Algebra")));
+        eachNode(execute(queryGraph), ((tx, node) -> assertEquals(node.getProperty("title"), "Algebra")));
 
         var query = "" +
                 "| Book  | title*  |\n" +
                 "|-------+---------|\n" +
                 "| QUERY | /Alg.*/ |\n";
-        eachNode(execute(query), ((tx, node) -> assertEquals(node.addProperty("title"), "Algebra")));
+        eachNode(execute(query), ((tx, node) -> assertEquals(node.getProperty("title"), "Algebra")));
     }
 }
 
