@@ -31,6 +31,7 @@ public class QueryExecutor {
             ResultGraph result = traversal.executeQueryGraph(queryGraph);
             resultGraph = resultGraph.union(result);
         }
+        System.out.println(resultWriter.write(Utils.first(queryGraphs), resultGraph));
         return resultGraph;
     }
 

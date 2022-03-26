@@ -60,6 +60,7 @@ public class CommandLine {
                     return multilineInput.toString();
                 } else {
                     multilineInput.append(line);
+                    multilineInput.append("\n");
                 }
             } else if (QUERY.equals(line)) {
                 print("Enter your query:\n");

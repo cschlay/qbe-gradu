@@ -19,6 +19,7 @@ public class TabularParser implements QueryParser {
     public QueryGraph[] parse(String query) throws SyntaxError {
         String[] rows = query.split("\n");
         if (rows.length < 3) {
+            System.out.println(query);
             throw new SyntaxError("Query must include header and at least one example row.");
         }
 
