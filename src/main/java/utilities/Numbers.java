@@ -28,5 +28,5 @@ public class Numbers {
         throw new IllegalArgumentException(String.format("Cannot perform addition %s + %s", a, b));
     }
 
-    // TODO: Implement other arithmetic operators.
+    // Note: Other arithmetics operations can be implemented if needed.
 }
