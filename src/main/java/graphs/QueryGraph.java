@@ -19,12 +19,13 @@ public class QueryGraph extends Graph  {
     }
 
     public void put(QbeEdge edge) {
+        String edgeKey = getEdgeNameKey(edge);
         if (edge.headNode != null) {
-            edge.headNode.edges.put(edge.name, edge);
+            edge.headNode.edges.put(edgeKey, edge);
             put(edge.headNode.name, edge.headNode);
         }
         if (edge.tailNode != null) {
-            edge.tailNode.edges.put(edge.name, edge);
+            edge.tailNode.edges.put(edgeKey, edge);
             put(edge.tailNode.name, edge.tailNode);
         }
     }
@@ -48,5 +49,22 @@ public class QueryGraph extends Graph  {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), meta);
+    }
+
+    // There is conflict with using edge.name as key, so it must be replaced with verbose name
+    // name_Node.Node
+    private String getEdgeNameKey(QbeEdge edge) {
+        var key = new StringBuilder(edge.name);
+        key.append("-");
+
+        if (edge.tailNode != null) {
+            key.append(edge.tailNode.name);
+        }
+        key.append(".");
+        if (edge.headNode != null) {
+            key.append(edge.headNode.name);
+        }
+
+        return key.toString();
     }
 }

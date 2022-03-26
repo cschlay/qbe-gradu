@@ -35,10 +35,10 @@ class SameNameTest extends QueryBaseStaticTest {
     }
 
     @Test
-    @DisplayName("[Table] Distinguish by Index")
+    @DisplayName("[Table] Distinguish by node names")
     void bothEdges() throws Exception {
         var query = "" +
-                "| uses:1            | uses:2             | Book  | id* |\n" +
+                "| uses              | uses               | Book  | id* |\n" +
                 "|-------------------+--------------------+-------+-----|\n" +
                 "| QUERY Course.Book | QUERY Student.Book | QUERY |     |\n";
 
