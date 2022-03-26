@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import enums.QueryType;
 import graphs.LogicalExpression;

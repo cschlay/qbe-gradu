@@ -40,7 +40,7 @@ class SameNameTest extends QueryBaseStaticTest {
         var query = "" +
                 "| uses:1            | uses:2             | Book  | id* |\n" +
                 "|-------------------+--------------------+-------+-----|\n" +
-                "| QUERY Course.Book | QUERY Student.Book | QUERY |     |";
+                "| QUERY Course.Book | QUERY Student.Book | QUERY |     |\n";
 
         ResultGraph resultGraph = execute(query);
         assertTrue(resultGraph.containsKey(idA));

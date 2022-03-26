@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class TabularParser implements QueryParser {
     /**
-     * Parse the query from string to QueryGraph.
-
+     * Parse the query from string to QueryGraphs, there can be multiple ones.
+     *
      * @param query as defined in the thesis
      * @return query graphs, could have multiple if more than one row is specified
      */
-    public QueryGraph parse(String query) throws SyntaxError {
+    public QueryGraph[] parse(String query) throws SyntaxError {
         String[] rows = query.split("\n");
         if (rows.length < 3) {
             throw new SyntaxError("Query must include header and at least one example row.");
@@ -24,7 +24,12 @@ public class TabularParser implements QueryParser {
 
         String[] headers = splitRow(rows[0]);
         var queryMeta = new TabularQueryMeta(headers);
-        return parseRow(queryMeta, rows[2]);
+
+        var queryGraphs = new QueryGraph[rows.length - 2];
+        for (int i = 0; i < rows.length - 2; i++) {
+            queryGraphs[i] = parseRow(queryMeta, rows[i+2]);
+        }
+        return queryGraphs;
     }
 
     public QueryGraph parseRow(TabularQueryMeta meta, String exampleRow) throws SyntaxError {

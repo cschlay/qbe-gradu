@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import enums.QueryType;
 import org.junit.jupiter.api.Disabled;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularParser;
+import utilities.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +23,7 @@ class TabularParserTest {
                     "| Song  | id |\n" +
                     "|-------+----|\n" +
                     "| QUERY | 2  |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var node = graph.get("Song");
 
             assertEquals(2, node.addProperty("id"));
@@ -35,7 +36,7 @@ class TabularParserTest {
                     "| Song  | length  |\n" +
                     "|-------+---------|\n" +
                     "| QUERY | >= 20.3 |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var node = graph.get("Song");
 
             assertEquals(QueryType.QUERY, node.type);
@@ -48,7 +49,7 @@ class TabularParserTest {
                     "| Song   | title    |\n" +
                     "|--------+----------|\n" +
                     "| DELETE | \"Coin\" |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var node = graph.get("Song");
 
             assertEquals(QueryType.DELETE, node.type);
@@ -61,7 +62,7 @@ class TabularParserTest {
                     "| Song   | title               | length |\n" +
                     "|--------+---------------------+--------|\n" +
                     "| INSERT | \"How to Solve It\" | 20.3   |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var node = graph.get("Song");
 
             assertEquals(QueryType.INSERT, node.type);
@@ -76,7 +77,7 @@ class TabularParserTest {
                     "| Song   | price       |\n" +
                     "|--------+-------------|\n" +
                     "| UPDATE | UPDATE 0.99 |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var node = graph.get("Song");
 
             assertEquals(QueryType.UPDATE, node.type);
@@ -96,7 +97,7 @@ class TabularParserTest {
                     "| composed          | id |\n" +
                     "|-------------------+----|\n" +
                     "| QUERY Artist.Song | 9  |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var song = graph.get("Song");
             var songComposed = song.edges.get("composed");
 
@@ -115,7 +116,7 @@ class TabularParserTest {
                     "| composed          | hours  |\n" +
                     "|-------------------+--------|\n" +
                     "| QUERY Artist.Song | >= 80  |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.QUERY, edge.type);
             assertNotNull(edge.addProperty("hours"));
@@ -128,7 +129,7 @@ class TabularParserTest {
                     "| composed           | active |\n" +
                     "|--------------------+--------|\n" +
                     "| DELETE Artist.Song | false  |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var edge = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.DELETE, edge.type);
             assertEquals(false, edge.addProperty("active"));
@@ -141,7 +142,7 @@ class TabularParserTest {
                     "| Artist | Artist.id | Song  | Song.id | composed           | composed.active |\n" +
                     "|--------+-----------+-------+---------+--------------------+-----------------|\n" +
                     "| QUERY  | 1         | QUERY | 2       | INSERT Artist.Song | true            |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var artist = graph.get("Artist");
             assertEquals(QueryType.QUERY, artist.type);
             var song = graph.get("Song");
@@ -160,7 +161,7 @@ class TabularParserTest {
                     "| composed           | hours      |\n" +
                     "|--------------------+------------|\n" +
                     "| UPDATE Artist.Song | UPDATE 124 |\n";
-            var graph = parser.parse(query);
+            var graph = Utils.first(parser.parse(query));
             var composed = graph.getEdge("Artist", "composed");
             assertEquals(QueryType.UPDATE, composed.type);
 
@@ -179,7 +180,7 @@ class TabularParserTest {
                 "| Book  | uses              | Book.title | uses.edition |\n" +
                 "|-------+-------------------+---------------------------|\n" +
                 "| QUERY | QUERY Course.Book | \"Logic\"  | 3            |\n";
-        var graph = parser.parse(query);
+        var graph = Utils.first(parser.parse(query));
 
         var book = graph.get("Book");
         var bookUses = book.edges.get("uses");
@@ -189,7 +190,8 @@ class TabularParserTest {
         var course = graph.get("Course");
         var courseUses = course.edges.get("uses");
         assertEquals(3, courseUses.addProperty("edition"));
-
         assertEquals(bookUses, courseUses);
     }
+
+    // TODO: MUltiline parse
 }

@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import exceptions.SyntaxError;
 import graphs.QbeEdge;

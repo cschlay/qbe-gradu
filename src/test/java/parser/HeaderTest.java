@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import graphs.QbeNode;
 import org.jetbrains.annotations.Nullable;

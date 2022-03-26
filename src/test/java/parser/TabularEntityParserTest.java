@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import graphs.QbeEdge;
 import graphs.QbeNode;

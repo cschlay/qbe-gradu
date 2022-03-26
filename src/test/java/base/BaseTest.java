@@ -1,6 +1,5 @@
 package base;
 
-import cli.Main;
 import cli.QueryExecutor;
 import db.neo4j.Neo4jTraversal;
 import graphs.*;

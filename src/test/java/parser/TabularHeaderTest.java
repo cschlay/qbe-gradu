@@ -1,4 +1,4 @@
-package tabular.parser;
+package parser;
 
 import exceptions.SyntaxError;
 import org.junit.jupiter.api.DisplayName;
@@ -13,21 +13,21 @@ class TabularHeaderTest {
     @Nested
     class UnknownNameTest {
         @Test
-        void simpleName() throws SyntaxError {
+        void simpleName() {
             var header = new TabularHeader("Book");
             assertEquals("Book", header.name);
             assertEquals("Book", header.displayName);
         }
 
         @Test
-        void withDisplayName() throws SyntaxError {
+        void withDisplayName() {
             var header = new TabularHeader("contains AS includes");
             assertEquals("contains", header.name);
             assertEquals("includes", header.displayName);
         }
 
         @Test
-        void withSelect() throws SyntaxError {
+        void withSelect() {
             var header = new TabularHeader("price*");
             assertEquals("price", header.name);
             assertEquals("price", header.displayName);
@@ -35,7 +35,7 @@ class TabularHeaderTest {
         }
 
         @Test
-        void withDisplayNameAndSelect() throws SyntaxError {
+        void withDisplayNameAndSelect() {
             var header = new TabularHeader("price AS cost*");
             assertEquals("price", header.name);
             assertEquals("cost", header.displayName);

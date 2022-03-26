@@ -42,9 +42,9 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         for (QbeNode nodeB : graph.values()) {
             @Nullable QbeNode nodeA = get(nodeB.id);
             if (nodeA != null) {
-                put(nodeA.id, nodeA.merge(nodeB));
+                put(getHashTableKey(nodeA), nodeA.merge(nodeB));
             } else {
-                put(nodeB.id, nodeB);
+                put(getHashTableKey(nodeB), nodeB);
             }
         }
 
@@ -70,5 +70,12 @@ public abstract class Graph extends HashMap<String, QbeNode> {
             ret.line("%s", node.getValue().toString());
         }
         return ret.toString();
+    }
+
+    protected String getHashTableKey(GraphEntity entity) {
+        if (entity.id != null) {
+            return entity.id;
+        }
+        return entity.name;
     }
 }

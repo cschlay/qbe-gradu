@@ -7,6 +7,7 @@ import db.neo4j.Neo4jTraversal;
 import interfaces.QueryParser;
 import interfaces.ResultWriter;
 import org.jetbrains.annotations.NotNull;
+import utilities.Utils;
 
 /**
  * Handles the query parse and execution.
@@ -23,21 +24,31 @@ public class QueryExecutor {
     }
 
     public ResultGraph execute(@NotNull String query) throws QbeException {
-        QueryGraph queryGraph = queryParser.parse(query);
-        ResultGraph resultGraph = traversal.executeQueryGraph(queryGraph);
-        resultWriter.write(queryGraph, resultGraph);
+        QueryGraph[] queryGraphs = queryParser.parse(query);
+
+        ResultGraph resultGraph = new ResultGraph();
+        for (var queryGraph : queryGraphs) {
+            ResultGraph result = traversal.executeQueryGraph(queryGraph);
+            resultGraph = resultGraph.union(result);
+        }
         return resultGraph;
     }
 
     public ResultGraph executeVerbose(@NotNull String query) throws QbeException {
-        QueryGraph queryGraph = queryParser.parse(query);
-        System.out.printf("QueryGraph:%n%s%n", queryGraph);
+        QueryGraph[] queryGraphs = queryParser.parse(query);
 
-        ResultGraph resultGraph = traversal.executeQueryGraph(queryGraph);
-        System.out.printf("ResultGraph:%n%s%n", resultGraph);
-        System.out.printf("== Query ==%n%s%n", query);
-        System.out.printf("== Result==%n%s%n", resultWriter.write(queryGraph, resultGraph));
+        ResultGraph resultGraph = new ResultGraph();
+        for (int i = 0; i < queryGraphs.length; i++) {
+            QueryGraph queryGraph = queryGraphs[i];
+            System.out.printf("QueryGraph %s:%n%s%n", i, queryGraph);
 
+            ResultGraph result = traversal.executeQueryGraph(queryGraph);
+            resultGraph = resultGraph.union(result);
+            System.out.printf("ResultGraph %s:%n%s%n", i, resultGraph);
+            System.out.printf("== Query ==%n%s%n", query);
+        }
+
+        System.out.printf("== Result==%n%s%n", resultWriter.write(Utils.first(queryGraphs), resultGraph));
         return resultGraph;
     }
 }
