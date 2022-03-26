@@ -75,26 +75,19 @@ public class QuerySession {
     private void printDatabaseDetails() {
         try (var tx = db.beginTx()){
             cli.println("Node {");
-            tx.getAllNodes().forEach(node -> {
-                cli.print("\t %s: ", node.getId());
-                node.getLabels().forEach(label -> cli.print(label.name()));
-                cli.print("( ");
-                node.getAllProperties().forEach((key, property) -> cli.print("%s: %s, ", key, property));
-                cli.println(")");
-            });
+            tx.getAllNodes().forEach(node -> cli.print("\t%s(%s) %s%n", node.getLabels().iterator().next(), node.getId(), node.getAllProperties()));
             cli.println("}");
 
             cli.println("Edges {");
             tx.getAllRelationships().forEach(relationship -> {
                 cli.print(
-                        "\t %s: %s --> %s %s( ",
+                        "\t%s(%s): %s --> %s %s%n",
+                        relationship.getType(),
                         relationship.getId(),
                         relationship.getStartNodeId(),
                         relationship.getEndNodeId(),
-                        relationship.getType()
+                        relationship.getAllProperties()
                 );
-                relationship.getAllProperties().forEach((key, property) -> cli.print("%s: %s, ", key, property));
-                cli.println(")");
             });
             cli.print("}");
         }

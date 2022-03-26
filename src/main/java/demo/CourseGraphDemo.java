@@ -4,6 +4,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.RelationshipType;
 
+// TODO: Finish the example graph!
 /**
  * Seeds the database with demo data. Remember to flush before seeding.
  */
