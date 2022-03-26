@@ -25,6 +25,28 @@ public class QbeNode extends GraphEntity {
         return name != null && otherNode != null && name.equals(otherNode.name);
     }
 
+    /**
+     * Merges the node properties and edges to current instance.
+     *
+     * @param nodeB to merge
+     * @return merged instance
+     */
+    public QbeNode merge(QbeNode nodeB) {
+        super.mergeProperties(nodeB);
+
+        for (QbeEdge edgeB : nodeB.edges.values()) {
+            @Nullable QbeEdge edgeA = edges.get(edgeB.id);
+            if (edgeA != null) {
+                edges.put(edgeA.id, edgeA.merge(edgeB));
+            } else {
+                edges.put(edgeB.id, edgeB);
+                // WARNING: The tail or head node might not exist, so it works only if merge is used with graph merge.
+            }
+        }
+
+        return this;
+    }
+
     @Override public String toString() {
         return toString(0);
     }

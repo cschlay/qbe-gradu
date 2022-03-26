@@ -85,9 +85,9 @@ class AggregateSumTest extends QueryBaseStaticTest {
     @DisplayName("[Table] Sum Nodes Filtered by Edges")
     void sumNodesFilteredByEdges() throws Exception {
         var query = "" +
-                "| Book   | id* | price* | uses              | likes* |\n" +
-                "|--------+-----+--------|-------------------+--------|\n" +
-                "| QUERY  |     | SUM _  | QUERY Course.Book | > 10   |\n";
+                "| Course   | id* | Book  | price* | uses              | likes* |\n" +
+                "|----------+-----+-------|-------------------+--------|\n" +
+                "| QUERY    |     | QUERY | SUM _  | QUERY Course.Book | > 10   |\n";
         ResultGraph resultGraph = execute(query);
         assertEquals(60.0, resultGraph.get("Book").addProperty("price"));
     }

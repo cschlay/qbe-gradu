@@ -47,6 +47,7 @@ class AggregateCountTest extends QueryBaseStaticTest {
                 "|------------------|\n" +
                 "| COUNT Book.Topic |\n";
         assertEquals(2, execute(query).get("contains").addProperty("_agg-count"));
+        // TODO: The column name is incorrect!
     }
 
     @Test

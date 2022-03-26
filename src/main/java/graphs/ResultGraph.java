@@ -40,6 +40,10 @@ public class ResultGraph extends Graph {
         }
     }
 
+    public ResultGraph union(ResultGraph graph) {
+        return (ResultGraph) super.union(graph);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

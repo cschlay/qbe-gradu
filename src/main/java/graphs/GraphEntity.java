@@ -92,6 +92,17 @@ public abstract class GraphEntity {
         return name + "(" + properties + ")";
     }
 
+    /**
+     * Merges the properties from other entity.
+     * It will replace conflicting ones with latter.
+     * Can be modified to removed deleted properties.
+     *
+     * @param entity to merge properties from
+     */
+    protected void mergeProperties(GraphEntity entity) {
+        properties.putAll(entity.properties);
+    }
+
     private String constructName(@Nullable String name) {
         return name == null ? "" : name;
     }

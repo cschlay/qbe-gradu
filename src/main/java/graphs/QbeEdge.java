@@ -13,15 +13,17 @@ public class QbeEdge extends GraphEntity {
     /** The node where edge ends: (x) --> (head) */
     @Nullable public QbeNode headNode;
 
-    public boolean isHidden;
-    public boolean isTransitive;
-
     public QbeEdge(@Nullable String name) {
         super(name);
     }
 
     public QbeEdge(long id, @Nullable String name) {
         super(id, name);
+    }
+
+    public QbeEdge merge(QbeEdge edgeB) {
+        super.mergeProperties(edgeB);
+        return this;
     }
 
     @Override

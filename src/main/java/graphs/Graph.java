@@ -32,6 +32,26 @@ public abstract class Graph extends HashMap<String, QbeNode> {
         throw new EntityNotFound("Node '%s' doesn't have edge '%s'.", nodeKey, edgeKey);
     }
 
+    /**
+     * Applies graph union to the graph. The conflicts are resolved by using the latter values.
+     *
+     * @param graph to merge with
+     * @return the completely merged graph
+     */
+    protected Graph union(Graph graph) {
+        for (QbeNode nodeB : graph.values()) {
+            @Nullable QbeNode nodeA = get(nodeB.id);
+            if (nodeA != null) {
+                put(nodeA.id, nodeA.merge(nodeB));
+            } else {
+                put(nodeB.id, nodeB);
+            }
+        }
+
+        // The edges should be implicitly linked when merging nodes.
+        return this;
+    }
+
     // Functions below are not part of the implementation
     @Override
     public boolean equals(Object graph) {
