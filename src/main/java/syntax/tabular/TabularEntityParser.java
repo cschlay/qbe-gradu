@@ -11,6 +11,7 @@ public class TabularEntityParser {
     public void parseCountAggregation(TabularHeader header, GraphEntity entity, String[] tokens)  {
         header.name = "_agg-count";
         header.selected = true;
+
         header.displayName = String.format("%s.count", entity.name);
         header.entityName = entity.name;
 
@@ -20,13 +21,13 @@ public class TabularEntityParser {
                 entity.aggregationGroup = tokens[3];
                 header.entityName = entity.aggregationGroup;
             }
-            if (tokens.length == 6) {
+            if (tokens.length == 6 && TabularTokens.ALIAS.equals(tokens[4])) {
                 // ["COUNT", "Node", "Node", "AggregationGroup", "AS", "alias"]
                 header.displayName = tokens[5];
             }
         }
 
-        if (tokens.length == 3) {
+        if (tokens.length == 3 && TabularTokens.ALIAS.equals(tokens[1])) {
             // ["COUNT", "AS", "alias"]
             header.displayName = tokens[tokens.length - 1];
         }

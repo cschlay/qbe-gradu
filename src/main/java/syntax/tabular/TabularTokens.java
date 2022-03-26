@@ -16,6 +16,7 @@ public class TabularTokens {
     public static final String LESS_THAN = "<";
     public static final String LESS_THAN_OR_EQUAL = "<=";
 
+    public static final String ALIAS = "AS";
     public static final String NO_NAME = "_";
     public static final String COUNT = "COUNT";
     public static final String SUM = "SUM";

@@ -1,11 +1,13 @@
 package parser;
 
 import enums.QueryType;
-import org.junit.jupiter.api.Disabled;
+import exceptions.SyntaxError;
+import graphs.QueryGraph;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import syntax.tabular.TabularParser;
+import syntax.tabular.TabularQueryMeta;
 import utilities.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -68,23 +70,6 @@ class TabularParserTest {
             assertEquals(QueryType.INSERT, node.type);
             assertEquals("How to Solve It", node.addProperty("title"));
             assertEquals(20.3, node.addProperty("length"));
-        }
-
-        @Test
-        @Disabled
-        void parseUpdate() throws Exception {
-            var query = "" +
-                    "| Song   | price       |\n" +
-                    "|--------+-------------|\n" +
-                    "| UPDATE | UPDATE 0.99 |\n";
-            var graph = Utils.first(parser.parse(query));
-            var node = graph.get("Song");
-
-            assertEquals(QueryType.UPDATE, node.type);
-
-            var price = node.properties.get("price");
-            assertNull(price.value);
-            assertEquals(0.99, price.update);
         }
     }
 
@@ -152,27 +137,8 @@ class TabularParserTest {
             assertEquals(QueryType.INSERT, edge.type);
             assertEquals(true, edge.addProperty("active"));
         }
-
-        @Test
-        @Disabled
-        void parseUpdate() throws Exception {
-            // Update artist hours spent
-            var query = "" +
-                    "| composed           | hours      |\n" +
-                    "|--------------------+------------|\n" +
-                    "| UPDATE Artist.Song | UPDATE 124 |\n";
-            var graph = Utils.first(parser.parse(query));
-            var composed = graph.getEdge("Artist", "composed");
-            assertEquals(QueryType.UPDATE, composed.type);
-
-            var hours = composed.properties.get("hours");
-            assertNull(hours.value);
-            System.out.println(hours.update instanceof Integer);
-            assertEquals(124, hours.update);
-        }
     }
 
-    // TODO: Add aggregations
     @Test
     @DisplayName("should parse a node and an edge")
     void parseNodeAndEdge() throws Exception {
@@ -192,6 +158,4 @@ class TabularParserTest {
         assertEquals(3, courseUses.addProperty("edition"));
         assertEquals(bookUses, courseUses);
     }
-
-    // TODO: MUltiline parse
 }
