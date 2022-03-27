@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 /** Session for taking user input from CLI interface. */
 public class QuerySession {
@@ -49,8 +50,10 @@ public class QuerySession {
                 printDatabaseDetails();
                 break;
             case CommandLine.SEED_DATABASE:
-                CourseGraphDemo.seedEducationData(this.db);
+                CourseGraphDemo.seed(this.db);
                 printDatabaseDetails();
+                break;
+            case "":
                 break;
             default:
                 // Defaults to executing query
@@ -65,7 +68,7 @@ public class QuerySession {
 
     private void resetDatabase() {
         cli.println("Resetting database...");
-        try (var tx = db.beginTx()) {
+        try (Transaction tx = db.beginTx()) {
             tx.getAllNodes().forEach(Node::delete);
             tx.getAllRelationships().forEach(Relationship::delete);
             tx.commit();
@@ -73,22 +76,23 @@ public class QuerySession {
     }
 
     private void printDatabaseDetails() {
-        try (var tx = db.beginTx()){
+        try (Transaction tx = db.beginTx()){
             cli.println("Node {");
-            tx.getAllNodes().forEach(node -> cli.print("\t%s(%s) %s%n", node.getLabels().iterator().next(), node.getId(), node.getAllProperties()));
+            tx.getAllNodes().forEach(node -> cli.print("\t%s(%s) %s%n",
+                node.getLabels().iterator().next(),
+                node.getId(),
+                node.getAllProperties()
+            ));
             cli.println("}");
 
             cli.println("Edges {");
-            tx.getAllRelationships().forEach(relationship -> {
-                cli.print(
-                        "\t%s(%s): %s --> %s %s%n",
-                        relationship.getType(),
-                        relationship.getId(),
-                        relationship.getStartNodeId(),
-                        relationship.getEndNodeId(),
-                        relationship.getAllProperties()
-                );
-            });
+            tx.getAllRelationships().forEach(relationship -> cli.print("\t%s(%s): %s --> %s %s%n",
+                relationship.getType(),
+                relationship.getId(),
+                relationship.getStartNodeId(),
+                relationship.getEndNodeId(),
+                relationship.getAllProperties()
+            ));
             cli.print("}");
         }
     }

@@ -1,69 +1,74 @@
 package demo;
 
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
-import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.*;
 
-// TODO: Finish the example graph!
 /**
  * Seeds the database with demo data. Remember to flush before seeding.
  */
 public class CourseGraphDemo {
-    public static class Labels {
-        public static Label Course = Label.label("Course");
-        public static Label Assistant = Label.label("Assistant");
-        public static Label Lecturer = Label.label("Lecturer");
-        public static Label Topic = Label.label("Topic");
-    }
+    private CourseGraphDemo() {}
 
-    public static class Relations {
-        public static RelationshipType contains = RelationshipType.withName("contains");
-        public static RelationshipType teaches = RelationshipType.withName("teaches");
-    }
+    public static void seed(GraphDatabaseService db) {
+        try (Transaction tx = db.beginTx()) {
+            Node courseGT = nodeCourse(tx, "Introduction to Graph Theory");
+            Node courseMCS = nodeCourse(tx, "Mathematics for Computer Science");
+            Node bookMCS = nodeBook(tx, "Mathematics for Computer Science", 2010, 5.00);
+            Node bookRA = nodeBook(tx, "Randomized Algorithms", 1989, 60.00);
+            Node topicGT = nodeTopic(tx, "Graph Theory", 2);
+            Node topicP = nodeTopic(tx, "Probability", 4);
 
-    /**
-     * Fictional educational data based on my experiences in Tampere University.
-     */
-    public static void seedEducationData(GraphDatabaseService db) {
-        try (var tx = db.beginTx()) {
-            var topicDijkstraAlgorithm = tx.createNode(Labels.Topic);
-            topicDijkstraAlgorithm.setProperty("title", "Dijkstra's Algorithm");
-
-            var topicFirstOrderLogic = tx.createNode(Labels.Topic);
-            topicFirstOrderLogic.setProperty("title", "First-Order Logic");
-
-            var courseAlgorithms = tx.createNode(Labels.Course);
-            courseAlgorithms.setProperty("title", "Introduction to Algorithms");
-            courseAlgorithms.setProperty("difficulty", 4);
-            courseAlgorithms.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
-
-            var courseLogic = tx.createNode(Labels.Course);
-            courseLogic.setProperty("title", "Introduction to Logic");
-            courseLogic.setProperty("difficulty", 2);
-            courseLogic.createRelationshipTo(topicFirstOrderLogic, Relations.contains);
-
-            var courseGraphTheory = tx.createNode(Labels.Course);
-            courseGraphTheory.setProperty("title", "Graph Theory");
-            courseGraphTheory.setProperty("difficulty", 3);
-            courseGraphTheory.createRelationshipTo(topicDijkstraAlgorithm, Relations.contains);
-
-            var lecturerCarol = tx.createNode(Labels.Lecturer);
-            lecturerCarol.setProperty("name", "Carol");
-            lecturerCarol.setProperty("title", "Professor");
-            lecturerCarol.createRelationshipTo(courseLogic, Relations.teaches);
-
-            var assistantAlice = tx.createNode(Labels.Assistant);
-            assistantAlice.setProperty("name", "Alice");
-            var aliceTeachesLogic = assistantAlice.createRelationshipTo(courseLogic, Relations.teaches);
-            aliceTeachesLogic.setProperty("monday", true);
-            aliceTeachesLogic.setProperty("tuesday", false);
-
-            var assistantBob = tx.createNode(Labels.Assistant);
-            assistantBob.setProperty("name", "Bob");
-            var bobTeachesLogic = assistantBob.createRelationshipTo(courseLogic, Relations.teaches);
-            bobTeachesLogic.setProperty("monday", false);
-            bobTeachesLogic.setProperty("tuesday", true);
+            edgeCourseContainsBook(courseGT, topicGT);
+            edgeCourseRecommendsCourse(courseMCS, courseMCS, "Winter II");
+            edgeCourseRecommendsCourse(courseMCS, courseGT, "Fall I");
+            edgeCourseUsesBook(courseMCS, bookMCS, false);
+            edgeCourseUsesBook(courseMCS, bookRA, true);
+            bookMCS.createRelationshipTo(courseMCS, RelationshipType.withName("written for"));
+            edgeCourseContainsTopic(bookMCS, topicGT, false);
+            edgeCourseContainsTopic(bookMCS, topicP, true);
+            edgeCourseContainsTopic(bookRA, topicP, true);
             tx.commit();
         }
+    }
+
+    private static Node nodeBook(Transaction tx, String title, int year, double price) {
+        Node book = tx.createNode(Label.label("Book"));
+        book.setProperty("title", title);
+        book.setProperty("year", year);
+        book.setProperty("price", price);
+        return book;
+    }
+
+    private static Node nodeCourse(Transaction tx, String name) {
+        Node course = tx.createNode(Label.label("Course"));
+        course.setProperty("name", name);
+        return course;
+    }
+
+    private static Node nodeTopic(Transaction tx, String name, int level) {
+        Node topic = tx.createNode(Label.label("Topic"));
+        topic.setProperty("name", name);
+        topic.setProperty("level", level);
+        return topic;
+    }
+
+    private static void edgeCourseContainsBook(Node tail, Node head) {
+        Relationship edge = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
+        edge.setProperty("difficulty", "easy");
+        edge.setProperty("primary", true);
+    }
+
+    private static void edgeCourseContainsTopic(Node tail, Node head, boolean theory) {
+        Relationship edge = tail.createRelationshipTo(head, RelationshipType.withName("contains"));
+        edge.setProperty("theory", theory);
+    }
+
+    private static void edgeCourseRecommendsCourse(Node tail, Node head, String period) {
+        Relationship edge = tail.createRelationshipTo(head, RelationshipType.withName("recommends"));
+        edge.setProperty("period", period);
+    }
+
+    private static void edgeCourseUsesBook(Node tail, Node head, boolean supplemental) {
+        Relationship edge = tail.createRelationshipTo(head, RelationshipType.withName("uses"));
+        edge.setProperty("supplemental", supplemental);
     }
 }
