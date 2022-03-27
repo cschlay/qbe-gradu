@@ -55,9 +55,15 @@ class TabularDataParserTest {
     }
 
     @Test
-    @DisplayName("should parse empty values to null")
+    @DisplayName("should parse empty values to empty string")
     void parseEmpty() {
-        assertNull(parser.parse("").value);
+        assertEquals("", parser.parse("").value);
+    }
+
+    @Test
+    @DisplayName("should parse 'NULL' and 'null' to null")
+    void parseNull() {
+        assertNull(parser.parse("NULL").value);
         assertNull(parser.parse("null").value);
     }
 

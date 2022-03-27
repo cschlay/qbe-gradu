@@ -16,19 +16,16 @@ public class QbeData {
     public @Nullable Object operationArgument;
     public @Nullable Object value;
 
-    public final boolean nullable;
     public boolean selected;
     /** Value to update node */
     public @Nullable Object update;
 
     public QbeData(@Nullable Object value) {
-        this.nullable = false;
         this.selected = true;
         this.value = parseValue(value);
     }
 
-    public QbeData (@Nullable Object value, boolean selected, boolean nullable) {
-        this.nullable = nullable;
+    public QbeData(@Nullable Object value, boolean selected) {
         this.selected = selected;
         this.value = parseValue(value);
     }
@@ -40,8 +37,12 @@ public class QbeData {
      * @return true if it passes all checks
      */
     public boolean check(@Nullable Object value) {
+        if ("".equals(this.value) || this.value == null && value == null) {
+            return true;
+        }
+
         if (value == null) {
-            return nullable;
+            return false;
         }
 
         if (this.value instanceof LogicalExpression) {
@@ -56,10 +57,6 @@ public class QbeData {
     }
 
     private boolean checkEquality(Object valueToCheck) {
-        if (value == null) {
-            return true;
-        }
-
         if (value instanceof Pattern && valueToCheck instanceof String) {
             return ((Pattern) value).matcher((String) valueToCheck).matches();
         }

@@ -102,7 +102,11 @@ public class TabularRowFinder {
         }
     }
 
-    private int getColumnLength(int[] columnLengths, int index, Object value) {
+    private int getColumnLength(int[] columnLengths, int index, @Nullable Object value) {
+        if (value == null) {
+            return Math.max(4, columnLengths[index]);
+        }
+
         int length = value instanceof String ? ((String) value).length() + 2 : value.toString().length();
         return Math.max(length, columnLengths[index]);
     }

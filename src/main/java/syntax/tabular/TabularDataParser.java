@@ -74,7 +74,10 @@ public class TabularDataParser {
      * @return Java equivalent of the value
      */
     private @Nullable Object parseValue(@Nullable String value) {
-        if (value == null || "".equals(value) || "null".equals(value)) {
+        if (value == null || "".equals(value)) {
+            return "";
+        }
+        if (TabularTokens.NULL.equalsIgnoreCase(value)) {
             return null;
         }
 

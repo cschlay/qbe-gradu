@@ -34,7 +34,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
         var queryNode = new QbeNode("Book");
         queryNode.type = QueryType.SUM;
         queryNode.aggregationProperty = "price";
-        queryNode.properties.put("price", new QbeData(null));
+        queryNode.properties.put("price", new QbeData(""));
         queryGraph.put(queryNode);
         assertEquals(65.0, execute(queryGraph).get("Book").getProperty("price"));
     }

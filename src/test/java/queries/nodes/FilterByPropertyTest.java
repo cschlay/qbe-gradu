@@ -47,6 +47,8 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
             n3.setProperty("year", 2010);
             n3.setProperty("used", false);
             n3.setProperty("price", 70.99);
+
+            tx.createNode(label);
             tx.commit();
         });
     }
@@ -70,6 +72,15 @@ class FilterByPropertyTest extends QueryBaseStaticTest {
                 "| QUERY | %s |\n";
         Object value = arg.value instanceof String ? String.format("\"%s\"", arg.value): arg.value;
         eachNode(execute(query, arg.property, value), (tx, node) -> assertEquals(arg.value, node.getProperty(arg.property)));
+    }
+
+    @Test
+    void nullValue() throws Exception {
+        var query = "" +
+                "| Book  | id* | price* |\n" +
+                "|-------+-----+--------|\n" +
+                "| QUERY |     | NULL   |\n";
+        eachNode(execute(query), ((tx, node) -> assertNull(node.getProperty("price"))));
     }
 
     @Test

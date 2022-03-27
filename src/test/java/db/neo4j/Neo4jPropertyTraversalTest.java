@@ -13,7 +13,7 @@ import org.neo4j.graphdb.RelationshipType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("[Traversal] Preoprty Validation")
+@DisplayName("[Traversal] Property Validation")
 class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
     @Nested
     class QueryTest {
@@ -21,7 +21,7 @@ class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
         @DisplayName("should include node id as property")
         void includeNodeIdProperty() throws Exception {
             var queryNode = new QbeNode("Course");
-            queryNode.properties.put("id", new QbeData(null, true, false));
+            queryNode.properties.put("id", new QbeData(null, true));
 
             var traversal = new Neo4jPropertyTraversal(queryNode);
             run(tx -> {
@@ -36,7 +36,7 @@ class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
         @DisplayName("should include edge id as property")
         void includeEdgeIdProperty() throws Exception {
             var queryEdge = new QbeEdge("teaches");
-            queryEdge.properties.put("id", new QbeData(null, true, false));
+            queryEdge.properties.put("id", new QbeData(null, true));
 
             var traversal = new Neo4jPropertyTraversal(queryEdge);
             run(tx -> {
@@ -50,24 +50,11 @@ class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
         }
 
         @Test
-        @DisplayName("should accept undefined properties as null")
-        void acceptUndefinedAsNull() throws Exception {
-            var queryNode = new QbeNode("Course");
-            queryNode.properties.put("paper", new QbeData("A4", true, true));
-
-            var traversal = new Neo4jPropertyTraversal(queryNode);
-            run(tx -> {
-                var node = tx.createNode(Label.label("Course"));
-                assertNull(traversal.getProperties(node).get("paper").value);
-            });
-        }
-
-        @Test
         @DisplayName("should accept node if all checks pass")
         void acceptNode() throws Exception {
             var queryNode = new QbeNode("Course");
-            queryNode.properties.put("title", new QbeData("Introduction to .*", true, true));
-            queryNode.properties.put("difficulty", new QbeData(4, true, false));
+            queryNode.properties.put("title", new QbeData("Introduction to .*", true));
+            queryNode.properties.put("difficulty", new QbeData(4, true));
 
             var traversal = new Neo4jPropertyTraversal(queryNode);
             run(tx -> {
@@ -83,7 +70,7 @@ class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
         @DisplayName("should reject node if property not defined and is non nullable")
         void rejectNodeNull() throws Exception {
             var queryNode = new QbeNode("Course");
-            queryNode.properties.put("paper", new QbeData("A4", true, false));
+            queryNode.properties.put("paper", new QbeData("A4", true));
 
             var traversal = new Neo4jPropertyTraversal(queryNode);
             run(tx -> {
@@ -96,7 +83,7 @@ class Neo4jPropertyTraversalTest extends QueryBaseResetEachTest {
         @DisplayName("should reject node if property check fails")
         void rejectNode() throws Exception {
             var queryNode = new QbeNode("Course");
-            queryNode.properties.put("period", new QbeData("Fall", true, false));
+            queryNode.properties.put("period", new QbeData("Fall", true));
 
             var traversal = new Neo4jPropertyTraversal(queryNode);
             run(tx -> {

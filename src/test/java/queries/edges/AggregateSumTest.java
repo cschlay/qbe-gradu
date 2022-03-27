@@ -43,7 +43,7 @@ class AggregateSumTest extends QueryBaseStaticTest {
         QbeEdge queryEdge = TestUtils.createTestEdge("uses", "Course", "Book");
         queryEdge.type = QueryType.SUM;
         queryEdge.aggregationProperty = "likes";
-        queryEdge.properties.put("likes", new QbeData(null));
+        queryEdge.properties.put("likes", new QbeData(""));
         queryGraph.put(queryEdge);
 
         assertEquals(30, execute(queryGraph).get("uses").getProperty("likes"));

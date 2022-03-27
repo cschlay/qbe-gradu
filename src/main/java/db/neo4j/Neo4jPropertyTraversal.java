@@ -96,15 +96,16 @@ public class Neo4jPropertyTraversal {
             return new QbeData(queryData.update);
         }
 
+        @Nullable Object value = null;
         try {
-            @Nullable Object value = neo4jEntity.getProperty(propertyName);
-            if (queryData.check(value)) {
-                return new QbeData(value, queryData.selected, false);
-            }
+            value = neo4jEntity.getProperty(propertyName);
         } catch (NotFoundException exception) {
-            if (queryData.nullable) {
-                return new QbeData(null, queryData.selected, true);
+            if (queryData.value == null) {
+                return new QbeData(null, queryData.selected);
             }
+        }
+        if (queryData.check(value)) {
+            return new QbeData(value, queryData.selected);
         }
 
         throw new InvalidNodeException("Entity %s doesn't have property %s", neo4jEntity, propertyName);
