@@ -65,16 +65,12 @@ public class TabularParser implements QueryParser {
                 }
                 if (Utils.startsWithUppercase(header.entityName)) {
                     QbeNode node = nodeParser.parseProperty(header, value);
-                    if (header.selected) {
-                        node.selected = true;
-                    }
+                    node.selected = header.selected;
                     graph.put(node);
 
                 } else {
                     QbeEdge edge = edgeParser.parseProperty(header, value);
-                    if (header.selected) {
-                        edge.selected = true;
-                    }
+                    edge.selected = header.selected;
                     graph.put(edge);
                 }
             }

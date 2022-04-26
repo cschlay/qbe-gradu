@@ -17,15 +17,6 @@ mvn compile
 # Run the interpreter
 mvn exec:java
 ```
-
-## Connecting Neo4j Desktop
-
-1. Run QBE CLI once so that database files get created
-2. In _Neo4j Desktop_ Create a new project from directory
-3. Click "Add" and select "Local DBMS". Use any password
-4. Start the DBMS
-5. Visualization tool _Neo4j Bloom_ can then be opened
-
 ## Troubleshooting
 
 ### Problem 1: `java.lang.LinkageError: Cannot to link java.nio.DirectByteBuffer`
@@ -36,3 +27,46 @@ Set CLI to use Java 11 e.g. in PowerShell
 $env:JAVA_HOME = "C:\...\.jdks\corretto-11.0.12"
 ```
 
+## Example Queries
+
+```
+| Course | id* | name* |
+|--------+-----+-------|
+| QUERY  |     |       |
+```
+
+```
+| Course | id* | name*                |
+|--------+-----+----------------------|
+| QUERY  |     | /Introduction to .*/ |
+```
+
+```
+| recommends          | id* | period* |
+|---------------------+-----+---------|
+| QUERY Course.Course |     |         |
+```
+
+```
+| contains           | contains         | Topic | name* |
+|--------------------+------------------+-------+-------|
+| QUERY Course.Topic | QUERY Book.Topic | QUERY |       |
+```
+
+```
+| Course | name* | contains           | primary as has_primary_topic* |
+|--------+-------+--------------------+-------------------------------|
+| QUERY  |       | QUERY Course.Topic |                               | 
+```
+
+```
+| Book  | title* | year                 |
+|-------+--------+----------------------|
+| QUERY |        | > 2000 |
+```
+
+```
+| Book           |
+|----------------|
+| COUNT AS books |
+```
