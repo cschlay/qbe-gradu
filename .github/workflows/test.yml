@@ -22,4 +22,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Run Tests
-      run: mvn test -ntp
+      run: mvn test -ntp -Dnoprint=1

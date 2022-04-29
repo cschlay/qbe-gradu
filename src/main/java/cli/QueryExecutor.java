@@ -16,11 +16,14 @@ public class QueryExecutor {
     private final QueryParser queryParser;
     private final ResultWriter resultWriter;
     private final Neo4jTraversal traversal;
+    private final boolean printEnabled;
 
     public QueryExecutor(Neo4jTraversal neo4jTraversal, QueryParser parser, ResultWriter writer) {
         queryParser = parser;
         resultWriter = writer;
         traversal = neo4jTraversal;
+
+        printEnabled = !"1".equals(System.getProperty("noprint"));
     }
 
     public ResultGraph execute(@NotNull String query) throws QbeException {
@@ -31,7 +34,9 @@ public class QueryExecutor {
             ResultGraph result = traversal.executeQueryGraph(queryGraph);
             resultGraph = resultGraph.union(result);
         }
-        System.out.println(resultWriter.write(Utils.first(queryGraphs), resultGraph));
+
+        if (printEnabled) System.out.println(resultWriter.write(Utils.first(queryGraphs), resultGraph));
+
         return resultGraph;
     }
 
@@ -41,15 +46,15 @@ public class QueryExecutor {
         ResultGraph resultGraph = new ResultGraph();
         for (int i = 0; i < queryGraphs.length; i++) {
             QueryGraph queryGraph = queryGraphs[i];
-            System.out.printf("QueryGraph %s:%n%s%n", i, queryGraph);
+            if (printEnabled) System.out.printf("QueryGraph %s:%n%s%n", i, queryGraph);
 
             ResultGraph result = traversal.executeQueryGraph(queryGraph);
             resultGraph = resultGraph.union(result);
-            System.out.printf("ResultGraph %s:%n%s%n", i, resultGraph);
-            System.out.printf("== Query ==%n%s%n", query);
+            if (printEnabled) System.out.printf("ResultGraph %s:%n%s%n", i, resultGraph);
+            if (printEnabled) System.out.printf("== Query ==%n%s%n", query);
         }
 
-        System.out.printf("== Result==%n%s%n", resultWriter.write(Utils.first(queryGraphs), resultGraph));
+        if (printEnabled) System.out.printf("== Result==%n%s%n", resultWriter.write(Utils.first(queryGraphs), resultGraph));
         return resultGraph;
     }
 }
