@@ -22,6 +22,12 @@ mvn test
 
 # Run the interpreter
 mvn exec:java
+
+# Seed the database with example graph
+seed
+
+# Run queries
+query
 ```
 
 ## Example Queries
